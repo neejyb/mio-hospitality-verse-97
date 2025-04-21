@@ -7,7 +7,7 @@ import {
   Plane,
   Wrench,
   Building,
-  Tools,
+  ToolIcon,
   ArrowRight
 } from "lucide-react";
 
@@ -63,7 +63,7 @@ const services = [
   },
   {
     id: "facility-support",
-    icon: Tools,
+    icon: ToolIcon,
     title: "Facility Support",
     description: "Professional support services for commercial facilities.",
     link: "#"
