@@ -1,5 +1,5 @@
 
-import { ConciergeBell, Spa, Car, Martini } from "lucide-react";
+import { ConciergeBell, Bath, Car, Martini } from "lucide-react";
 import { motion } from 'framer-motion';
 
 const featuredServices = [
@@ -12,7 +12,7 @@ const featuredServices = [
   },
   {
     id: 'spa-suites',
-    icon: Spa,
+    icon: Bath,
     title: 'Spa Suites',
     description:
       'Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies',

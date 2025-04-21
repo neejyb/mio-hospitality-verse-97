@@ -67,8 +67,12 @@ const AirbnbBooking = () => {
             loop: true,
           }}
           className="w-full max-w-5xl mx-auto"
-          onSelect={(index) => {
-            setActiveIndex(index);
+          onSelect={(eventOrIndex) => {
+            // `onSelect` may get event object or index number depending on implementation
+            // Defensive check to use index number only
+            if (typeof eventOrIndex === 'number') {
+              setActiveIndex(eventOrIndex);
+            }
           }}
         >
           <CarouselContent>
