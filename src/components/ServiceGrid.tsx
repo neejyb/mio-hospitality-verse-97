@@ -1,32 +1,32 @@
 
-import { conciergeBell, spa, car, martini } from "lucide-react";
+import { ConciergeBell, Spa, Car, Martini } from "lucide-react";
 import { motion } from 'framer-motion';
 
 const featuredServices = [
   {
     id: 'front-desk',
-    icon: conciergeBell,
+    icon: ConciergeBell,
     title: '24/7 Front Desk',
     description:
       'Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies',
   },
   {
     id: 'spa-suites',
-    icon: spa,
+    icon: Spa,
     title: 'Spa Suites',
     description:
       'Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies',
   },
   {
     id: 'transfer-services',
-    icon: car,
+    icon: Car,
     title: 'Transfer Services',
     description:
       'Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies',
   },
   {
     id: 'restaurant-bar',
-    icon: martini,
+    icon: Martini,
     title: 'Restaurant & Bar',
     description:
       'Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies',
@@ -69,4 +69,3 @@ const ServiceGrid = () => {
 };
 
 export default ServiceGrid;
-
