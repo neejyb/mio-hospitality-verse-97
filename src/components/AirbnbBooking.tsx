@@ -67,7 +67,10 @@ const AirbnbBooking = () => {
             loop: true,
           }}
           className="w-full max-w-5xl mx-auto"
-          onSelect={(index) => setActiveIndex(index)}
+          onSelect={(api) => {
+            const selectedIndex = api.selectedScrollSnap();
+            setActiveIndex(selectedIndex);
+          }}
         >
           <CarouselContent>
             {properties.map((property, index) => (
