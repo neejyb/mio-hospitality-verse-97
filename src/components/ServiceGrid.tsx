@@ -7,7 +7,7 @@ import {
   Plane,
   Wrench,
   Building,
-  ToolIcon,
+  Tool,
   ArrowRight
 } from "lucide-react";
 
@@ -63,7 +63,7 @@ const services = [
   },
   {
     id: "facility-support",
-    icon: ToolIcon,
+    icon: Tool,
     title: "Facility Support",
     description: "Professional support services for commercial facilities.",
     link: "#"
@@ -72,7 +72,7 @@ const services = [
 
 const ServiceGrid = () => {
   return (
-    <section className="py-16 bg-[#f6f8fc]">
+    <section className="py-8 bg-[#f6f8fc]">
       <div className="container mx-auto px-4">
         <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-[#181D27]">
           Our Services

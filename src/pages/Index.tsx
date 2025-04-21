@@ -13,13 +13,13 @@ const Index = () => {
     <div className="min-h-screen">
       <Navbar />
       <Hero />
+      <ServiceGrid />
       
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
       >
-        <ServiceGrid />
         <AirbnbBooking />
         <TransportSection />
         <GallerySection />
