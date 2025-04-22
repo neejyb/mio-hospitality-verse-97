@@ -1,10 +1,11 @@
 
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { House, Bed, Film, Car, Plane, Wrench, Building, Wrench as WrenchIcon } from 'lucide-react';
 
 interface Service {
   id: string;
-  icon: string;
+  icon: React.ReactNode;
   title: string;
   description: string;
   link: string;
@@ -13,56 +14,56 @@ interface Service {
 const services: Service[] = [
   {
     id: 'interior-design',
-    icon: '🏠',
+    icon: <House className="w-8 h-8 text-mio-orange" />,
     title: 'Interior Design',
     description: 'Transform your space with our expert interior design services.',
     link: '/services/interior-design'
   },
   {
     id: 'airbnb',
-    icon: '🛏️',
+    icon: <Bed className="w-8 h-8 text-mio-orange" />,
     title: 'Airbnb Services',
     description: 'Premium accommodation management and booking services.',
     link: '/services/airbnb'
   },
   {
     id: 'videography',
-    icon: '🎥',
+    icon: <Film className="w-8 h-8 text-mio-orange" />,
     title: 'Videography',
     description: 'Professional video production for your property or event.',
     link: '/services/videography'
   },
   {
     id: 'car-hire',
-    icon: '🚗',
+    icon: <Car className="w-8 h-8 text-mio-orange" />,
     title: 'Car Hire',
     description: 'Luxury vehicle rentals for any occasion or requirement.',
     link: '/services/car-hire'
   },
   {
     id: 'jet-hire',
-    icon: '✈️',
+    icon: <Plane className="w-8 h-8 text-mio-orange" />,
     title: 'Private Jet Hire',
     description: 'Exclusive private jet charter services for seamless travel.',
     link: '/services/jet-hire'
   },
   {
     id: 'maintenance',
-    icon: '🔧',
+    icon: <Wrench className="w-8 h-8 text-mio-orange" />,
     title: 'Maintenance Services',
     description: 'Comprehensive property maintenance and repair solutions.',
     link: '/services/maintenance'
   },
   {
     id: 'property-management',
-    icon: '🏢',
+    icon: <Building className="w-8 h-8 text-mio-orange" />,
     title: 'Property Management',
     description: 'End-to-end property management and upkeep services.',
     link: '/services/property-management'
   },
   {
     id: 'facility-support',
-    icon: '🛠️',
+    icon: <WrenchIcon className="w-8 h-8 text-mio-orange" />,
     title: 'Facility Support',
     description: 'Professional support services for commercial facilities.',
     link: '/services/facility-support'

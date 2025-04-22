@@ -6,25 +6,16 @@ import TransportSection from '@/components/TransportSection';
 import GallerySection from '@/components/GallerySection';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { motion } from 'framer-motion';
 
 const Index = () => {
   return (
     <div className="min-h-screen">
       <Navbar />
       <Hero />
-      
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5 }}
-      >
-        <ServiceGrid />
-        <AirbnbBooking />
-        <TransportSection />
-        <GallerySection />
-      </motion.div>
-      
+      <ServiceGrid />
+      <AirbnbBooking />
+      <TransportSection />
+      <GallerySection />
       <Footer />
     </div>
   );
