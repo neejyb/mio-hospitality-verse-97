@@ -1,3 +1,4 @@
+
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useRef, useState } from 'react';
@@ -12,6 +13,7 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -85,6 +87,8 @@ const services: Service[] = [
 ];
 
 const ServiceGrid = () => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
   return (
     <section className="py-16 bg-gradient-to-b from-gray-50 to-white">
       <div className="container mx-auto px-4">
@@ -94,43 +98,70 @@ const ServiceGrid = () => {
           tailored to meet your needs.
         </p>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
-          {services.map((service, index) => (
-            <motion.div
-              key={service.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              viewport={{ once: true }}
-            >
-              <Link to={service.link} className="block h-full">
-                <Card className="group h-full backdrop-blur-sm bg-white/80 border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 overflow-hidden">
-                  <CardHeader className="p-4">
-                    <div className="relative h-40 w-full overflow-hidden rounded-md mb-2">
-                      <img 
-                        src={service.iconUrl} 
-                        alt={service.title} 
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    </div>
-                    <CardTitle className="text-xl font-semibold text-gray-800 group-hover:text-[#D4AF37] transition-colors duration-300">
-                      {service.title}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="p-4 pt-0">
-                    <CardDescription className="text-gray-600 group-hover:text-gray-800 transition-colors duration-300">
-                      {service.description}
-                    </CardDescription>
-                    <div className="mt-4 flex items-center text-[#D4AF37] font-medium opacity-0 group-hover:opacity-100 transform translate-x-[-20px] group-hover:translate-x-0 transition-all duration-300">
-                      Learn more
-                      <ArrowRight size={16} className="ml-1" />
-                    </div>
-                  </CardContent>
-                </Card>
-              </Link>
-            </motion.div>
-          ))}
+        <div className="relative mx-auto max-w-5xl">
+          <Carousel
+            opts={{
+              align: "start",
+              loop: true,
+            }}
+            className="w-full"
+            onSelect={(api) => {
+              if (api?.selectedScrollSnap) {
+                setCurrentIndex(api.selectedScrollSnap());
+              }
+            }}
+          >
+            <CarouselContent>
+              {services.map((service, index) => (
+                <CarouselItem key={service.id} className="sm:basis-1/2 md:basis-1/3 lg:basis-1/4">
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    viewport={{ once: true }}
+                    className="p-1 h-full"
+                  >
+                    <Link to={service.link} className="block h-full">
+                      <Card className="service-card h-full backdrop-blur-sm bg-white/80 border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden">
+                        <CardHeader className="p-4">
+                          <div className="h-40 w-full overflow-hidden rounded-md mb-2">
+                            <img 
+                              src={service.iconUrl} 
+                              alt={service.title} 
+                              className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
+                            />
+                          </div>
+                          <CardTitle className="text-xl font-semibold text-gray-800">{service.title}</CardTitle>
+                        </CardHeader>
+                        <CardContent className="p-4 pt-0">
+                          <CardDescription className="text-gray-600">{service.description}</CardDescription>
+                        </CardContent>
+                        <CardFooter className="p-4 pt-0">
+                          <span className="text-[#D4AF37] font-medium flex items-center">
+                            Learn more
+                            <ArrowRight size={16} className="ml-1" />
+                          </span>
+                        </CardFooter>
+                      </Card>
+                    </Link>
+                  </motion.div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <div className="mt-8 flex justify-center gap-2">
+              {services.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentIndex(index)}
+                  className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
+                    index === currentIndex ? 'bg-[#D4AF37] w-6' : 'bg-gray-300'
+                  }`}
+                />
+              ))}
+            </div>
+            <CarouselPrevious className="absolute -left-12 top-1/2 -translate-y-1/2 bg-[#D4AF37] text-white hover:bg-[#B4941F] border-none" />
+            <CarouselNext className="absolute -right-12 top-1/2 -translate-y-1/2 bg-[#D4AF37] text-white hover:bg-[#B4941F] border-none" />
+          </Carousel>
         </div>
       </div>
     </section>
