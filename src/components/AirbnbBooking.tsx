@@ -85,7 +85,7 @@ const AirbnbBooking = () => {
             }}
             className="w-full"
             onSelect={(api) => {
-              if (api) {
+              if (api?.selectedScrollSnap) {
                 setActiveIndex(api.selectedScrollSnap());
               }
             }}

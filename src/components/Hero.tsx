@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -16,14 +15,14 @@ const carouselItems = [
     image: 'https://images.unsplash.com/photo-1613977257592-4871e5fcd7c4?q=80&w=2070',
     title: 'Premium Airbnb Properties',
     subtitle: 'Experience comfort and style in our curated accommodations',
-    showLogo: false
+    showLogo: true
   },
   {
     id: 3,
     image: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2070',
     title: 'Exclusive Car & Jet Hire',
     subtitle: 'Travel in luxury with our premium transportation options',
-    showLogo: false
+    showLogo: true
   }
 ];
 
@@ -39,7 +38,6 @@ const Hero = () => {
 
   return (
     <div className="relative w-full h-screen overflow-hidden">
-      {/* Carousel items */}
       {carouselItems.map((item, index) => (
         <div
           key={item.id}
@@ -48,17 +46,15 @@ const Hero = () => {
           }`}
           style={{ backgroundImage: `url(${item.image})` }}
         >
-          {/* Overlay gradient */}
           <div className="absolute inset-0 bg-gradient-to-b from-black/60 to-black/30" />
           
-          {/* Content */}
           <div className="absolute inset-0 flex flex-col items-center justify-center text-white p-4">
             {item.showLogo && (
-              <div className="mb-6 animate-fade-in">
+              <div className="mb-8 animate-fade-in">
                 <img 
                   src="/lovable-uploads/b4196b07-03dc-40ee-a6b4-34e891c1b9bd.png"
                   alt="Mio's Hospitality & Co" 
-                  className="h-32 w-auto object-contain filter brightness-125"
+                  className="h-64 w-auto object-contain filter brightness-125"
                 />
               </div>
             )}
@@ -80,7 +76,6 @@ const Hero = () => {
         </div>
       ))}
 
-      {/* Carousel indicators */}
       <div className="absolute bottom-8 left-0 right-0 flex justify-center gap-2">
         {carouselItems.map((_, index) => (
           <button

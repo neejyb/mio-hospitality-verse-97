@@ -106,7 +106,7 @@ const ServiceGrid = () => {
             }}
             className="w-full"
             onSelect={(api) => {
-              if (api) {
+              if (api?.selectedScrollSnap) {
                 setCurrentIndex(api.selectedScrollSnap());
               }
             }}
