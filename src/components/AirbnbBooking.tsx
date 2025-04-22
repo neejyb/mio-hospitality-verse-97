@@ -1,161 +1,146 @@
-import { useState, useEffect } from 'react';
+
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { 
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious
-} from '@/components/ui/carousel';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 
 const properties = [
   {
     id: 1,
-    title: 'Luxury Beachfront Villa',
-    location: 'Miami Beach, FL',
-    price: 350,
-    rating: 4.9,
+    title: 'Luxury Downtown Apartment',
+    location: 'City Center',
+    price: 250,
     image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2070',
-    amenities: ['Pool', 'Ocean View', 'Hot Tub', 'Gym']
+    features: ['2 Bedrooms', 'Fully Equipped Kitchen', 'City View', 'High-Speed WiFi']
   },
   {
     id: 2,
-    title: 'Modern Downtown Loft',
-    location: 'New York, NY',
-    price: 275,
-    rating: 4.8,
-    image: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=2070',
-    amenities: ['City View', 'Rooftop', 'Gym', 'Doorman']
+    title: 'Beachfront Villa',
+    location: 'Coastal Area',
+    price: 450,
+    image: 'https://images.unsplash.com/photo-1582407947304-fd86f028f716?q=80&w=2070',
+    features: ['4 Bedrooms', 'Private Pool', 'Ocean View', 'Gourmet Kitchen']
   },
   {
     id: 3,
-    title: 'Mountain Retreat Cabin',
-    location: 'Aspen, CO',
+    title: 'Mountain Retreat',
+    location: 'Mountain Range',
     price: 320,
-    rating: 4.7,
     image: 'https://images.unsplash.com/photo-1518732714860-b62714ce0c59?q=80&w=2070',
-    amenities: ['Fireplace', 'Mountain View', 'Hot Tub', 'Hiking Trails']
-  },
-  {
-    id: 4,
-    title: 'Seaside Cottage',
-    location: 'Malibu, CA',
-    price: 290,
-    rating: 4.8,
-    image: 'https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?q=80&w=2070',
-    amenities: ['Beach Access', 'Patio', 'BBQ', 'Kayaks']
+    features: ['3 Bedrooms', 'Fireplace', 'Mountain View', 'Hot Tub']
   }
 ];
 
 const AirbnbBooking = () => {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    
-    return () => {
-      window.removeEventListener('resize', checkMobile);
-    };
-  }, []);
+  const nextProperty = () => {
+    setCurrentIndex((prev) => (prev + 1) % properties.length);
+  };
+
+  const prevProperty = () => {
+    setCurrentIndex((prev) => (prev - 1 + properties.length) % properties.length);
+  };
 
   return (
     <section className="py-16 bg-white">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Featured Airbnb Properties</h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Discover our handpicked selection of premium Airbnb properties, 
-            offering exceptional comfort and style for your stay.
-          </p>
-        </div>
+        <h1 className="text-4xl font-bold text-center mb-4">Featured Properties</h1>
+        <p className="text-lg text-gray-600 text-center mb-12 max-w-3xl mx-auto">
+          Explore our collection of premium Airbnb properties, each offering unique
+          experiences and exceptional comfort.
+        </p>
 
-        <div className="relative max-w-5xl mx-auto">
-          <Carousel
-            opts={{
-              align: "center",
-              loop: true,
-            }}
-            className="w-full"
-            onSelect={(api) => {
-              if (api?.selectedScrollSnap) {
-                setActiveIndex(api.selectedScrollSnap());
-              }
-            }}
-          >
-            <CarouselContent>
-              {properties.map((property, index) => (
-                <CarouselItem key={property.id} className="md:basis-1/2 lg:basis-1/2">
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                    viewport={{ once: true }}
-                    className="p-1"
-                  >
-                    <div className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
-                      <div className="relative h-64 overflow-hidden">
-                        <img 
-                          src={property.image} 
-                          alt={property.title} 
-                          className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
-                        />
-                        <div className="absolute top-4 right-4 bg-white px-2 py-1 rounded-md text-sm font-semibold">
-                          ${property.price}/night
-                        </div>
-                      </div>
-                      <div className="p-6">
-                        <div className="flex justify-between items-start mb-2">
-                          <h3 className="text-xl font-bold text-gray-800">{property.title}</h3>
-                          <div className="flex items-center">
-                            <svg className="w-5 h-5 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
-                              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                            </svg>
-                            <span className="ml-1 text-gray-800 font-medium">{property.rating}</span>
+        <div className="max-w-6xl mx-auto relative">
+          <div className="relative overflow-hidden rounded-xl">
+            {properties.map((property, index) => (
+              <motion.div
+                key={property.id}
+                initial={false}
+                animate={{
+                  x: `${(index - currentIndex) * 100}%`,
+                  opacity: index === currentIndex ? 1 : 0.5
+                }}
+                transition={{ duration: 0.5 }}
+                className="absolute top-0 left-0 w-full"
+                style={{ transform: `translateX(${(index - currentIndex) * 100}%)` }}
+              >
+                <div className="grid md:grid-cols-2 gap-8 items-center">
+                  <div className="relative h-[400px] rounded-xl overflow-hidden">
+                    <img
+                      src={property.image}
+                      alt={property.title}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="space-y-6">
+                    <h2 className="text-3xl font-bold">{property.title}</h2>
+                    <div className="flex items-center text-gray-600">
+                      <span className="mr-2">📍</span>
+                      {property.location}
+                    </div>
+                    <div className="text-3xl font-bold text-[#D4AF37]">
+                      ${property.price}
+                      <span className="text-lg text-gray-600 font-normal"> / night</span>
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-semibold mb-4">Features:</h3>
+                      <div className="grid grid-cols-2 gap-4">
+                        {property.features.map((feature, i) => (
+                          <div key={i} className="flex items-center">
+                            <span className="mr-2">✓</span>
+                            {feature}
                           </div>
-                        </div>
-                        <p className="text-gray-600 mb-4">{property.location}</p>
-                        <div className="flex flex-wrap gap-2 mb-6">
-                          {property.amenities.map((amenity, i) => (
-                            <span key={i} className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">
-                              {amenity}
-                            </span>
-                          ))}
-                        </div>
-                        <Button className="w-full bg-mio-orange hover:bg-mio-red text-white">
-                          Book Now
-                        </Button>
+                        ))}
                       </div>
                     </div>
-                  </motion.div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <div className="mt-8 flex justify-center gap-2">
-              {properties.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setActiveIndex(index)}
-                  className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
-                    index === activeIndex ? 'bg-mio-orange w-6' : 'bg-gray-300'
-                  }`}
-                />
-              ))}
-            </div>
-            <CarouselPrevious className="absolute -left-12 top-1/2 -translate-y-1/2 bg-mio-orange text-white hover:bg-mio-red border-none" />
-            <CarouselNext className="absolute -right-12 top-1/2 -translate-y-1/2 bg-mio-orange text-white hover:bg-mio-red border-none" />
-          </Carousel>
+                    <div className="flex gap-4">
+                      <Button variant="outline" className="flex-1 border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37] hover:text-white">
+                        View Details
+                      </Button>
+                      <Button className="flex-1 bg-[#D4AF37] hover:bg-[#B4941F] text-white">
+                        Book Now
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          <button
+            onClick={prevProperty}
+            className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-sm p-2 rounded-full shadow-lg hover:bg-white transition-colors"
+            aria-label="Previous property"
+          >
+            <ArrowLeft className="w-6 h-6" />
+          </button>
+          <button
+            onClick={nextProperty}
+            className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-sm p-2 rounded-full shadow-lg hover:bg-white transition-colors"
+            aria-label="Next property"
+          >
+            <ArrowRight className="w-6 h-6" />
+          </button>
+
+          <div className="mt-8 flex justify-center gap-2">
+            {properties.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentIndex(index)}
+                className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                  index === currentIndex 
+                    ? 'bg-[#D4AF37] w-8' 
+                    : 'bg-gray-300 hover:bg-gray-400'
+                }`}
+                aria-label={`Go to property ${index + 1}`}
+              />
+            ))}
+          </div>
         </div>
 
         <div className="mt-12 text-center">
-          <Button variant="outline" className="border-mio-orange text-mio-orange hover:bg-mio-orange hover:text-white">
+          <Button variant="outline" className="border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37] hover:text-white">
             View All Properties
           </Button>
         </div>
