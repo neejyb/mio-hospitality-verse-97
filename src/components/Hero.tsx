@@ -8,19 +8,22 @@ const carouselItems = [
     id: 1,
     image: 'https://images.unsplash.com/photo-1554995207-c18c203602cb?q=80&w=2070',
     title: 'Luxury Interior Design',
-    subtitle: 'Transform your space with our expert design services'
+    subtitle: 'Transform your space with our expert design services',
+    showLogo: true
   },
   {
     id: 2,
     image: 'https://images.unsplash.com/photo-1613977257592-4871e5fcd7c4?q=80&w=2070',
     title: 'Premium Airbnb Properties',
-    subtitle: 'Experience comfort and style in our curated accommodations'
+    subtitle: 'Experience comfort and style in our curated accommodations',
+    showLogo: false
   },
   {
     id: 3,
     image: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2070',
     title: 'Exclusive Car & Jet Hire',
-    subtitle: 'Travel in luxury with our premium transportation options'
+    subtitle: 'Travel in luxury with our premium transportation options',
+    showLogo: false
   }
 ];
 
@@ -50,6 +53,15 @@ const Hero = () => {
           
           {/* Content */}
           <div className="absolute inset-0 flex flex-col items-center justify-center text-white p-4">
+            {item.showLogo && (
+              <div className="mb-6 animate-fade-in">
+                <img 
+                  src="/lovable-uploads/b4196b07-03dc-40ee-a6b4-34e891c1b9bd.png"
+                  alt="Mio's Hospitality & Co" 
+                  className="h-32 w-auto object-contain filter brightness-125"
+                />
+              </div>
+            )}
             <h1 className="text-4xl md:text-6xl font-bold mb-4 text-center max-w-4xl animate-fade-in">
               {item.title}
             </h1>
@@ -58,10 +70,10 @@ const Hero = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 animate-fade-in">
               <Link to="/contact">
-                <Button className="btn-primary">Contact Us</Button>
+                <Button className="bg-[#D4AF37] hover:bg-[#B4941F] text-white">Contact Us</Button>
               </Link>
               <Link to="/book">
-                <Button className="btn-secondary">Book a Service</Button>
+                <Button className="bg-[#FFD700] hover:bg-[#D4AF37] text-gray-800">Book a Service</Button>
               </Link>
             </div>
           </div>
