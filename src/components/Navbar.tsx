@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -32,7 +33,7 @@ const Navbar = () => {
           <img 
             src="/lovable-uploads/b4196b07-03dc-40ee-a6b4-34e891c1b9bd.png" 
             alt="Mio's Hospitality & Co" 
-            className="h-12 w-auto"
+            className="h-16 w-auto object-contain max-w-[200px]"
           />
         </Link>
 
@@ -202,3 +203,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
