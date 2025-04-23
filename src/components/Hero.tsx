@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -66,10 +67,10 @@ const Hero = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 animate-fade-in">
               <Link to="/contact">
-                <Button size="custom" variant="default">Contact Us</Button>
+                <Button size="custom" variant="outline-mio">Contact Us</Button>
               </Link>
               <Link to="/book">
-                <Button size="custom" variant="default">Book a Service</Button>
+                <Button size="custom" variant="outline-mio">Book a Service</Button>
               </Link>
             </div>
           </div>

@@ -11,6 +11,9 @@ import Contact from "./pages/Contact";
 import Book from "./pages/Book";
 import Services from "./pages/Services";
 import NotFound from "./pages/NotFound";
+import PropertyDetails from "./pages/PropertyDetails";
+import BookAirbnb from "./pages/BookAirbnb";
+import AllProperties from "./pages/AllProperties";
 
 const queryClient = new QueryClient();
 
@@ -26,6 +29,9 @@ const AnimatedRoutes = () => {
         <Route path="/contact" element={<Contact />} />
         <Route path="/book" element={<Book />} />
         <Route path="/services/:serviceId" element={<Services />} />
+        <Route path="/property/:propertyId" element={<PropertyDetails />} />
+        <Route path="/book-airbnb" element={<BookAirbnb />} />
+        <Route path="/properties" element={<AllProperties />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </AnimatePresence>
