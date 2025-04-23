@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useSearchParams } from 'react-router-dom';
@@ -49,7 +48,6 @@ const Book = () => {
   const [selectedTab, setSelectedTab] = useState('general');
   const [loading, setLoading] = useState(false);
   
-  // Set the selected tab based on URL parameters
   useState(() => {
     if (initialService === 'airbnb') {
       setSelectedTab('airbnb');
@@ -77,7 +75,6 @@ const Book = () => {
     e.preventDefault();
     setLoading(true);
     
-    // Simulate form submission
     setTimeout(() => {
       console.log('Form submitted:', formData);
       toast.success('Your booking request has been received. We will contact you shortly!');
@@ -99,7 +96,6 @@ const Book = () => {
       <Navbar />
       
       <main className="flex-grow">
-        {/* Hero section */}
         <div className="relative h-[40vh] bg-cover bg-center flex items-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1506485338023-6ce5f36692df?q=80&w=2070')" }}>
           <div className="absolute inset-0 bg-black/50"></div>
           <div className="container mx-auto px-4 relative z-10 text-white">
@@ -110,7 +106,6 @@ const Book = () => {
           </div>
         </div>
         
-        {/* Booking section */}
         <section className="py-16 bg-white">
           <div className="container mx-auto px-4">
             <motion.div
@@ -132,7 +127,6 @@ const Book = () => {
                   <TabsTrigger value="jet">Jet Charter</TabsTrigger>
                 </TabsList>
                 
-                {/* General Booking Form */}
                 <TabsContent value="general">
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
@@ -248,7 +242,7 @@ const Book = () => {
                     
                     <Button
                       type="submit"
-                      className="w-full bg-mio-orange hover:bg-mio-red text-white transition-colors"
+                      className="w-full bg-mio-deepred text-mio-gold hover:bg-[#300202] transition-colors"
                       disabled={loading}
                     >
                       {loading ? 'Submitting...' : 'Submit Booking Request'}
@@ -256,7 +250,6 @@ const Book = () => {
                   </form>
                 </TabsContent>
                 
-                {/* Airbnb Booking Form */}
                 <TabsContent value="airbnb">
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <input type="hidden" name="service" value="airbnb" />
@@ -431,7 +424,7 @@ const Book = () => {
                     
                     <Button
                       type="submit"
-                      className="w-full bg-mio-orange hover:bg-mio-red text-white transition-colors"
+                      className="w-full bg-mio-deepred text-mio-gold hover:bg-[#300202] transition-colors"
                       disabled={loading}
                     >
                       {loading ? 'Processing...' : 'Reserve Property'}
@@ -439,7 +432,6 @@ const Book = () => {
                   </form>
                 </TabsContent>
                 
-                {/* Car Hire Form */}
                 <TabsContent value="car">
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <input type="hidden" name="service" value="car-hire" />
@@ -594,7 +586,7 @@ const Book = () => {
                     
                     <Button
                       type="submit"
-                      className="w-full bg-mio-orange hover:bg-mio-red text-white transition-colors"
+                      className="w-full bg-mio-deepred text-mio-gold hover:bg-[#300202] transition-colors"
                       disabled={loading}
                     >
                       {loading ? 'Processing...' : 'Reserve Vehicle'}
@@ -602,7 +594,6 @@ const Book = () => {
                   </form>
                 </TabsContent>
                 
-                {/* Jet Hire Form */}
                 <TabsContent value="jet">
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <input type="hidden" name="service" value="jet-hire" />
@@ -761,7 +752,7 @@ const Book = () => {
                     
                     <Button
                       type="submit"
-                      className="w-full bg-mio-orange hover:bg-mio-red text-white transition-colors"
+                      className="w-full bg-mio-deepred text-mio-gold hover:bg-[#300202] transition-colors"
                       disabled={loading}
                     >
                       {loading ? 'Processing...' : 'Request Jet Charter'}

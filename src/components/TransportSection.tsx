@@ -4,10 +4,10 @@ import { Link } from 'react-router-dom';
 
 const TransportSection = () => {
   return (
-    <section className="py-16 bg-gradient-to-b from-gray-900 to-gray-800 text-white">
+    <section className="py-16 bg-mio-deepred text-white">
       <div className="container mx-auto px-4">
         <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">Premium Transportation</h2>
-        <p className="text-lg text-gray-300 text-center mb-12 max-w-2xl mx-auto">
+        <p className="text-lg text-gray-200 text-center mb-12 max-w-2xl mx-auto">
           Experience luxury on the road and in the air with our exclusive car and private jet rental services.
         </p>
         
@@ -32,7 +32,7 @@ const TransportSection = () => {
                 Choose from our fleet of premium vehicles for any occasion, from sleek sports cars to elegant sedans.
               </p>
               <Link to="/services/car-hire" className="inline-block">
-                <button className="bg-mio-orange hover:bg-mio-red text-white font-semibold py-2 px-6 rounded-md transition-colors duration-300 inline-flex items-center">
+                <button className="btn-deepred-gold inline-flex items-center">
                   Explore Cars
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="ml-2">
                     <path d="M5 12H19M19 12L12 5M19 12L12 19" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -62,7 +62,7 @@ const TransportSection = () => {
                 Travel in ultimate luxury with our private jet charter services, offering unparalleled comfort and convenience.
               </p>
               <Link to="/services/jet-hire" className="inline-block">
-                <button className="bg-mio-orange hover:bg-mio-red text-white font-semibold py-2 px-6 rounded-md transition-colors duration-300 inline-flex items-center">
+                <button className="btn-deepred-gold inline-flex items-center">
                   Explore Jets
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="ml-2">
                     <path d="M5 12H19M19 12L12 5M19 12L12 19" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>

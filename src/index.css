@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -86,6 +87,14 @@
   
   .btn-secondary {
     @apply bg-[#FFD700] hover:bg-[#D4AF37] text-gray-800 font-semibold py-2 px-6 rounded-md transition-colors duration-300;
+  }
+
+  .btn-deepred-gold {
+    @apply bg-mio-deepred text-mio-gold font-semibold py-2 px-6 rounded-md transition-colors duration-300 hover:bg-[#300202] border-none;
+  }
+
+  .text-gold {
+    @apply text-mio-gold;
   }
 
   .carousel-item {
