@@ -46,7 +46,7 @@ const Hero = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 animate-fade-in">
               <Link to="/contact">
-                <Button size="custom" variant="default" className="">Contact Us</Button>
+                <Button size="custom" variant="default" className="bg-red-950 hover:bg-red-800">Contact Us</Button>
               </Link>
               <Link to="/book">
                 <Button size="custom" variant="default" className="">Book a Service</Button>
