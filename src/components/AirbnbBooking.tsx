@@ -141,7 +141,7 @@ const AirbnbBooking = () => {
                           <Button variant="outline" className="border-mio-orange bg-slate-50 text-red-950">
                             View Details
                           </Button>
-                          <Button className="bg-[#F97316] hover:bg-orange-700 text-white">
+                          <Button className="text-white bg-red-950 hover:bg-red-800">
                             Book Now
                           </Button>
                         </div>
