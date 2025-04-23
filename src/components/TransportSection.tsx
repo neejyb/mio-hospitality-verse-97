@@ -1,16 +1,16 @@
 
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { Button } from "@/components/ui/button";
 
 const TransportSection = () => {
   return (
-    <section className="py-16 bg-mio-deepred text-white">
+    <section className="py-16" style={{ backgroundColor: "#480503" }}>
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">Premium Transportation</h2>
+        <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-white">Premium Transportation</h2>
         <p className="text-lg text-gray-200 text-center mb-12 max-w-2xl mx-auto">
           Experience luxury on the road and in the air with our exclusive car and private jet rental services.
         </p>
-        
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Car Hire */}
           <motion.div
@@ -27,21 +27,20 @@ const TransportSection = () => {
               className="w-full h-[400px] object-cover group-hover:scale-105 transition-transform duration-500"
             />
             <div className="absolute inset-0 z-20 flex flex-col justify-end p-6">
-              <h3 className="text-2xl font-bold mb-2">Luxury Car Hire</h3>
+              <h3 className="text-2xl font-bold mb-2 text-white">Luxury Car Hire</h3>
               <p className="text-gray-200 mb-4 max-w-md">
                 Choose from our fleet of premium vehicles for any occasion, from sleek sports cars to elegant sedans.
               </p>
               <Link to="/services/car-hire" className="inline-block">
-                <button className="btn-deepred-gold inline-flex items-center">
+                <Button variant="deepred-gold" className="inline-flex items-center font-bold">
                   Explore Cars
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="ml-2">
                     <path d="M5 12H19M19 12L12 5M19 12L12 19" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
-                </button>
+                </Button>
               </Link>
             </div>
           </motion.div>
-          
           {/* Jet Hire */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -57,17 +56,17 @@ const TransportSection = () => {
               className="w-full h-[400px] object-cover group-hover:scale-105 transition-transform duration-500"
             />
             <div className="absolute inset-0 z-20 flex flex-col justify-end p-6">
-              <h3 className="text-2xl font-bold mb-2">Private Jet Charter</h3>
+              <h3 className="text-2xl font-bold mb-2 text-white">Private Jet Charter</h3>
               <p className="text-gray-200 mb-4 max-w-md">
                 Travel in ultimate luxury with our private jet charter services, offering unparalleled comfort and convenience.
               </p>
               <Link to="/services/jet-hire" className="inline-block">
-                <button className="btn-deepred-gold inline-flex items-center">
+                <Button variant="deepred-gold" className="inline-flex items-center font-bold">
                   Explore Jets
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="ml-2">
                     <path d="M5 12H19M19 12L12 5M19 12L12 19" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
-                </button>
+                </Button>
               </Link>
             </div>
           </motion.div>
@@ -76,5 +75,4 @@ const TransportSection = () => {
     </section>
   );
 };
-
 export default TransportSection;

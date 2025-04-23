@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -93,14 +92,11 @@ const Navbar = () => {
             </DropdownMenuContent>
           </DropdownMenu>
           
-          <Link to="/contact" className={`font-medium transition-colors ${isScrolled ? 'text-gray-800 hover:text-mio-orange' : 'text-white hover:text-mio-yellow'}`}>
-            Contact Us
+          <Link to="/contact">
+            <Button variant="deepred-gold" className="font-bold">Contact Us</Button>
           </Link>
-          
           <Link to="/book">
-            <Button className="bg-mio-orange hover:bg-mio-red text-white transition-colors">
-              Book a Service
-            </Button>
+            <Button variant="deepred-gold" className="font-bold">Book a Service</Button>
           </Link>
         </div>
       </div>
@@ -182,14 +178,14 @@ const Navbar = () => {
               className="font-medium text-gray-800 hover:text-mio-orange py-2"
               onClick={() => setIsMobileMenuOpen(false)}
             >
-              Contact Us
+              <Button variant="deepred-gold" className="font-bold w-full">Contact Us</Button>
             </Link>
             <Link 
               to="/book" 
               className="py-2"
               onClick={() => setIsMobileMenuOpen(false)}
             >
-              <Button className="w-full bg-mio-orange hover:bg-mio-red text-white transition-colors">
+              <Button variant="deepred-gold" className="w-full font-bold">
                 Book a Service
               </Button>
             </Link>
@@ -199,5 +195,4 @@ const Navbar = () => {
     </nav>
   );
 };
-
 export default Navbar;

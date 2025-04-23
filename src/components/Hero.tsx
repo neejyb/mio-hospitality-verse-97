@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -67,10 +66,14 @@ const Hero = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 animate-fade-in">
               <Link to="/contact">
-                <Button className="bg-mio-deepred text-mio-gold hover:bg-[#300202]">Contact Us</Button>
+                <Button variant="deepred-gold" className="font-bold">
+                  Contact Us
+                </Button>
               </Link>
               <Link to="/book">
-                <Button className="bg-mio-deepred text-mio-gold hover:bg-[#300202]">Book a Service</Button>
+                <Button variant="deepred-gold" className="font-bold">
+                  Book a Service
+                </Button>
               </Link>
             </div>
           </div>

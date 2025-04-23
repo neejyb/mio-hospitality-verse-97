@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
@@ -48,7 +47,6 @@ const FeaturedProperties = () => {
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Featured Properties</h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">Discover our handpicked selection of premium properties, offering exceptional comfort and style for your stay.</p>
         </div>
-
         <div className="relative max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -64,7 +62,6 @@ const FeaturedProperties = () => {
                 className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
               />
             </div>
-            
             {/* Property Details */}
             <div className="p-8 flex flex-col justify-between">
               <div>
@@ -89,33 +86,27 @@ const FeaturedProperties = () => {
                 </div>
               </div>
               <div className="flex flex-col md:flex-row gap-4">
-                <Button variant="outline" className="border-mio-deepred text-mio-deepred hover:bg-mio-deepred hover:text-mio-gold font-bold">
-                  View Details
-                </Button>
-                <Button className="bg-mio-deepred text-mio-gold hover:bg-[#300202] font-bold">
-                  Book Now
-                </Button>
+                <Button variant="deepred-gold" className="font-bold">View Details</Button>
+                <Button variant="deepred-gold" className="font-bold">Book Now</Button>
               </div>
             </div>
           </motion.div>
-          
           <div className="mt-8 flex justify-center gap-2">
             {properties.map((_, idx) => (
               <button
                 key={idx}
                 onClick={() => setActiveIndex(idx)}
                 className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
-                  idx === activeIndex ? 'bg-mio-deepred w-6' : 'bg-gray-300'
+                  idx === activeIndex ? 'bg-[#480503] w-6' : 'bg-gray-300'
                 }`}
               />
             ))}
           </div>
         </div>
-
         <div className="mt-12 text-center">
           <Button
-            variant="outline"
-            className="border-mio-deepred text-mio-deepred hover:bg-mio-deepred hover:text-mio-gold font-bold"
+            variant="deepred-gold"
+            className="font-bold"
           >
             View All Properties
           </Button>
