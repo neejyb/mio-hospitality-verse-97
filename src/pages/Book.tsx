@@ -136,10 +136,10 @@ const Book = () => {
           }} className="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-lg">
               <Tabs defaultValue={selectedTab} value={selectedTab} onValueChange={setSelectedTab} className="w-full">
                 <TabsList className="grid grid-cols-4 mb-8">
-                  <TabsTrigger value="general">General Booking</TabsTrigger>
-                  <TabsTrigger value="airbnb">Airbnb Booking</TabsTrigger>
-                  <TabsTrigger value="car">Car Hire</TabsTrigger>
-                  <TabsTrigger value="jet">Jet Charter</TabsTrigger>
+                  <TabsTrigger value="general" className="text-red-950">General Booking</TabsTrigger>
+                  <TabsTrigger value="airbnb" className="text-red-950">Airbnb Booking</TabsTrigger>
+                  <TabsTrigger value="car" className="text-red-950">Car Hire</TabsTrigger>
+                  <TabsTrigger value="jet" className="text-red-950">Jet Charter</TabsTrigger>
                 </TabsList>
                 
                 {/* General Booking Form */}
@@ -209,7 +209,7 @@ const Book = () => {
                       <Textarea id="message" name="message" value={formData.message} onChange={handleChange} placeholder="Please provide any specific requirements or questions about our services..." rows={4} />
                     </div>
                     
-                    <Button type="submit" className="w-full bg-mio-orange hover:bg-mio-red text-white transition-colors" disabled={loading}>
+                    <Button type="submit" disabled={loading} className="w-full text-white transition-colors bg-red-950 hover:bg-red-800">
                       {loading ? 'Submitting...' : 'Submit Booking Request'}
                     </Button>
                   </form>
@@ -453,7 +453,7 @@ const Book = () => {
                       <Input id="phone" name="phone" value={formData.phone} onChange={handleChange} placeholder="+1 (555) 123-4567" required />
                     </div>
                     
-                    <Button type="submit" className="w-full bg-mio-orange hover:bg-mio-red text-white transition-colors" disabled={loading}>
+                    <Button type="submit" disabled={loading} className="w-full transition-colors bg-red-950 hover:bg-red-800 text-amber-50">
                       {loading ? 'Processing...' : 'Reserve Vehicle'}
                     </Button>
                   </form>
@@ -559,7 +559,7 @@ const Book = () => {
                       <Textarea id="jet-message" name="message" value={formData.message} onChange={handleChange} placeholder="Catering preferences, ground transportation needs, etc." rows={4} />
                     </div>
                     
-                    <Button type="submit" className="w-full bg-mio-orange hover:bg-mio-red text-white transition-colors" disabled={loading}>
+                    <Button type="submit" disabled={loading} className="w-full text-white transition-colors bg-red-950 hover:bg-red-800">
                       {loading ? 'Processing...' : 'Request Jet Charter'}
                     </Button>
                   </form>
