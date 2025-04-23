@@ -30,11 +30,9 @@ const Navbar = () => {
     <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white shadow-md py-2' : 'bg-transparent py-4'}`}>
       <div className="container mx-auto px-4 flex justify-between items-center">
         <Link to="/" className="flex items-center">
-          <img 
-            src="/lovable-uploads/b4196b07-03dc-40ee-a6b4-34e891c1b9bd.png" 
-            alt="Mio's Hospitality & Co" 
-            className="h-16 w-auto object-contain max-w-[200px]"
-          />
+          <h1 className={`text-2xl font-bold ${isScrolled ? 'text-gray-800' : 'text-white'}`}>
+            Mio's Hospitality & Co
+          </h1>
         </Link>
 
         {/* Mobile menu button */}
@@ -203,4 +201,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-

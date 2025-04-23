@@ -1,7 +1,7 @@
 
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { 
   Carousel,
   CarouselContent,
@@ -122,24 +122,25 @@ const ServiceGrid = () => {
                     className="p-1 h-full"
                   >
                     <Link to={service.link} className="block h-full">
-                      <Card className="service-card h-full backdrop-blur-sm bg-white/80 border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden">
+                      <Card className="service-card h-full backdrop-blur-sm bg-white/80 border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden group">
                         <CardHeader className="p-4">
-                          <div className="h-40 w-full overflow-hidden rounded-md mb-2">
+                          <div className="h-40 w-full overflow-hidden rounded-md mb-2 relative">
+                            <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-all duration-300 z-10"></div>
                             <img 
                               src={service.iconUrl} 
                               alt={service.title} 
-                              className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
+                              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                             />
                           </div>
-                          <CardTitle className="text-xl font-semibold text-gray-800">{service.title}</CardTitle>
+                          <CardTitle className="text-xl font-semibold text-gray-800 group-hover:text-[#D4AF37] transition-colors duration-300">{service.title}</CardTitle>
                         </CardHeader>
                         <CardContent className="p-4 pt-0">
                           <CardDescription className="text-gray-600">{service.description}</CardDescription>
                         </CardContent>
                         <CardFooter className="p-4 pt-0">
-                          <span className="text-[#D4AF37] font-medium flex items-center">
+                          <span className="text-[#D4AF37] font-medium flex items-center opacity-80 group-hover:opacity-100 transition-all duration-300 transform group-hover:translate-x-1">
                             Learn more
-                            <ArrowRight size={16} className="ml-1" />
+                            <ArrowRight size={16} className="ml-1 transform group-hover:translate-x-1 transition-transform duration-300" />
                           </span>
                         </CardFooter>
                       </Card>
