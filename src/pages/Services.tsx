@@ -387,7 +387,7 @@ const ServiceDetail = () => {
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Link to={service.cta.link}>
-                <Button className="bg-white text-mio-darkred hover:bg-mio-yellow hover:text-gray-800 transition-colors">
+                <Button className="bg-white hover:bg-mio-yellow transition-colors text-red-950">
                   {service.cta.text}
                 </Button>
               </Link>
