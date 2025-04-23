@@ -354,7 +354,7 @@ const ServiceDetail = () => {
             }} viewport={{
               once: true
             }} className="relative">
-                  <div className="bg-mio-yellow text-gray-800 w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold mb-4 mx-auto">
+                  <div className="text-white w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold mb-4 mx-auto bg-red-950">
                     {index + 1}
                   </div>
                   
@@ -370,7 +370,7 @@ const ServiceDetail = () => {
             
             <div className="text-center mt-12">
               <Link to={service.cta.link}>
-                <Button className="bg-mio-orange hover:bg-mio-red text-white transition-colors">
+                <Button className="text-white transition-colors bg-red-950 hover:bg-red-800">
                   {service.cta.text}
                 </Button>
               </Link>
