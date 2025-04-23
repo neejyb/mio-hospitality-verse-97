@@ -10,7 +10,6 @@ import {
   CarouselNext,
   CarouselPrevious
 } from '@/components/ui/carousel';
-import { Link } from 'react-router-dom';
 
 interface PropertyFeature {
   id: string;
@@ -81,6 +80,7 @@ const AirbnbBooking = () => {
             offering exceptional comfort and style for your stay.
           </p>
         </div>
+
         <div className="relative max-w-6xl mx-auto">
           <Carousel
             opts={{
@@ -88,6 +88,11 @@ const AirbnbBooking = () => {
               loop: true,
             }}
             className="w-full"
+            onSelect={(api) => {
+              if (api?.selectedScrollSnap) {
+                setActiveIndex(api.selectedScrollSnap());
+              }
+            }}
           >
             <CarouselContent>
               {properties.map((property, index) => (
@@ -136,16 +141,12 @@ const AirbnbBooking = () => {
                         </div>
                         
                         <div className="flex flex-col md:flex-row gap-4">
-                          <Link to={`/property/${property.id}`}>
-                            <Button size="custom" variant="outline-gold">
-                              View Details
-                            </Button>
-                          </Link>
-                          <Link to="/book-airbnb">
-                            <Button size="custom" variant="outline-mio">
-                              Book Now
-                            </Button>
-                          </Link>
+                          <Button variant="outline" className="border-mio-orange text-mio-orange hover:bg-mio-orange hover:text-white">
+                            View Details
+                          </Button>
+                          <Button className="bg-[#F97316] hover:bg-orange-700 text-white">
+                            Book Now
+                          </Button>
                         </div>
                       </div>
                     </div>
@@ -153,6 +154,7 @@ const AirbnbBooking = () => {
                 </CarouselItem>
               ))}
             </CarouselContent>
+            
             <div className="mt-8 flex justify-center gap-2">
               {properties.map((_, index) => (
                 <button
@@ -164,16 +166,16 @@ const AirbnbBooking = () => {
                 />
               ))}
             </div>
+            
             <CarouselPrevious className="absolute -left-12 top-1/2 -translate-y-1/2 bg-white text-[#F97316] hover:bg-[#F97316] hover:text-white border border-[#F97316]" />
             <CarouselNext className="absolute -right-12 top-1/2 -translate-y-1/2 bg-white text-[#F97316] hover:bg-[#F97316] hover:text-white border border-[#F97316]" />
           </Carousel>
         </div>
+
         <div className="mt-12 text-center">
-          <Link to="/properties">
-            <Button size="custom" variant="outline-gold">
-              View All Properties <ArrowRight size={16} className="ml-1" />
-            </Button>
-          </Link>
+          <Button variant="outline" className="border-[#F97316] text-[#F97316] hover:bg-[#F97316] hover:text-white">
+            View All Properties <ArrowRight size={16} className="ml-1" />
+          </Button>
         </div>
       </div>
     </section>

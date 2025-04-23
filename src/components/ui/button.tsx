@@ -2,20 +2,19 @@
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
-import { cn } from "@/lib/utils"
 
-// Color values
-const MIO_ORANGE = "#FF8C42"
-const GOLD = "#D4AF37"
+import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
   "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
-        default: `border border-[${MIO_ORANGE}] text-[${MIO_ORANGE}] bg-transparent hover:bg-[${MIO_ORANGE}] hover:text-white`,
-        "outline-mio": `border border-[${MIO_ORANGE}] text-[${MIO_ORANGE}] bg-transparent hover:bg-[${MIO_ORANGE}] hover:text-white`,
-        "outline-gold": `border border-[${GOLD}] text-[${GOLD}] bg-white hover:bg-[${GOLD}] hover:text-white`,
+        default: "bg-[#D4AF37] text-white hover:bg-[#B4941F]",
+        outline:
+          "border border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37]/10",
+        secondary:
+          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
       },
@@ -24,11 +23,11 @@ const buttonVariants = cva(
         sm: "h-9 rounded-md px-3",
         lg: "h-11 rounded-md px-8",
         icon: "h-10 w-10",
-        custom: "h-11 px-6 min-w-[150px]", // enforce minimum width for equal sizing
+        custom: "h-11 px-6", // New custom size matching the image
       },
     },
     defaultVariants: {
-      variant: "outline-mio",
+      variant: "default",
       size: "default",
     },
   }
