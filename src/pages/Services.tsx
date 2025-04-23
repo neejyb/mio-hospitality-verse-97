@@ -370,7 +370,7 @@ const ServiceDetail = () => {
             
             <div className="text-center mt-12">
               <Link to={service.cta.link}>
-                <Button className="text-white transition-colors bg-red-950 hover:bg-red-800">
+                <Button className="text-white transition-colors bg-[#500303]">
                   {service.cta.text}
                 </Button>
               </Link>
