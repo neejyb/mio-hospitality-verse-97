@@ -1,3 +1,4 @@
+
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
@@ -96,6 +97,7 @@ const ServiceGrid = () => {
           Discover our comprehensive range of hospitality and lifestyle services
           tailored to meet your needs.
         </p>
+        
         <div className="relative mx-auto max-w-5xl">
           <Carousel
             opts={{
@@ -104,7 +106,7 @@ const ServiceGrid = () => {
             }}
             className="w-full"
             onSelect={(api) => {
-              if (api && typeof api.selectedScrollSnap === "function") {
+              if (api?.selectedScrollSnap) {
                 setCurrentIndex(api.selectedScrollSnap());
               }
             }}
@@ -120,8 +122,8 @@ const ServiceGrid = () => {
                     className="p-1 h-full"
                   >
                     <Link to={service.link} className="block h-full">
-                      <div className="service-card h-full backdrop-blur-sm bg-white/80 border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden group">
-                        <div className="p-4">
+                      <Card className="service-card h-full backdrop-blur-sm bg-white/80 border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden group">
+                        <CardHeader className="p-4">
                           <div className="h-40 w-full overflow-hidden rounded-md mb-2 relative">
                             <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-all duration-300 z-10"></div>
                             <img 
@@ -130,22 +132,18 @@ const ServiceGrid = () => {
                               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                             />
                           </div>
-                          <h3 className="text-xl font-semibold text-gray-800 group-hover:text-[#D4AF37] transition-colors duration-300">{service.title}</h3>
-                        </div>
-                        <div className="p-4 pt-0">
-                          <div className="text-gray-600">{service.description}</div>
-                        </div>
-                        <div className="p-4 pt-0">
-                          <span className="btn-outline-deepred-gold flex items-center justify-center w-full font-medium transition-all duration-300 transform group-hover:translate-x-1">
+                          <CardTitle className="text-xl font-semibold text-gray-800 group-hover:text-[#D4AF37] transition-colors duration-300">{service.title}</CardTitle>
+                        </CardHeader>
+                        <CardContent className="p-4 pt-0">
+                          <CardDescription className="text-gray-600">{service.description}</CardDescription>
+                        </CardContent>
+                        <CardFooter className="p-4 pt-0">
+                          <span className="text-[#D4AF37] font-medium flex items-center opacity-80 group-hover:opacity-100 transition-all duration-300 transform group-hover:translate-x-1">
                             Learn more
-                            <span className="ml-1">
-                              <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                                <path d="M5 12H19M19 12L12 5M19 12L12 19" strokeLinecap="round" strokeLinejoin="round"/>
-                              </svg>
-                            </span>
+                            <ArrowRight size={16} className="ml-1 transform group-hover:translate-x-1 transition-transform duration-300" />
                           </span>
-                        </div>
-                      </div>
+                        </CardFooter>
+                      </Card>
                     </Link>
                   </motion.div>
                 </CarouselItem>
@@ -162,8 +160,8 @@ const ServiceGrid = () => {
                 />
               ))}
             </div>
-            <CarouselPrevious className="absolute -left-12 top-1/2 -translate-y-1/2 btn-outline-deepred-gold" />
-            <CarouselNext className="absolute -right-12 top-1/2 -translate-y-1/2 btn-outline-deepred-gold" />
+            <CarouselPrevious className="absolute -left-12 top-1/2 -translate-y-1/2 bg-[#D4AF37] text-white hover:bg-[#B4941F] border-none" />
+            <CarouselNext className="absolute -right-12 top-1/2 -translate-y-1/2 bg-[#D4AF37] text-white hover:bg-[#B4941F] border-none" />
           </Carousel>
         </div>
       </div>

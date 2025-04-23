@@ -66,14 +66,10 @@ const Hero = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 animate-fade-in">
               <Link to="/contact">
-                <Button variant="deepred-gold" className="font-bold">
-                  Contact Us
-                </Button>
+                <Button className="bg-[#D4AF37] hover:bg-[#B4941F] text-white">Contact Us</Button>
               </Link>
               <Link to="/book">
-                <Button variant="deepred-gold" className="font-bold">
-                  Book a Service
-                </Button>
+                <Button className="bg-[#FFD700] hover:bg-[#D4AF37] text-gray-800">Book a Service</Button>
               </Link>
             </div>
           </div>
