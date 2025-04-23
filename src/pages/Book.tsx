@@ -334,7 +334,7 @@ const Book = () => {
                       <Textarea id="airbnb-message" name="message" value={formData.message} onChange={handleChange} placeholder="Any special requirements for your stay..." rows={4} />
                     </div>
                     
-                    <Button type="submit" className="w-full bg-mio-orange hover:bg-mio-red text-white transition-colors" disabled={loading}>
+                    <Button type="submit" disabled={loading} className="w-full text-white transition-colors bg-red-950 hover:bg-red-800">
                       {loading ? 'Processing...' : 'Reserve Property'}
                     </Button>
                   </form>
