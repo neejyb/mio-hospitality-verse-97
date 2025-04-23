@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useSearchParams } from 'react-router-dom';
@@ -7,35 +6,41 @@ import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { 
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { format } from 'date-fns';
 import { toast } from 'sonner';
-
-const serviceOptions = [
-  { value: 'interior-design', label: 'Interior Design' },
-  { value: 'airbnb', label: 'Airbnb Services' },
-  { value: 'videography', label: 'Videography' },
-  { value: 'car-hire', label: 'Car Hire' },
-  { value: 'jet-hire', label: 'Private Jet Hire' },
-  { value: 'maintenance', label: 'Maintenance Services' },
-  { value: 'property-management', label: 'Property Management' },
-  { value: 'facility-support', label: 'Facility Support' }
-];
-
+const serviceOptions = [{
+  value: 'interior-design',
+  label: 'Interior Design'
+}, {
+  value: 'airbnb',
+  label: 'Airbnb Services'
+}, {
+  value: 'videography',
+  label: 'Videography'
+}, {
+  value: 'car-hire',
+  label: 'Car Hire'
+}, {
+  value: 'jet-hire',
+  label: 'Private Jet Hire'
+}, {
+  value: 'maintenance',
+  label: 'Maintenance Services'
+}, {
+  value: 'property-management',
+  label: 'Property Management'
+}, {
+  value: 'facility-support',
+  label: 'Facility Support'
+}];
 const Book = () => {
   const [searchParams] = useSearchParams();
   const initialService = searchParams.get('service') || '';
   const initialProperty = searchParams.get('property') || '';
-  
   const [formData, setFormData] = useState({
     service: initialService,
     name: '',
@@ -45,10 +50,9 @@ const Book = () => {
     message: '',
     property: initialProperty
   });
-  
   const [selectedTab, setSelectedTab] = useState('general');
   const [loading, setLoading] = useState(false);
-  
+
   // Set the selected tab based on URL parameters
   useState(() => {
     if (initialService === 'airbnb') {
@@ -59,24 +63,32 @@ const Book = () => {
       setSelectedTab('jet');
     }
   });
-  
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    const {
+      name,
+      value
+    } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
   };
-  
   const handleSelectChange = (name: string, value: string) => {
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
   };
-  
   const handleDateChange = (date: Date | null) => {
-    setFormData(prev => ({ ...prev, date }));
+    setFormData(prev => ({
+      ...prev,
+      date
+    }));
   };
-  
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    
+
     // Simulate form submission
     setTimeout(() => {
       console.log('Form submitted:', formData);
@@ -93,14 +105,14 @@ const Book = () => {
       setLoading(false);
     }, 1500);
   };
-  
-  return (
-    <div className="min-h-screen flex flex-col">
+  return <div className="min-h-screen flex flex-col">
       <Navbar />
       
       <main className="flex-grow">
         {/* Hero section */}
-        <div className="relative h-[40vh] bg-cover bg-center flex items-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1506485338023-6ce5f36692df?q=80&w=2070')" }}>
+        <div className="relative h-[40vh] bg-cover bg-center flex items-center" style={{
+        backgroundImage: "url('https://images.unsplash.com/photo-1506485338023-6ce5f36692df?q=80&w=2070')"
+      }}>
           <div className="absolute inset-0 bg-black/50"></div>
           <div className="container mx-auto px-4 relative z-10 text-white">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">Book a Service</h1>
@@ -113,18 +125,16 @@ const Book = () => {
         {/* Booking section */}
         <section className="py-16 bg-white">
           <div className="container mx-auto px-4">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-lg"
-            >
-              <Tabs 
-                defaultValue={selectedTab} 
-                value={selectedTab} 
-                onValueChange={setSelectedTab}
-                className="w-full"
-              >
+            <motion.div initial={{
+            opacity: 0,
+            y: 20
+          }} animate={{
+            opacity: 1,
+            y: 0
+          }} transition={{
+            duration: 0.5
+          }} className="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-lg">
+              <Tabs defaultValue={selectedTab} value={selectedTab} onValueChange={setSelectedTab} className="w-full">
                 <TabsList className="grid grid-cols-4 mb-8">
                   <TabsTrigger value="general">General Booking</TabsTrigger>
                   <TabsTrigger value="airbnb">Airbnb Booking</TabsTrigger>
@@ -139,19 +149,14 @@ const Book = () => {
                       <label htmlFor="service" className="block text-sm font-medium text-gray-700 mb-1">
                         Service Type
                       </label>
-                      <Select 
-                        value={formData.service} 
-                        onValueChange={(value) => handleSelectChange('service', value)}
-                      >
+                      <Select value={formData.service} onValueChange={value => handleSelectChange('service', value)}>
                         <SelectTrigger>
                           <SelectValue placeholder="Select a service" />
                         </SelectTrigger>
                         <SelectContent>
-                          {serviceOptions.map((option) => (
-                            <SelectItem key={option.value} value={option.value}>
+                          {serviceOptions.map(option => <SelectItem key={option.value} value={option.value}>
                               {option.label}
-                            </SelectItem>
-                          ))}
+                            </SelectItem>)}
                         </SelectContent>
                       </Select>
                     </div>
@@ -161,29 +166,14 @@ const Book = () => {
                         <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
                           Full Name
                         </label>
-                        <Input
-                          id="name"
-                          name="name"
-                          value={formData.name}
-                          onChange={handleChange}
-                          placeholder="John Doe"
-                          required
-                        />
+                        <Input id="name" name="name" value={formData.name} onChange={handleChange} placeholder="John Doe" required />
                       </div>
                       
                       <div>
                         <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
                           Email
                         </label>
-                        <Input
-                          id="email"
-                          name="email"
-                          type="email"
-                          value={formData.email}
-                          onChange={handleChange}
-                          placeholder="john@example.com"
-                          required
-                        />
+                        <Input id="email" name="email" type="email" value={formData.email} onChange={handleChange} placeholder="john@example.com" required />
                       </div>
                     </div>
                     
@@ -192,14 +182,7 @@ const Book = () => {
                         <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
                           Phone Number
                         </label>
-                        <Input
-                          id="phone"
-                          name="phone"
-                          value={formData.phone}
-                          onChange={handleChange}
-                          placeholder="+1 (555) 123-4567"
-                          required
-                        />
+                        <Input id="phone" name="phone" value={formData.phone} onChange={handleChange} placeholder="+1 (555) 123-4567" required />
                       </div>
                       
                       <div>
@@ -208,25 +191,12 @@ const Book = () => {
                         </label>
                         <Popover>
                           <PopoverTrigger asChild>
-                            <Button
-                              variant="outline"
-                              className="w-full justify-start text-left font-normal"
-                            >
-                              {formData.date ? (
-                                format(formData.date, 'PPP')
-                              ) : (
-                                <span>Pick a date</span>
-                              )}
+                            <Button variant="outline" className="w-full justify-start text-left font-normal">
+                              {formData.date ? format(formData.date, 'PPP') : <span>Pick a date</span>}
                             </Button>
                           </PopoverTrigger>
                           <PopoverContent className="w-auto p-0 bg-white pointer-events-auto">
-                            <Calendar
-                              mode="single"
-                              selected={formData.date || undefined}
-                              onSelect={handleDateChange}
-                              initialFocus
-                              className="p-3"
-                            />
+                            <Calendar mode="single" selected={formData.date || undefined} onSelect={handleDateChange} initialFocus className="p-3" />
                           </PopoverContent>
                         </Popover>
                       </div>
@@ -236,21 +206,10 @@ const Book = () => {
                       <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
                         Additional Details
                       </label>
-                      <Textarea
-                        id="message"
-                        name="message"
-                        value={formData.message}
-                        onChange={handleChange}
-                        placeholder="Please provide any specific requirements or questions about our services..."
-                        rows={4}
-                      />
+                      <Textarea id="message" name="message" value={formData.message} onChange={handleChange} placeholder="Please provide any specific requirements or questions about our services..." rows={4} />
                     </div>
                     
-                    <Button
-                      type="submit"
-                      className="w-full bg-mio-orange hover:bg-mio-red text-white transition-colors"
-                      disabled={loading}
-                    >
+                    <Button type="submit" className="w-full bg-mio-orange hover:bg-mio-red text-white transition-colors" disabled={loading}>
                       {loading ? 'Submitting...' : 'Submit Booking Request'}
                     </Button>
                   </form>
@@ -265,10 +224,7 @@ const Book = () => {
                       <label htmlFor="property" className="block text-sm font-medium text-gray-700 mb-1">
                         Select Property
                       </label>
-                      <Select 
-                        value={formData.property} 
-                        onValueChange={(value) => handleSelectChange('property', value)}
-                      >
+                      <Select value={formData.property} onValueChange={value => handleSelectChange('property', value)}>
                         <SelectTrigger>
                           <SelectValue placeholder="Select a property" />
                         </SelectTrigger>
@@ -287,26 +243,12 @@ const Book = () => {
                         </label>
                         <Popover>
                           <PopoverTrigger asChild>
-                            <Button
-                              variant="outline"
-                              className="w-full justify-start text-left font-normal"
-                            >
-                              {formData.date ? (
-                                format(formData.date, 'PPP')
-                              ) : (
-                                <span>Select check-in date</span>
-                              )}
+                            <Button variant="outline" className="w-full justify-start text-left font-normal">
+                              {formData.date ? format(formData.date, 'PPP') : <span>Select check-in date</span>}
                             </Button>
                           </PopoverTrigger>
                           <PopoverContent className="w-auto p-0 bg-white pointer-events-auto">
-                            <Calendar
-                              mode="single"
-                              selected={formData.date || undefined}
-                              onSelect={handleDateChange}
-                              initialFocus
-                              className="p-3"
-                              disabled={(date) => date < new Date()}
-                            />
+                            <Calendar mode="single" selected={formData.date || undefined} onSelect={handleDateChange} initialFocus className="p-3" disabled={date => date < new Date()} />
                           </PopoverContent>
                         </Popover>
                       </div>
@@ -315,18 +257,14 @@ const Book = () => {
                         <label htmlFor="nights" className="block text-sm font-medium text-gray-700 mb-1">
                           Number of Nights
                         </label>
-                        <Select 
-                          defaultValue="3"
-                        >
+                        <Select defaultValue="3">
                           <SelectTrigger>
                             <SelectValue placeholder="Select number of nights" />
                           </SelectTrigger>
                           <SelectContent>
-                            {[1, 2, 3, 4, 5, 6, 7, 14, 30].map((num) => (
-                              <SelectItem key={num} value={num.toString()}>
+                            {[1, 2, 3, 4, 5, 6, 7, 14, 30].map(num => <SelectItem key={num} value={num.toString()}>
                                 {num} {num === 1 ? 'night' : 'nights'}
-                              </SelectItem>
-                            ))}
+                              </SelectItem>)}
                           </SelectContent>
                         </Select>
                       </div>
@@ -342,11 +280,9 @@ const Book = () => {
                             <SelectValue placeholder="Number of adults" />
                           </SelectTrigger>
                           <SelectContent>
-                            {[1, 2, 3, 4, 5, 6].map((num) => (
-                              <SelectItem key={num} value={num.toString()}>
+                            {[1, 2, 3, 4, 5, 6].map(num => <SelectItem key={num} value={num.toString()}>
                                 {num}
-                              </SelectItem>
-                            ))}
+                              </SelectItem>)}
                           </SelectContent>
                         </Select>
                       </div>
@@ -360,11 +296,9 @@ const Book = () => {
                             <SelectValue placeholder="Number of children" />
                           </SelectTrigger>
                           <SelectContent>
-                            {[0, 1, 2, 3, 4].map((num) => (
-                              <SelectItem key={num} value={num.toString()}>
+                            {[0, 1, 2, 3, 4].map(num => <SelectItem key={num} value={num.toString()}>
                                 {num}
-                              </SelectItem>
-                            ))}
+                              </SelectItem>)}
                           </SelectContent>
                         </Select>
                       </div>
@@ -375,29 +309,14 @@ const Book = () => {
                         <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
                           Full Name
                         </label>
-                        <Input
-                          id="name"
-                          name="name"
-                          value={formData.name}
-                          onChange={handleChange}
-                          placeholder="John Doe"
-                          required
-                        />
+                        <Input id="name" name="name" value={formData.name} onChange={handleChange} placeholder="John Doe" required />
                       </div>
                       
                       <div>
                         <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
                           Email
                         </label>
-                        <Input
-                          id="email"
-                          name="email"
-                          type="email"
-                          value={formData.email}
-                          onChange={handleChange}
-                          placeholder="john@example.com"
-                          required
-                        />
+                        <Input id="email" name="email" type="email" value={formData.email} onChange={handleChange} placeholder="john@example.com" required />
                       </div>
                     </div>
                     
@@ -405,35 +324,17 @@ const Book = () => {
                       <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
                         Phone Number
                       </label>
-                      <Input
-                        id="phone"
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleChange}
-                        placeholder="+1 (555) 123-4567"
-                        required
-                      />
+                      <Input id="phone" name="phone" value={formData.phone} onChange={handleChange} placeholder="+1 (555) 123-4567" required />
                     </div>
                     
                     <div>
                       <label htmlFor="airbnb-message" className="block text-sm font-medium text-gray-700 mb-1">
                         Special Requests
                       </label>
-                      <Textarea
-                        id="airbnb-message"
-                        name="message"
-                        value={formData.message}
-                        onChange={handleChange}
-                        placeholder="Any special requirements for your stay..."
-                        rows={4}
-                      />
+                      <Textarea id="airbnb-message" name="message" value={formData.message} onChange={handleChange} placeholder="Any special requirements for your stay..." rows={4} />
                     </div>
                     
-                    <Button
-                      type="submit"
-                      className="w-full bg-mio-orange hover:bg-mio-red text-white transition-colors"
-                      disabled={loading}
-                    >
+                    <Button type="submit" className="w-full bg-mio-orange hover:bg-mio-red text-white transition-colors" disabled={loading}>
                       {loading ? 'Processing...' : 'Reserve Property'}
                     </Button>
                   </form>
@@ -448,9 +349,7 @@ const Book = () => {
                       <label htmlFor="car-model" className="block text-sm font-medium text-gray-700 mb-1">
                         Choose a Vehicle
                       </label>
-                      <Select 
-                        defaultValue="luxury-sedan"
-                      >
+                      <Select defaultValue="luxury-sedan">
                         <SelectTrigger>
                           <SelectValue placeholder="Select a vehicle" />
                         </SelectTrigger>
@@ -470,26 +369,12 @@ const Book = () => {
                         </label>
                         <Popover>
                           <PopoverTrigger asChild>
-                            <Button
-                              variant="outline"
-                              className="w-full justify-start text-left font-normal"
-                            >
-                              {formData.date ? (
-                                format(formData.date, 'PPP')
-                              ) : (
-                                <span>Select pickup date</span>
-                              )}
+                            <Button variant="outline" className="w-full justify-start text-left font-normal text-stone-950 bg-slate-50">
+                              {formData.date ? format(formData.date, 'PPP') : <span>Select pickup date</span>}
                             </Button>
                           </PopoverTrigger>
                           <PopoverContent className="w-auto p-0 bg-white pointer-events-auto">
-                            <Calendar
-                              mode="single"
-                              selected={formData.date || undefined}
-                              onSelect={handleDateChange}
-                              initialFocus
-                              className="p-3"
-                              disabled={(date) => date < new Date()}
-                            />
+                            <Calendar mode="single" selected={formData.date || undefined} onSelect={handleDateChange} initialFocus className="p-3" disabled={date => date < new Date()} />
                           </PopoverContent>
                         </Popover>
                       </div>
@@ -503,11 +388,9 @@ const Book = () => {
                             <SelectValue placeholder="Select duration" />
                           </SelectTrigger>
                           <SelectContent>
-                            {[1, 2, 3, 4, 5, 6, 7, 14, 30].map((num) => (
-                              <SelectItem key={num} value={num.toString()}>
+                            {[1, 2, 3, 4, 5, 6, 7, 14, 30].map(num => <SelectItem key={num} value={num.toString()}>
                                 {num} {num === 1 ? 'day' : 'days'}
-                              </SelectItem>
-                            ))}
+                              </SelectItem>)}
                           </SelectContent>
                         </Select>
                       </div>
@@ -552,29 +435,14 @@ const Book = () => {
                         <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
                           Full Name
                         </label>
-                        <Input
-                          id="name"
-                          name="name"
-                          value={formData.name}
-                          onChange={handleChange}
-                          placeholder="John Doe"
-                          required
-                        />
+                        <Input id="name" name="name" value={formData.name} onChange={handleChange} placeholder="John Doe" required />
                       </div>
                       
                       <div>
                         <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
                           Email
                         </label>
-                        <Input
-                          id="email"
-                          name="email"
-                          type="email"
-                          value={formData.email}
-                          onChange={handleChange}
-                          placeholder="john@example.com"
-                          required
-                        />
+                        <Input id="email" name="email" type="email" value={formData.email} onChange={handleChange} placeholder="john@example.com" required />
                       </div>
                     </div>
                     
@@ -582,21 +450,10 @@ const Book = () => {
                       <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
                         Phone Number
                       </label>
-                      <Input
-                        id="phone"
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleChange}
-                        placeholder="+1 (555) 123-4567"
-                        required
-                      />
+                      <Input id="phone" name="phone" value={formData.phone} onChange={handleChange} placeholder="+1 (555) 123-4567" required />
                     </div>
                     
-                    <Button
-                      type="submit"
-                      className="w-full bg-mio-orange hover:bg-mio-red text-white transition-colors"
-                      disabled={loading}
-                    >
+                    <Button type="submit" className="w-full bg-mio-orange hover:bg-mio-red text-white transition-colors" disabled={loading}>
                       {loading ? 'Processing...' : 'Reserve Vehicle'}
                     </Button>
                   </form>
@@ -613,11 +470,7 @@ const Book = () => {
                         We currently have one luxury private jet available for charter:
                       </p>
                       <div className="flex items-center">
-                        <img 
-                          src="https://images.unsplash.com/photo-1540962351504-03099e0a754b?q=80&w=2070" 
-                          alt="Private Jet"
-                          className="w-24 h-24 object-cover rounded-md mr-4"
-                        />
+                        <img src="https://images.unsplash.com/photo-1540962351504-03099e0a754b?q=80&w=2070" alt="Private Jet" className="w-24 h-24 object-cover rounded-md mr-4" />
                         <div>
                           <h4 className="font-medium text-gray-900">Gulfstream G650</h4>
                           <p className="text-gray-600 text-sm">Capacity: 16 passengers</p>
@@ -633,26 +486,12 @@ const Book = () => {
                         </label>
                         <Popover>
                           <PopoverTrigger asChild>
-                            <Button
-                              variant="outline"
-                              className="w-full justify-start text-left font-normal"
-                            >
-                              {formData.date ? (
-                                format(formData.date, 'PPP')
-                              ) : (
-                                <span>Select departure date</span>
-                              )}
+                            <Button variant="outline" className="w-full justify-start text-left font-normal">
+                              {formData.date ? format(formData.date, 'PPP') : <span>Select departure date</span>}
                             </Button>
                           </PopoverTrigger>
                           <PopoverContent className="w-auto p-0 bg-white pointer-events-auto">
-                            <Calendar
-                              mode="single"
-                              selected={formData.date || undefined}
-                              onSelect={handleDateChange}
-                              initialFocus
-                              className="p-3"
-                              disabled={(date) => date < new Date()}
-                            />
+                            <Calendar mode="single" selected={formData.date || undefined} onSelect={handleDateChange} initialFocus className="p-3" disabled={date => date < new Date()} />
                           </PopoverContent>
                         </Popover>
                       </div>
@@ -666,11 +505,9 @@ const Book = () => {
                             <SelectValue placeholder="Select number of passengers" />
                           </SelectTrigger>
                           <SelectContent>
-                            {[1, 2, 3, 4, 5, 6, 8, 10, 12, 14, 16].map((num) => (
-                              <SelectItem key={num} value={num.toString()}>
+                            {[1, 2, 3, 4, 5, 6, 8, 10, 12, 14, 16].map(num => <SelectItem key={num} value={num.toString()}>
                                 {num}
-                              </SelectItem>
-                            ))}
+                              </SelectItem>)}
                           </SelectContent>
                         </Select>
                       </div>
@@ -681,22 +518,14 @@ const Book = () => {
                         <label htmlFor="departure" className="block text-sm font-medium text-gray-700 mb-1">
                           Departure Location
                         </label>
-                        <Input
-                          id="departure"
-                          placeholder="City or Airport"
-                          required
-                        />
+                        <Input id="departure" placeholder="City or Airport" required />
                       </div>
                       
                       <div>
                         <label htmlFor="destination" className="block text-sm font-medium text-gray-700 mb-1">
                           Destination
                         </label>
-                        <Input
-                          id="destination"
-                          placeholder="City or Airport"
-                          required
-                        />
+                        <Input id="destination" placeholder="City or Airport" required />
                       </div>
                     </div>
                     
@@ -705,29 +534,14 @@ const Book = () => {
                         <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
                           Full Name
                         </label>
-                        <Input
-                          id="name"
-                          name="name"
-                          value={formData.name}
-                          onChange={handleChange}
-                          placeholder="John Doe"
-                          required
-                        />
+                        <Input id="name" name="name" value={formData.name} onChange={handleChange} placeholder="John Doe" required />
                       </div>
                       
                       <div>
                         <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
                           Email
                         </label>
-                        <Input
-                          id="email"
-                          name="email"
-                          type="email"
-                          value={formData.email}
-                          onChange={handleChange}
-                          placeholder="john@example.com"
-                          required
-                        />
+                        <Input id="email" name="email" type="email" value={formData.email} onChange={handleChange} placeholder="john@example.com" required />
                       </div>
                     </div>
                     
@@ -735,35 +549,17 @@ const Book = () => {
                       <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
                         Phone Number
                       </label>
-                      <Input
-                        id="phone"
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleChange}
-                        placeholder="+1 (555) 123-4567"
-                        required
-                      />
+                      <Input id="phone" name="phone" value={formData.phone} onChange={handleChange} placeholder="+1 (555) 123-4567" required />
                     </div>
                     
                     <div>
                       <label htmlFor="jet-message" className="block text-sm font-medium text-gray-700 mb-1">
                         Special Requirements
                       </label>
-                      <Textarea
-                        id="jet-message"
-                        name="message"
-                        value={formData.message}
-                        onChange={handleChange}
-                        placeholder="Catering preferences, ground transportation needs, etc."
-                        rows={4}
-                      />
+                      <Textarea id="jet-message" name="message" value={formData.message} onChange={handleChange} placeholder="Catering preferences, ground transportation needs, etc." rows={4} />
                     </div>
                     
-                    <Button
-                      type="submit"
-                      className="w-full bg-mio-orange hover:bg-mio-red text-white transition-colors"
-                      disabled={loading}
-                    >
+                    <Button type="submit" className="w-full bg-mio-orange hover:bg-mio-red text-white transition-colors" disabled={loading}>
                       {loading ? 'Processing...' : 'Request Jet Charter'}
                     </Button>
                   </form>
@@ -775,8 +571,6 @@ const Book = () => {
       </main>
       
       <Footer />
-    </div>
-  );
+    </div>;
 };
-
 export default Book;
