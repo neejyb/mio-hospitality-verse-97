@@ -66,27 +66,15 @@ const Hero = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 animate-fade-in">
               <Link to="/contact">
-                <Button className="bg-[#D4AF37] hover:bg-[#B4941F] text-white">Contact Us</Button>
+                <Button size="custom" variant="default">Contact Us</Button>
               </Link>
               <Link to="/book">
-                <Button className="bg-[#FFD700] hover:bg-[#D4AF37] text-gray-800">Book a Service</Button>
+                <Button size="custom" variant="default">Book a Service</Button>
               </Link>
             </div>
           </div>
         </div>
       ))}
-
-      <div className="absolute bottom-8 left-0 right-0 flex justify-center gap-2">
-        {carouselItems.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => setCurrentSlide(index)}
-            className={`w-3 h-3 rounded-full ${
-              index === currentSlide ? 'bg-white' : 'bg-white/50'
-            }`}
-          />
-        ))}
-      </div>
     </div>
   );
 };

@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -35,7 +34,6 @@ const Navbar = () => {
           </h1>
         </Link>
 
-        {/* Mobile menu button */}
         <div className="md:hidden">
           <Button
             variant="ghost"
@@ -53,7 +51,6 @@ const Navbar = () => {
           </Button>
         </div>
 
-        {/* Desktop menu */}
         <div className="hidden md:flex items-center space-x-6">
           <Link to="/about" className={`font-medium transition-colors ${isScrolled ? 'text-gray-800 hover:text-mio-orange' : 'text-white hover:text-mio-yellow'}`}>
             About Us
@@ -98,14 +95,13 @@ const Navbar = () => {
           </Link>
           
           <Link to="/book">
-            <Button className="bg-mio-orange hover:bg-mio-red text-white transition-colors">
+            <Button size="custom" className="bg-[#D4AF37] text-white hover:bg-[#B4941F]">
               Book a Service
             </Button>
           </Link>
         </div>
       </div>
 
-      {/* Mobile menu dropdown */}
       {isMobileMenuOpen && (
         <div className="md:hidden bg-white shadow-lg py-4 animate-slide-in">
           <div className="container mx-auto px-4 flex flex-col space-y-3">
