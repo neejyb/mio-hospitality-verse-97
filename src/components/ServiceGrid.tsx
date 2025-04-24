@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowRight } from 'lucide-react';
+
 interface Service {
   id: string;
   iconUrl: string;
@@ -11,6 +12,7 @@ interface Service {
   description: string;
   link: string;
 }
+
 const services: Service[] = [{
   id: 'interior-design',
   iconUrl: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=300',
@@ -60,9 +62,12 @@ const services: Service[] = [{
   description: 'Professional support services for commercial facilities.',
   link: '/services/facility-support'
 }];
+
 const ServiceGrid = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  return <section className="py-16 bg-gradient-to-b from-gray-50 to-white">
+  
+  return (
+    <section className="py-16 bg-gradient-to-b from-gray-50 to-white">
       <div className="container mx-auto px-4">
         <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">Our Services</h2>
         <p className="text-lg text-gray-600 text-center mb-12 max-w-2xl mx-auto">
@@ -71,28 +76,30 @@ const ServiceGrid = () => {
         </p>
         
         <div className="relative mx-auto max-w-5xl">
-          <Carousel opts={{
-          align: "start",
-          loop: true
-        }} className="w-full" onSelect={api => {
-          if (api?.selectedScrollSnap) {
-            setCurrentIndex(api.selectedScrollSnap());
-          }
-        }}>
+          <Carousel 
+            opts={{
+              align: "start",
+              loop: true
+            }} 
+            className="w-full"
+            onSelect={(api) => {
+              setCurrentIndex(api?.selectedScrollSnap() || 0);
+            }}
+          >
             <CarouselContent>
               {services.map((service, index) => <CarouselItem key={service.id} className="sm:basis-1/2 md:basis-1/3 lg:basis-1/4">
                   <motion.div initial={{
-                opacity: 0,
-                y: 20
-              }} whileInView={{
-                opacity: 1,
-                y: 0
-              }} transition={{
-                duration: 0.5,
-                delay: index * 0.1
-              }} viewport={{
-                once: true
-              }} className="p-1 h-full">
+                    opacity: 0,
+                    y: 20
+                  }} whileInView={{
+                    opacity: 1,
+                    y: 0
+                  }} transition={{
+                    duration: 0.5,
+                    delay: index * 0.1
+                  }} viewport={{
+                    once: true
+                  }} className="p-1 h-full">
                     <Link to={service.link} className="block h-full">
                       <Card className="service-card h-full backdrop-blur-sm bg-white/80 border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden group">
                         <CardHeader className="p-4">
@@ -124,6 +131,8 @@ const ServiceGrid = () => {
           </Carousel>
         </div>
       </div>
-    </section>;
+    </section>
+  );
 };
+
 export default ServiceGrid;

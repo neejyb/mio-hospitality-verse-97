@@ -82,7 +82,8 @@ const AirbnbBooking = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const navigate = useNavigate();
 
-  return <section className="py-16 bg-gray-100">
+  return (
+    <section className="py-16 bg-gray-100">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Featured Properties</h2>
@@ -93,34 +94,31 @@ const AirbnbBooking = () => {
         </div>
 
         <div className="relative max-w-6xl mx-auto">
-          <Carousel opts={{
-          align: "start",
-          loop: true
-        }} className="w-full" onSelect={api => {
-          if (api?.selectedScrollSnap) {
-            setActiveIndex(api.selectedScrollSnap());
-          }
-        }}>
+          <Carousel 
+            opts={{
+              align: "start",
+              loop: true
+            }} 
+            className="w-full"
+            onSelect={(api) => {
+              setActiveIndex(api?.selectedScrollSnap() || 0);
+            }}
+          >
             <CarouselContent>
-              {properties.map((property, index) => <CarouselItem key={property.id} className="basis-full">
-                  <motion.div initial={{
-                opacity: 0,
-                y: 20
-              }} whileInView={{
-                opacity: 1,
-                y: 0
-              }} transition={{
-                duration: 0.5
-              }} viewport={{
-                once: true
-              }} className="p-1">
+              {properties.map((property, index) => (
+                <CarouselItem key={property.id} className="basis-full">
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5 }}
+                    viewport={{ once: true }}
+                    className="p-1"
+                  >
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-white rounded-xl shadow-lg overflow-hidden">
-                      {/* Property Image */}
                       <div className="relative h-64 md:h-full min-h-[300px] overflow-hidden">
                         <img src={property.image} alt={property.name} className="w-full h-full object-cover transition-transform duration-500 hover:scale-105" />
                       </div>
                       
-                      {/* Property Details */}
                       <div className="p-6 md:p-8 flex flex-col justify-between">
                         <div>
                           <h3 className="text-2xl font-bold text-gray-800 mb-2">{property.name}</h3>
@@ -146,15 +144,15 @@ const AirbnbBooking = () => {
                         
                         <div className="flex flex-col md:flex-row gap-4">
                           <Button 
-                            variant="outline-gold" 
-                            className="border-mio-orange bg-slate-50 text-red-950"
+                            variant="outline"
+                            className="border-[#D4AF37] bg-white text-[#D4AF37]"
                             onClick={() => navigate(`/property/${property.id}`)}
                           >
                             View Details
                           </Button>
                           <Button 
-                            className="text-white bg-red-950 hover:bg-red-800"
-                            onClick={() => navigate('/book')}
+                            className="text-white"
+                            onClick={() => navigate('/book', { state: { service: 'airbnb', property: property.id }})}
                           >
                             Book Now
                           </Button>
@@ -162,7 +160,8 @@ const AirbnbBooking = () => {
                       </div>
                     </div>
                   </motion.div>
-                </CarouselItem>)}
+                </CarouselItem>
+              ))}
             </CarouselContent>
             
             <div className="mt-8 flex justify-center gap-2">
@@ -178,15 +177,16 @@ const AirbnbBooking = () => {
 
         <div className="mt-12 text-center">
           <Button 
-            variant="outline" 
-            className="border-[#F97316] text-red-950 bg-zinc-100"
+            variant="outline"
+            className="border-[#D4AF37] text-[#D4AF37] bg-white"
             onClick={() => navigate('/properties')}
           >
             View All Properties <ArrowRight size={16} className="ml-1" />
           </Button>
         </div>
       </div>
-    </section>;
+    </section>
+  );
 };
 
 export default AirbnbBooking;
