@@ -35,13 +35,13 @@ const AnimatedRoutes = () => {
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <BrowserRouter>
+    <BrowserRouter>
+      <TooltipProvider>
         <Toaster />
         <Sonner />
         <AnimatedRoutes />
-      </BrowserRouter>
-    </TooltipProvider>
+      </TooltipProvider>
+    </BrowserRouter>
   </QueryClientProvider>
 );
 

@@ -65,7 +65,13 @@ const services: Service[] = [{
 
 const ServiceGrid = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const handleSelect = React.useCallback((api: any) => {
+    const selectedIndex = api.selectedScrollSnap();
+    setActiveIndex(selectedIndex);
+  }, []);
+
   return (
     <section className="py-16 bg-gradient-to-b from-gray-50 to-white">
       <div className="container mx-auto px-4">
@@ -82,9 +88,7 @@ const ServiceGrid = () => {
               loop: true
             }} 
             className="w-full"
-            onSelect={(api) => {
-              setCurrentIndex(api?.selectedScrollSnap() || 0);
-            }}
+            onSelect={handleSelect}
           >
             <CarouselContent>
               {services.map((service, index) => <CarouselItem key={service.id} className="sm:basis-1/2 md:basis-1/3 lg:basis-1/4">
