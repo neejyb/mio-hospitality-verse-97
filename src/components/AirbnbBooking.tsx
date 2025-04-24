@@ -3,10 +3,13 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Check, MapPin, ArrowRight } from 'lucide-react';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
+import { useNavigate } from 'react-router-dom';
+
 interface PropertyFeature {
   id: string;
   name: string;
 }
+
 interface Property {
   id: number;
   name: string;
@@ -15,6 +18,7 @@ interface Property {
   image: string;
   features: PropertyFeature[];
 }
+
 const properties: Property[] = [{
   id: 1,
   name: 'Luxury Downtown Apartment',
@@ -73,8 +77,11 @@ const properties: Property[] = [{
     name: 'Hot Tub'
   }]
 }];
+
 const AirbnbBooking = () => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const navigate = useNavigate();
+
   return <section className="py-16 bg-gray-100">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
@@ -138,10 +145,17 @@ const AirbnbBooking = () => {
                         </div>
                         
                         <div className="flex flex-col md:flex-row gap-4">
-                          <Button variant="outline" className="border-mio-orange bg-slate-50 text-red-950">
+                          <Button 
+                            variant="outline-gold" 
+                            className="border-mio-orange bg-slate-50 text-red-950"
+                            onClick={() => navigate(`/property/${property.id}`)}
+                          >
                             View Details
                           </Button>
-                          <Button className="text-white bg-red-950 hover:bg-red-800">
+                          <Button 
+                            className="text-white bg-red-950 hover:bg-red-800"
+                            onClick={() => navigate('/book')}
+                          >
                             Book Now
                           </Button>
                         </div>
@@ -152,7 +166,9 @@ const AirbnbBooking = () => {
             </CarouselContent>
             
             <div className="mt-8 flex justify-center gap-2">
-              {properties.map((_, index) => <button key={index} onClick={() => setActiveIndex(index)} className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${index === activeIndex ? 'bg-[#F97316] w-6' : 'bg-gray-300'}`} />)}
+              {properties.map((_, index) => (
+                <button key={index} onClick={() => setActiveIndex(index)} className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${index === activeIndex ? 'bg-[#F97316] w-6' : 'bg-gray-300'}`} />
+              ))}
             </div>
             
             <CarouselPrevious className="absolute -left-12 top-1/2 -translate-y-1/2 bg-white text-[#F97316] hover:bg-[#F97316] hover:text-white border border-[#F97316]" />
@@ -161,11 +177,16 @@ const AirbnbBooking = () => {
         </div>
 
         <div className="mt-12 text-center">
-          <Button variant="outline" className="border-[#F97316] text-red-950 bg-zinc-100">
+          <Button 
+            variant="outline" 
+            className="border-[#F97316] text-red-950 bg-zinc-100"
+            onClick={() => navigate('/properties')}
+          >
             View All Properties <ArrowRight size={16} className="ml-1" />
           </Button>
         </div>
       </div>
     </section>;
 };
+
 export default AirbnbBooking;
