@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -19,7 +18,6 @@ import {
 } from "@/components/ui/select";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 
-// Enhanced property data with multiple images, descriptions and additional features
 const properties = [
   {
     id: 1,
@@ -145,19 +143,15 @@ const AllProperties = () => {
   const [bedrooms, setBedrooms] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
 
-  // Filter properties based on selected filters
   const filteredProperties = properties.filter(property => {
-    // Filter by price range
     if (property.price < priceRange[0] || property.price > priceRange[1]) {
       return false;
     }
     
-    // Filter by location if selected
     if (location && !property.location.toLowerCase().includes(location.toLowerCase())) {
       return false;
     }
     
-    // Filter by bedrooms if selected
     if (bedrooms) {
       const bedroomFeature = property.features.find(
         feature => feature.name.toLowerCase().includes('bedroom')
@@ -167,7 +161,6 @@ const AllProperties = () => {
       }
     }
     
-    // Filter by search term
     if (searchTerm && !property.name.toLowerCase().includes(searchTerm.toLowerCase()) && 
         !property.location.toLowerCase().includes(searchTerm.toLowerCase())) {
       return false;
@@ -184,7 +177,6 @@ const AllProperties = () => {
     <div className="min-h-screen flex flex-col">
       <Navbar />
       <main className="flex-grow">
-        {/* Hero Section with Filter Panel */}
         <div className="relative h-64 bg-gradient-to-r from-[#370202] to-[#D4AF37] text-white">
           <div className="container mx-auto px-4 h-full flex flex-col justify-center">
             <motion.h1
@@ -206,11 +198,9 @@ const AllProperties = () => {
           </div>
         </div>
 
-        {/* Filter Section */}
         <div className="bg-white shadow-md py-6">
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              {/* Search */}
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
                 <Input 
@@ -221,14 +211,13 @@ const AllProperties = () => {
                 />
               </div>
               
-              {/* Location Filter */}
               <Select value={location} onValueChange={setLocation}>
                 <SelectTrigger>
                   <SelectValue placeholder="Location" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
-                    <SelectItem value="">All Locations</SelectItem>
+                    <SelectItem value="all">All Locations</SelectItem>
                     <SelectItem value="city">City Center</SelectItem>
                     <SelectItem value="coastal">Coastal Areas</SelectItem>
                     <SelectItem value="mountain">Mountain Range</SelectItem>
@@ -237,14 +226,13 @@ const AllProperties = () => {
                 </SelectContent>
               </Select>
               
-              {/* Bedrooms Filter */}
               <Select value={bedrooms} onValueChange={setBedrooms}>
                 <SelectTrigger>
                   <SelectValue placeholder="Bedrooms" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
-                    <SelectItem value="">Any</SelectItem>
+                    <SelectItem value="any">Any</SelectItem>
                     <SelectItem value="1">1 Bedroom</SelectItem>
                     <SelectItem value="2">2 Bedrooms</SelectItem>
                     <SelectItem value="3">3+ Bedrooms</SelectItem>
@@ -252,7 +240,6 @@ const AllProperties = () => {
                 </SelectContent>
               </Select>
               
-              {/* Price Range Filter */}
               <div className="space-y-2">
                 <div className="flex justify-between text-sm">
                   <span>${priceRange[0]}</span>
@@ -271,7 +258,6 @@ const AllProperties = () => {
           </div>
         </div>
 
-        {/* Property Grid */}
         <div className="container mx-auto px-4 py-12">
           {filteredProperties.length === 0 ? (
             <div className="text-center py-12">
@@ -367,7 +353,6 @@ const AllProperties = () => {
       </main>
       <Footer />
 
-      {/* Property Modal */}
       {selectedProperty && (
         <PropertyModal 
           property={selectedProperty} 
