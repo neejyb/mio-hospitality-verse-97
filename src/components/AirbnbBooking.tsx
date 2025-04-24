@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
@@ -6,12 +5,10 @@ import { Check, MapPin, ArrowRight } from 'lucide-react';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { useNavigate } from 'react-router-dom';
 import PropertyModal from './PropertyModal';
-
 interface PropertyFeature {
   id: string;
   name: string;
 }
-
 interface Property {
   id: number;
   name: string;
@@ -43,11 +40,7 @@ const properties: Property[] = [{
     id: 'f1-4',
     name: 'High-Speed WiFi'
   }],
-  images: [
-    'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=2070',
-    'https://images.unsplash.com/photo-1554995207-c18c203602cb?q=80&w=2070',
-    'https://images.unsplash.com/photo-1630699144867-37acec97df5a?q=80&w=2070'
-  ],
+  images: ['https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=2070', 'https://images.unsplash.com/photo-1554995207-c18c203602cb?q=80&w=2070', 'https://images.unsplash.com/photo-1630699144867-37acec97df5a?q=80&w=2070'],
   description: 'Experience luxury living in the heart of the city with our stylish downtown apartment. Featuring two comfortable bedrooms, a fully equipped kitchen, breathtaking city views, and high-speed WiFi for all your needs. The perfect base for exploring the vibrant city center.'
 }, {
   id: 2,
@@ -68,11 +61,7 @@ const properties: Property[] = [{
     id: 'f2-4',
     name: 'Beach Access'
   }],
-  images: [
-    'https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2070',
-    'https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?q=80&w=2070',
-    'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?q=80&w=2070'
-  ],
+  images: ['https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2070', 'https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?q=80&w=2070', 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?q=80&w=2070'],
   description: 'Wake up to stunning ocean views in our modern beachfront villa. This luxurious property features three spacious bedrooms, a private pool for exclusive use, and direct beach access just steps away. Perfect for a memorable beach vacation with family or friends.'
 }, {
   id: 3,
@@ -93,25 +82,22 @@ const properties: Property[] = [{
     id: 'f3-4',
     name: 'Hot Tub'
   }],
-  images: [
-    'https://images.unsplash.com/photo-1518732714860-b62714ce0c59?q=80&w=2070',
-    'https://images.unsplash.com/photo-1542718610-a1d656d1884c?q=80&w=2070',
-    'https://images.unsplash.com/photo-1520984032042-162d526883e0?q=80&w=2070'
-  ],
+  images: ['https://images.unsplash.com/photo-1518732714860-b62714ce0c59?q=80&w=2070', 'https://images.unsplash.com/photo-1542718610-a1d656d1884c?q=80&w=2070', 'https://images.unsplash.com/photo-1520984032042-162d526883e0?q=80&w=2070'],
   description: 'Escape to the tranquility of nature in our cozy mountain retreat. Enjoy breathtaking mountain views, warm up by the fireplace after a day on the hiking trails, and relax in your private hot tub under the stars. The perfect getaway for nature lovers seeking peace and serenity.'
 }];
-
 const AirbnbBooking = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
   const navigate = useNavigate();
-
   const handleBookNow = (propertyId: number) => {
-    navigate('/book', { state: { service: 'airbnb', property: propertyId }});
+    navigate('/book', {
+      state: {
+        service: 'airbnb',
+        property: propertyId
+      }
+    });
   };
-
-  return (
-    <section className="py-16 bg-gray-100">
+  return <section className="py-16 bg-gray-100">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Featured Properties</h2>
@@ -122,23 +108,23 @@ const AirbnbBooking = () => {
         </div>
 
         <div className="relative max-w-6xl mx-auto">
-          <Carousel 
-            opts={{
-              align: "start",
-              loop: true
-            }} 
-            className="w-full"
-          >
+          <Carousel opts={{
+          align: "start",
+          loop: true
+        }} className="w-full">
             <CarouselContent>
-              {properties.map((property, index) => (
-                <CarouselItem key={property.id} className="basis-full">
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
-                    viewport={{ once: true }}
-                    className="p-1"
-                  >
+              {properties.map((property, index) => <CarouselItem key={property.id} className="basis-full">
+                  <motion.div initial={{
+                opacity: 0,
+                y: 20
+              }} whileInView={{
+                opacity: 1,
+                y: 0
+              }} transition={{
+                duration: 0.5
+              }} viewport={{
+                once: true
+              }} className="p-1">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-white rounded-xl shadow-lg overflow-hidden">
                       <div className="relative h-64 md:h-full min-h-[300px] overflow-hidden">
                         <img src={property.image} alt={property.name} className="w-full h-full object-cover transition-transform duration-500 hover:scale-105" />
@@ -168,30 +154,21 @@ const AirbnbBooking = () => {
                         </div>
                         
                         <div className="flex flex-col md:flex-row gap-4">
-                          <Button 
-                            variant="outline-gold"
-                            onClick={() => setSelectedProperty(property)}
-                          >
+                          <Button variant="outline-gold" onClick={() => setSelectedProperty(property)}>
                             View Details
                           </Button>
-                          <Button 
-                            className="text-white"
-                            onClick={() => handleBookNow(property.id)}
-                          >
+                          <Button onClick={() => handleBookNow(property.id)} className="text-white bg-[#4a1403]">
                             Book Now
                           </Button>
                         </div>
                       </div>
                     </div>
                   </motion.div>
-                </CarouselItem>
-              ))}
+                </CarouselItem>)}
             </CarouselContent>
             
             <div className="mt-8 flex justify-center gap-2">
-              {properties.map((_, index) => (
-                <button key={index} onClick={() => setActiveIndex(index)} className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${index === activeIndex ? 'bg-[#F97316] w-6' : 'bg-gray-300'}`} />
-              ))}
+              {properties.map((_, index) => <button key={index} onClick={() => setActiveIndex(index)} className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${index === activeIndex ? 'bg-[#F97316] w-6' : 'bg-gray-300'}`} />)}
             </div>
             
             <CarouselPrevious className="absolute -left-12 top-1/2 -translate-y-1/2 bg-white text-[#F97316] hover:bg-[#F97316] hover:text-white border border-[#F97316]" />
@@ -200,27 +177,14 @@ const AirbnbBooking = () => {
         </div>
 
         <div className="mt-12 text-center">
-          <Button 
-            variant="outline"
-            className="border-[#D4AF37] text-[#D4AF37] bg-white"
-            onClick={() => navigate('/properties')}
-          >
+          <Button variant="outline" className="border-[#D4AF37] text-[#D4AF37] bg-white" onClick={() => navigate('/properties')}>
             View All Properties <ArrowRight size={16} className="ml-1" />
           </Button>
         </div>
       </div>
 
       {/* Property Modal */}
-      {selectedProperty && (
-        <PropertyModal 
-          property={selectedProperty} 
-          isOpen={!!selectedProperty} 
-          onClose={() => setSelectedProperty(null)}
-          onBookNow={handleBookNow}
-        />
-      )}
-    </section>
-  );
+      {selectedProperty && <PropertyModal property={selectedProperty} isOpen={!!selectedProperty} onClose={() => setSelectedProperty(null)} onBookNow={handleBookNow} />}
+    </section>;
 };
-
 export default AirbnbBooking;
