@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -10,7 +11,6 @@ import Contact from "./pages/Contact";
 import Book from "./pages/Book";
 import Services from "./pages/Services";
 import NotFound from "./pages/NotFound";
-import PropertyDetails from "./pages/PropertyDetails";
 import AllProperties from "./pages/AllProperties";
 
 const queryClient = new QueryClient();
@@ -26,7 +26,6 @@ const AnimatedRoutes = () => {
         <Route path="/contact" element={<Contact />} />
         <Route path="/book" element={<Book />} />
         <Route path="/services/:serviceId" element={<Services />} />
-        <Route path="/property/:id" element={<PropertyDetails />} />
         <Route path="/properties" element={<AllProperties />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

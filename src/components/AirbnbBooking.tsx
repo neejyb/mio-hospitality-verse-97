@@ -1,9 +1,11 @@
+
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Check, MapPin, ArrowRight } from 'lucide-react';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { useNavigate } from 'react-router-dom';
+import PropertyModal from './PropertyModal';
 
 interface PropertyFeature {
   id: string;
@@ -17,8 +19,11 @@ interface Property {
   price: number;
   image: string;
   features: PropertyFeature[];
+  images?: string[];
+  description?: string;
 }
 
+// Enhanced property data with multiple images and descriptions
 const properties: Property[] = [{
   id: 1,
   name: 'Luxury Downtown Apartment',
@@ -37,7 +42,13 @@ const properties: Property[] = [{
   }, {
     id: 'f1-4',
     name: 'High-Speed WiFi'
-  }]
+  }],
+  images: [
+    'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=2070',
+    'https://images.unsplash.com/photo-1554995207-c18c203602cb?q=80&w=2070',
+    'https://images.unsplash.com/photo-1630699144867-37acec97df5a?q=80&w=2070'
+  ],
+  description: 'Experience luxury living in the heart of the city with our stylish downtown apartment. Featuring two comfortable bedrooms, a fully equipped kitchen, breathtaking city views, and high-speed WiFi for all your needs. The perfect base for exploring the vibrant city center.'
 }, {
   id: 2,
   name: 'Modern Beachfront Villa',
@@ -56,7 +67,13 @@ const properties: Property[] = [{
   }, {
     id: 'f2-4',
     name: 'Beach Access'
-  }]
+  }],
+  images: [
+    'https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2070',
+    'https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?q=80&w=2070',
+    'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?q=80&w=2070'
+  ],
+  description: 'Wake up to stunning ocean views in our modern beachfront villa. This luxurious property features three spacious bedrooms, a private pool for exclusive use, and direct beach access just steps away. Perfect for a memorable beach vacation with family or friends.'
 }, {
   id: 3,
   name: 'Mountain Retreat Cabin',
@@ -75,12 +92,23 @@ const properties: Property[] = [{
   }, {
     id: 'f3-4',
     name: 'Hot Tub'
-  }]
+  }],
+  images: [
+    'https://images.unsplash.com/photo-1518732714860-b62714ce0c59?q=80&w=2070',
+    'https://images.unsplash.com/photo-1542718610-a1d656d1884c?q=80&w=2070',
+    'https://images.unsplash.com/photo-1520984032042-162d526883e0?q=80&w=2070'
+  ],
+  description: 'Escape to the tranquility of nature in our cozy mountain retreat. Enjoy breathtaking mountain views, warm up by the fireplace after a day on the hiking trails, and relax in your private hot tub under the stars. The perfect getaway for nature lovers seeking peace and serenity.'
 }];
 
 const AirbnbBooking = () => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
   const navigate = useNavigate();
+
+  const handleBookNow = (propertyId: number) => {
+    navigate('/book', { state: { service: 'airbnb', property: propertyId }});
+  };
 
   return (
     <section className="py-16 bg-gray-100">
@@ -101,7 +129,9 @@ const AirbnbBooking = () => {
             }} 
             className="w-full"
             onSelect={(api) => {
-              setActiveIndex(api?.selectedScrollSnap() || 0);
+              if (api) {
+                setActiveIndex(api.selectedScrollSnap());
+              }
             }}
           >
             <CarouselContent>
@@ -144,15 +174,14 @@ const AirbnbBooking = () => {
                         
                         <div className="flex flex-col md:flex-row gap-4">
                           <Button 
-                            variant="outline"
-                            className="border-[#D4AF37] bg-white text-[#D4AF37]"
-                            onClick={() => navigate(`/property/${property.id}`)}
+                            variant="outline-gold"
+                            onClick={() => setSelectedProperty(property)}
                           >
                             View Details
                           </Button>
                           <Button 
                             className="text-white"
-                            onClick={() => navigate('/book', { state: { service: 'airbnb', property: property.id }})}
+                            onClick={() => handleBookNow(property.id)}
                           >
                             Book Now
                           </Button>
@@ -185,6 +214,16 @@ const AirbnbBooking = () => {
           </Button>
         </div>
       </div>
+
+      {/* Property Modal */}
+      {selectedProperty && (
+        <PropertyModal 
+          property={selectedProperty} 
+          isOpen={!!selectedProperty} 
+          onClose={() => setSelectedProperty(null)}
+          onBookNow={handleBookNow}
+        />
+      )}
     </section>
   );
 };
