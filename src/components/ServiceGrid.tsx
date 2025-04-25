@@ -158,7 +158,7 @@ const ServiceGrid = () => {
                   key={index}
                   onClick={() => emblaApi?.scrollTo(index)}
                   className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
-                    index === currentIndex ? 'bg-[#D4AF37] w-6' : 'bg-gray-300'
+                    index === currentIndex ? 'bg-wine-500 w-6' : 'bg-gray-300'
                   }`}
                 />
               ))}

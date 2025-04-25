@@ -12,6 +12,7 @@ import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { format } from 'date-fns';
 import { toast } from 'sonner';
+
 const serviceOptions = [{
   value: 'interior-design',
   label: 'Interior Design'
@@ -37,6 +38,7 @@ const serviceOptions = [{
   value: 'facility-support',
   label: 'Facility Support'
 }];
+
 const Book = () => {
   const [searchParams] = useSearchParams();
   const initialService = searchParams.get('service') || '';
@@ -53,7 +55,6 @@ const Book = () => {
   const [selectedTab, setSelectedTab] = useState('general');
   const [loading, setLoading] = useState(false);
 
-  // Set the selected tab based on URL parameters
   useState(() => {
     if (initialService === 'airbnb') {
       setSelectedTab('airbnb');
@@ -63,6 +64,7 @@ const Book = () => {
       setSelectedTab('jet');
     }
   });
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const {
       name,
@@ -73,23 +75,25 @@ const Book = () => {
       [name]: value
     }));
   };
+
   const handleSelectChange = (name: string, value: string) => {
     setFormData(prev => ({
       ...prev,
       [name]: value
     }));
   };
+
   const handleDateChange = (date: Date | null) => {
     setFormData(prev => ({
       ...prev,
       date
     }));
   };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
-    // Simulate form submission
     setTimeout(() => {
       console.log('Form submitted:', formData);
       toast.success('Your booking request has been received. We will contact you shortly!');
@@ -105,11 +109,11 @@ const Book = () => {
       setLoading(false);
     }, 1500);
   };
+
   return <div className="min-h-screen flex flex-col">
       <Navbar />
       
       <main className="flex-grow">
-        {/* Hero section */}
         <div className="relative h-[40vh] bg-cover bg-center flex items-center" style={{
         backgroundImage: "url('https://images.unsplash.com/photo-1506485338023-6ce5f36692df?q=80&w=2070')"
       }}>
@@ -122,7 +126,6 @@ const Book = () => {
           </div>
         </div>
         
-        {/* Booking section */}
         <section className="py-16 bg-white">
           <div className="container mx-auto px-4">
             <motion.div initial={{
@@ -136,13 +139,12 @@ const Book = () => {
           }} className="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-lg">
               <Tabs defaultValue={selectedTab} value={selectedTab} onValueChange={setSelectedTab} className="w-full">
                 <TabsList className="grid grid-cols-4 mb-8">
-                  <TabsTrigger value="general" className="text-red-950">General Booking</TabsTrigger>
-                  <TabsTrigger value="airbnb" className="text-red-950">Airbnb Booking</TabsTrigger>
-                  <TabsTrigger value="car" className="text-red-950">Car Hire</TabsTrigger>
-                  <TabsTrigger value="jet" className="text-red-950">Jet Charter</TabsTrigger>
+                  <TabsTrigger value="general" className="text-wine-950">General Booking</TabsTrigger>
+                  <TabsTrigger value="airbnb" className="text-wine-950">Airbnb Booking</TabsTrigger>
+                  <TabsTrigger value="car" className="text-wine-950">Car Hire</TabsTrigger>
+                  <TabsTrigger value="jet" className="text-wine-950">Jet Charter</TabsTrigger>
                 </TabsList>
                 
-                {/* General Booking Form */}
                 <TabsContent value="general">
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
@@ -209,13 +211,12 @@ const Book = () => {
                       <Textarea id="message" name="message" value={formData.message} onChange={handleChange} placeholder="Please provide any specific requirements or questions about our services..." rows={4} />
                     </div>
                     
-                    <Button type="submit" disabled={loading} className="w-full text-white transition-colors bg-red-950 hover:bg-red-800">
+                    <Button type="submit" disabled={loading} className="w-full text-white transition-colors bg-wine-500 hover:bg-wine-600">
                       {loading ? 'Submitting...' : 'Submit Booking Request'}
                     </Button>
                   </form>
                 </TabsContent>
                 
-                {/* Airbnb Booking Form */}
                 <TabsContent value="airbnb">
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <input type="hidden" name="service" value="airbnb" />
@@ -334,13 +335,12 @@ const Book = () => {
                       <Textarea id="airbnb-message" name="message" value={formData.message} onChange={handleChange} placeholder="Any special requirements for your stay..." rows={4} />
                     </div>
                     
-                    <Button type="submit" disabled={loading} className="w-full text-white transition-colors bg-red-950 hover:bg-red-800">
+                    <Button type="submit" disabled={loading} className="w-full text-white transition-colors bg-wine-500 hover:bg-wine-600">
                       {loading ? 'Processing...' : 'Reserve Property'}
                     </Button>
                   </form>
                 </TabsContent>
                 
-                {/* Car Hire Form */}
                 <TabsContent value="car">
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <input type="hidden" name="service" value="car-hire" />
@@ -453,13 +453,12 @@ const Book = () => {
                       <Input id="phone" name="phone" value={formData.phone} onChange={handleChange} placeholder="+1 (555) 123-4567" required />
                     </div>
                     
-                    <Button type="submit" disabled={loading} className="w-full transition-colors bg-red-950 hover:bg-red-800 text-amber-50">
+                    <Button type="submit" disabled={loading} className="w-full transition-colors bg-wine-500 hover:bg-wine-600 text-amber-50">
                       {loading ? 'Processing...' : 'Reserve Vehicle'}
                     </Button>
                   </form>
                 </TabsContent>
                 
-                {/* Jet Hire Form */}
                 <TabsContent value="jet">
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <input type="hidden" name="service" value="jet-hire" />
@@ -559,7 +558,7 @@ const Book = () => {
                       <Textarea id="jet-message" name="message" value={formData.message} onChange={handleChange} placeholder="Catering preferences, ground transportation needs, etc." rows={4} />
                     </div>
                     
-                    <Button type="submit" disabled={loading} className="w-full text-white transition-colors bg-red-950 hover:bg-red-800">
+                    <Button type="submit" disabled={loading} className="w-full text-white transition-colors bg-wine-500 hover:bg-wine-600">
                       {loading ? 'Processing...' : 'Request Jet Charter'}
                     </Button>
                   </form>
@@ -573,4 +572,5 @@ const Book = () => {
       <Footer />
     </div>;
 };
+
 export default Book;

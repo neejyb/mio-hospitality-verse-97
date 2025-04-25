@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -69,6 +68,19 @@ export default {
 					orange: '#FF8C42',
 					red: '#FF3C38',
 					darkred: '#A23E48'
+				},
+				wine: {
+					DEFAULT: '#A23E48',
+					50: '#f2d7da',
+					100: '#e6b0b8',
+					200: '#d98997',
+					300: '#cc6375',
+					400: '#bf3c54',
+					500: '#A23E48',
+					600: '#8a3540',
+					700: '#712c38',
+					800: '#592230',
+					900: '#401828'
 				}
 			},
 			borderRadius: {
