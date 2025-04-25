@@ -13,6 +13,7 @@ import Services from "./pages/Services";
 import NotFound from "./pages/NotFound";
 import AllProperties from "./pages/AllProperties";
 
+// Create a client
 const queryClient = new QueryClient();
 
 const AnimatedRoutes = () => {
@@ -33,16 +34,18 @@ const AnimatedRoutes = () => {
   );
 };
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
+const App = () => {
+  return (
     <BrowserRouter>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <AnimatedRoutes />
-      </TooltipProvider>
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <AnimatedRoutes />
+        </TooltipProvider>
+      </QueryClientProvider>
     </BrowserRouter>
-  </QueryClientProvider>
-);
+  );
+};
 
 export default App;
