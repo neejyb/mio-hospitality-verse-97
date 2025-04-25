@@ -1,10 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { Check, MapPin, ArrowRight } from 'lucide-react';
+import { MapPin, Check, ArrowRight } from 'lucide-react';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { useNavigate } from 'react-router-dom';
 import PropertyModal from './PropertyModal';
+import useEmblaCarousel from 'embla-carousel-react';
+import Autoplay from 'embla-carousel-autoplay';
 
 interface PropertyFeature {
   id: string;
@@ -88,9 +90,34 @@ const properties: Property[] = [{
 }];
 
 const AirbnbBooking = () => {
+  const navigate = useNavigate();
   const [activeIndex, setActiveIndex] = useState(0);
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
-  const navigate = useNavigate();
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
+    Autoplay({ delay: 5000, stopOnInteraction: false })
+  ]);
+
+  const handleMouseEnter = useCallback(() => {
+    emblaApi?.plugins().autoplay?.stop();
+  }, [emblaApi]);
+
+  const handleMouseLeave = useCallback(() => {
+    emblaApi?.plugins().autoplay?.play();
+  }, [emblaApi]);
+
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return;
+    setActiveIndex(emblaApi.selectedScrollSnap());
+  }, [emblaApi]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    onSelect();
+    emblaApi.on('select', onSelect);
+    return () => {
+      emblaApi.off('select', onSelect);
+    };
+  }, [emblaApi, onSelect]);
 
   const handleBookNow = (propertyId: number) => {
     navigate('/book', {
@@ -101,7 +128,8 @@ const AirbnbBooking = () => {
     });
   };
 
-  return <section className="py-16 bg-gray-100">
+  return (
+    <section className="py-16 bg-gray-100">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Featured Properties</h2>
@@ -111,24 +139,31 @@ const AirbnbBooking = () => {
           </p>
         </div>
 
-        <div className="relative max-w-6xl mx-auto">
-          <Carousel opts={{
-          align: "start",
-          loop: true
-        }} className="w-full">
+        <div className="relative max-w-6xl mx-auto"
+             onMouseEnter={handleMouseEnter}
+             onMouseLeave={handleMouseLeave}>
+          <Carousel 
+            ref={emblaRef}
+            opts={{
+              align: "start",
+              loop: true
+            }} 
+            className="w-full"
+          >
             <CarouselContent>
-              {properties.map((property, index) => <CarouselItem key={property.id} className="basis-full">
+              {properties.map((property, index) => (
+                <CarouselItem key={property.id} className="basis-full">
                   <motion.div initial={{
-                opacity: 0,
-                y: 20
-              }} whileInView={{
-                opacity: 1,
-                y: 0
-              }} transition={{
-                duration: 0.5
-              }} viewport={{
-                once: true
-              }} className="p-1">
+                    opacity: 0,
+                    y: 20
+                  }} whileInView={{
+                    opacity: 1,
+                    y: 0
+                  }} transition={{
+                    duration: 0.5
+                  }} viewport={{
+                    once: true
+                  }} className="p-1">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-white rounded-xl shadow-lg overflow-hidden">
                       <div className="relative h-64 md:h-full min-h-[300px] overflow-hidden">
                         <img src={property.image} alt={property.name} className="w-full h-full object-cover transition-transform duration-500 hover:scale-105" />
@@ -168,11 +203,20 @@ const AirbnbBooking = () => {
                       </div>
                     </div>
                   </motion.div>
-                </CarouselItem>)}
+                </CarouselItem>
+              ))}
             </CarouselContent>
             
             <div className="mt-8 flex justify-center gap-2">
-              {properties.map((_, index) => <button key={index} onClick={() => setActiveIndex(index)} className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${index === activeIndex ? 'bg-[#F97316] w-6' : 'bg-gray-300'}`} />)}
+              {properties.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => emblaApi?.scrollTo(index)}
+                  className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
+                    index === activeIndex ? 'bg-[#F97316] w-6' : 'bg-gray-300'
+                  }`}
+                />
+              ))}
             </div>
             
             <CarouselPrevious className="absolute -left-12 top-1/2 -translate-y-1/2 bg-white text-[#F97316] hover:bg-[#F97316] hover:text-white border border-[#F97316]" />
@@ -192,7 +236,8 @@ const AirbnbBooking = () => {
       </div>
 
       {selectedProperty && <PropertyModal property={selectedProperty} isOpen={!!selectedProperty} onClose={() => setSelectedProperty(null)} onBookNow={handleBookNow} />}
-    </section>;
+    </section>
+  );
 };
 
 export default AirbnbBooking;

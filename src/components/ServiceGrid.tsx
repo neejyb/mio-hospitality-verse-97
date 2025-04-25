@@ -1,10 +1,11 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowRight } from 'lucide-react';
+import useEmblaCarousel from 'embla-carousel-react';
+import Autoplay from 'embla-carousel-autoplay';
 
 interface Service {
   id: string;
@@ -66,12 +67,31 @@ const services: Service[] = [{
 
 const ServiceGrid = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
+    Autoplay({ delay: 5000, stopOnInteraction: false })
+  ]);
 
-  const handleSelect = React.useCallback((api: any) => {
-    const selectedIndex = api.selectedScrollSnap();
-    setActiveIndex(selectedIndex);
-  }, []);
+  const handleMouseEnter = useCallback(() => {
+    emblaApi?.plugins().autoplay?.stop();
+  }, [emblaApi]);
+
+  const handleMouseLeave = useCallback(() => {
+    emblaApi?.plugins().autoplay?.play();
+  }, [emblaApi]);
+
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return;
+    setCurrentIndex(emblaApi.selectedScrollSnap());
+  }, [emblaApi]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    onSelect();
+    emblaApi.on('select', onSelect);
+    return () => {
+      emblaApi.off('select', onSelect);
+    };
+  }, [emblaApi, onSelect]);
 
   return (
     <section className="py-16 bg-gradient-to-b from-gray-50 to-white">
@@ -82,17 +102,20 @@ const ServiceGrid = () => {
           tailored to meet your needs.
         </p>
         
-        <div className="relative mx-auto max-w-5xl">
+        <div className="relative mx-auto max-w-5xl" 
+             onMouseEnter={handleMouseEnter}
+             onMouseLeave={handleMouseLeave}>
           <Carousel 
+            ref={emblaRef}
             opts={{
               align: "start",
               loop: true
             }} 
             className="w-full"
-            onSelect={handleSelect}
           >
             <CarouselContent>
-              {services.map((service, index) => <CarouselItem key={service.id} className="sm:basis-1/2 md:basis-1/3 lg:basis-1/4">
+              {services.map((service, index) => (
+                <CarouselItem key={service.id} className="sm:basis-1/2 md:basis-1/3 lg:basis-1/4">
                   <motion.div initial={{
                     opacity: 0,
                     y: 20
@@ -126,10 +149,19 @@ const ServiceGrid = () => {
                       </Card>
                     </Link>
                   </motion.div>
-                </CarouselItem>)}
+                </CarouselItem>
+              ))}
             </CarouselContent>
             <div className="mt-8 flex justify-center gap-2">
-              {services.map((_, index) => <button key={index} onClick={() => setCurrentIndex(index)} className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${index === currentIndex ? 'bg-[#D4AF37] w-6' : 'bg-gray-300'}`} />)}
+              {services.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => emblaApi?.scrollTo(index)}
+                  className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
+                    index === currentIndex ? 'bg-[#D4AF37] w-6' : 'bg-gray-300'
+                  }`}
+                />
+              ))}
             </div>
             <CarouselPrevious className="absolute -left-12 top-1/2 -translate-y-1/2 bg-[#D4AF37] text-white hover:bg-[#B4941F] border-none" />
             <CarouselNext className="absolute -right-12 top-1/2 -translate-y-1/2 bg-[#D4AF37] text-white hover:bg-[#B4941F] border-none" />
