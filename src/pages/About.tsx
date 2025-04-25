@@ -1,4 +1,3 @@
-
 import { motion } from 'framer-motion';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -109,83 +108,6 @@ const About = () => {
                 <h3 className="text-xl font-bold mb-3 text-gray-900">Innovation</h3>
                 <p className="text-gray-600">
                   We constantly seek new and better ways to serve our clients, embracing technology and creative solutions.
-                </p>
-              </motion.div>
-            </div>
-          </div>
-        </section>
-        
-        {/* Team */}
-        <section className="py-16 bg-white">
-          <div className="container mx-auto px-4">
-            <div className="max-w-3xl mx-auto text-center mb-12">
-              <h2 className="text-3xl font-bold mb-6 text-gray-900">Our Leadership Team</h2>
-              <p className="text-gray-600">
-                Meet the passionate individuals who lead Mio's Hospitality & Co and drive our commitment to excellence.
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0 }}
-                viewport={{ once: true }}
-                className="text-center"
-              >
-                <div className="mb-4 rounded-full overflow-hidden w-48 h-48 mx-auto">
-                  <img 
-                    src="https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=1361" 
-                    alt="Sophia Chen" 
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <h3 className="text-xl font-bold mb-1 text-gray-900">Sophia Chen</h3>
-                <p className="text-mio-orange mb-3">Founder & CEO</p>
-                <p className="text-gray-600 max-w-xs mx-auto">
-                  With over 15 years in luxury hospitality, Sophia leads our company vision and strategic direction.
-                </p>
-              </motion.div>
-              
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.1 }}
-                viewport={{ once: true }}
-                className="text-center"
-              >
-                <div className="mb-4 rounded-full overflow-hidden w-48 h-48 mx-auto">
-                  <img 
-                    src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1374" 
-                    alt="Marcus Johnson" 
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <h3 className="text-xl font-bold mb-1 text-gray-900">Marcus Johnson</h3>
-                <p className="text-mio-orange mb-3">Director of Operations</p>
-                <p className="text-gray-600 max-w-xs mx-auto">
-                  Marcus ensures our services are delivered with precision and excellence across all divisions.
-                </p>
-              </motion.div>
-              
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                viewport={{ once: true }}
-                className="text-center"
-              >
-                <div className="mb-4 rounded-full overflow-hidden w-48 h-48 mx-auto">
-                  <img 
-                    src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1376" 
-                    alt="Elena Rodriguez" 
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <h3 className="text-xl font-bold mb-1 text-gray-900">Elena Rodriguez</h3>
-                <p className="text-mio-orange mb-3">Head of Design</p>
-                <p className="text-gray-600 max-w-xs mx-auto">
-                  Elena's creative vision drives our award-winning interior design and property styling services.
                 </p>
               </motion.div>
             </div>
