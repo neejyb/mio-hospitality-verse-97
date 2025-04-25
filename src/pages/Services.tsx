@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
+
 interface ServiceInfo {
   title: string;
   subtitle: string;
@@ -20,7 +21,6 @@ interface ServiceInfo {
   };
 }
 
-// Define service content
 const serviceData: Record<string, ServiceInfo> = {
   'interior-design': {
     title: 'Interior Design',
@@ -69,7 +69,7 @@ const serviceData: Record<string, ServiceInfo> = {
     }],
     cta: {
       text: 'Explore Available Properties',
-      link: '/services/airbnb'
+      link: '/properties'
     }
   },
   'videography': {
@@ -223,6 +223,7 @@ const serviceData: Record<string, ServiceInfo> = {
     }
   }
 };
+
 const ServiceDetail = () => {
   const {
     serviceId
@@ -404,4 +405,5 @@ const ServiceDetail = () => {
       <Footer />
     </div>;
 };
+
 export default ServiceDetail;
