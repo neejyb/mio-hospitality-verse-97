@@ -5,10 +5,12 @@ import { Check, MapPin, ArrowRight } from 'lucide-react';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { useNavigate } from 'react-router-dom';
 import PropertyModal from './PropertyModal';
+
 interface PropertyFeature {
   id: string;
   name: string;
 }
+
 interface Property {
   id: number;
   name: string;
@@ -20,7 +22,6 @@ interface Property {
   description?: string;
 }
 
-// Enhanced property data with multiple images and descriptions
 const properties: Property[] = [{
   id: 1,
   name: 'Luxury Downtown Apartment',
@@ -85,10 +86,12 @@ const properties: Property[] = [{
   images: ['https://images.unsplash.com/photo-1518732714860-b62714ce0c59?q=80&w=2070', 'https://images.unsplash.com/photo-1542718610-a1d656d1884c?q=80&w=2070', 'https://images.unsplash.com/photo-1520984032042-162d526883e0?q=80&w=2070'],
   description: 'Escape to the tranquility of nature in our cozy mountain retreat. Enjoy breathtaking mountain views, warm up by the fireplace after a day on the hiking trails, and relax in your private hot tub under the stars. The perfect getaway for nature lovers seeking peace and serenity.'
 }];
+
 const AirbnbBooking = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
   const navigate = useNavigate();
+
   const handleBookNow = (propertyId: number) => {
     navigate('/book', {
       state: {
@@ -97,6 +100,7 @@ const AirbnbBooking = () => {
       }
     });
   };
+
   return <section className="py-16 bg-gray-100">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
@@ -177,14 +181,18 @@ const AirbnbBooking = () => {
         </div>
 
         <div className="mt-12 text-center">
-          <Button variant="outline" className="border-[#D4AF37] text-[#D4AF37] bg-white" onClick={() => navigate('/properties')}>
+          <Button 
+            variant="outline" 
+            className="border-[#D4AF37] text-[#D4AF37] bg-white" 
+            onClick={() => navigate('/properties')}
+          >
             View All Properties <ArrowRight size={16} className="ml-1" />
           </Button>
         </div>
       </div>
 
-      {/* Property Modal */}
       {selectedProperty && <PropertyModal property={selectedProperty} isOpen={!!selectedProperty} onClose={() => setSelectedProperty(null)} onBookNow={handleBookNow} />}
     </section>;
 };
+
 export default AirbnbBooking;
