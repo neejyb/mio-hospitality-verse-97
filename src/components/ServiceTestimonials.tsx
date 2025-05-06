@@ -143,16 +143,22 @@ const ServiceTestimonials = ({ testimonials, title = "What Our Clients Say", dar
           </div>
           
           <div className="flex items-center justify-center mt-8 gap-2">
-            {/* Wrapped in Carousel component to provide proper context */}
+            {/* Create a proper Carousel context for the navigation buttons */}
             <Carousel>
-              <CarouselPrevious 
-                onClick={() => emblaApi?.scrollPrev()} 
-                className={`static translate-y-0 ${darkMode ? 'bg-[#D4AF37] text-white hover:bg-[#B4941F]' : 'border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37]/10'}`} 
-              />
-              <CarouselNext 
-                onClick={() => emblaApi?.scrollNext()} 
-                className={`static translate-y-0 ${darkMode ? 'bg-[#D4AF37] text-white hover:bg-[#B4941F]' : 'border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37]/10'}`} 
-              />
+              <CarouselContent>
+                <CarouselItem className="p-0 basis-auto">
+                  <div className="flex gap-2">
+                    <CarouselPrevious 
+                      onClick={() => emblaApi?.scrollPrev()} 
+                      className={`static translate-y-0 ${darkMode ? 'bg-[#D4AF37] text-white hover:bg-[#B4941F]' : 'border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37]/10'}`} 
+                    />
+                    <CarouselNext 
+                      onClick={() => emblaApi?.scrollNext()} 
+                      className={`static translate-y-0 ${darkMode ? 'bg-[#D4AF37] text-white hover:bg-[#B4941F]' : 'border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37]/10'}`} 
+                    />
+                  </div>
+                </CarouselItem>
+              </CarouselContent>
             </Carousel>
           </div>
         </div>
