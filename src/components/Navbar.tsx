@@ -1,10 +1,13 @@
+
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 50) {
@@ -13,15 +16,19 @@ const Navbar = () => {
         setIsScrolled(false);
       }
     };
+
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
   return <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white shadow-md py-2' : 'bg-transparent py-4'}`}>
       <div className="container mx-auto px-4 flex justify-between items-center">
         <Link to="/" className="flex items-center">
-          <h1 className={`text-2xl font-bold ${isScrolled ? 'text-gray-800' : 'text-white'}`}>
-            Mio's Hospitality & Co
-          </h1>
+          <img 
+            src="/lovable-uploads/0aa12f3b-88a6-4e42-bfba-b84c1817f3bb.png" 
+            alt="Mio's Hospitality & Co" 
+            className={`h-12 transition-opacity duration-300 ${isScrolled ? 'opacity-100' : 'opacity-90'}`}
+          />
         </Link>
 
         <div className="md:hidden">
@@ -129,4 +136,5 @@ const Navbar = () => {
         </div>}
     </nav>;
 };
+
 export default Navbar;
