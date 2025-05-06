@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
@@ -67,27 +68,48 @@ const services: Service[] = [{
 
 const ServiceGrid = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
+  const autoplay = React.useRef(
     Autoplay({ delay: 5000, stopOnInteraction: false })
-  ]);
+  );
+  
+  const [emblaRef, emblaApi] = useEmblaCarousel({ 
+    loop: true, 
+    align: "start",
+    skipSnaps: false,
+    dragFree: false
+  }, [autoplay.current]);
 
   const handleMouseEnter = useCallback(() => {
-    emblaApi?.plugins().autoplay?.stop();
-  }, [emblaApi]);
+    autoplay.current.stop();
+  }, []);
 
   const handleMouseLeave = useCallback(() => {
-    emblaApi?.plugins().autoplay?.play();
-  }, [emblaApi]);
+    autoplay.current.play();
+  }, []);
 
+  // Sync the carousel index with the UI
   const onSelect = useCallback(() => {
     if (!emblaApi) return;
     setCurrentIndex(emblaApi.selectedScrollSnap());
   }, [emblaApi]);
 
+  // Navigate to a specific slide when a dot is clicked
+  const scrollTo = useCallback((index: number) => {
+    if (emblaApi) {
+      emblaApi.scrollTo(index);
+    }
+  }, [emblaApi]);
+
   useEffect(() => {
     if (!emblaApi) return;
+    
+    // Set up the initial state
     onSelect();
+    
+    // Subscribe to the select event
     emblaApi.on('select', onSelect);
+    
+    // Clean up when component unmounts
     return () => {
       emblaApi.off('select', onSelect);
     };
@@ -102,32 +124,25 @@ const ServiceGrid = () => {
           tailored to meet your needs.
         </p>
         
-        <div className="relative mx-auto max-w-5xl" 
-             onMouseEnter={handleMouseEnter}
-             onMouseLeave={handleMouseLeave}>
-          <Carousel 
-            ref={emblaRef}
-            opts={{
-              align: "start",
-              loop: true
-            }} 
-            className="w-full"
-          >
-            <CarouselContent>
+        <div 
+          className="relative mx-auto max-w-5xl" 
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          <div className="overflow-hidden" ref={emblaRef}>
+            <div className="flex">
               {services.map((service, index) => (
-                <CarouselItem key={service.id} className="sm:basis-1/2 md:basis-1/3 lg:basis-1/4">
-                  <motion.div initial={{
-                    opacity: 0,
-                    y: 20
-                  }} whileInView={{
-                    opacity: 1,
-                    y: 0
-                  }} transition={{
-                    duration: 0.5,
-                    delay: index * 0.1
-                  }} viewport={{
-                    once: true
-                  }} className="p-1 h-full">
+                <div 
+                  key={service.id} 
+                  className="flex-[0_0_100%] sm:flex-[0_0_50%] md:flex-[0_0_33.33%] lg:flex-[0_0_25%] p-1"
+                >
+                  <motion.div 
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    viewport={{ once: true }}
+                    className="h-full"
+                  >
                     <Link to={service.link} className="block h-full">
                       <Card className="service-card h-full backdrop-blur-sm bg-white/80 border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden group">
                         <CardHeader className="p-4">
@@ -149,23 +164,33 @@ const ServiceGrid = () => {
                       </Card>
                     </Link>
                   </motion.div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <div className="mt-8 flex justify-center gap-2">
-              {services.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => emblaApi?.scrollTo(index)}
-                  className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
-                    index === currentIndex ? 'bg-wine-500 w-6' : 'bg-gray-300'
-                  }`}
-                />
+                </div>
               ))}
             </div>
-            <CarouselPrevious className="absolute -left-12 top-1/2 -translate-y-1/2 bg-[#D4AF37] text-white hover:bg-[#B4941F] border-none" />
-            <CarouselNext className="absolute -right-12 top-1/2 -translate-y-1/2 bg-[#D4AF37] text-white hover:bg-[#B4941F] border-none" />
-          </Carousel>
+          </div>
+          
+          {/* Pagination dots */}
+          <div className="mt-8 flex justify-center gap-2">
+            {services.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => scrollTo(index)}
+                className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
+                  index === currentIndex ? 'bg-wine-500 w-6' : 'bg-gray-300 hover:bg-gray-400'
+                }`}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
+          </div>
+          
+          <CarouselPrevious 
+            onClick={() => emblaApi?.scrollPrev()} 
+            className="absolute -left-12 top-1/2 -translate-y-1/2 bg-[#D4AF37] text-white hover:bg-[#B4941F] border-none" 
+          />
+          <CarouselNext 
+            onClick={() => emblaApi?.scrollNext()} 
+            className="absolute -right-12 top-1/2 -translate-y-1/2 bg-[#D4AF37] text-white hover:bg-[#B4941F] border-none" 
+          />
         </div>
       </div>
     </section>
