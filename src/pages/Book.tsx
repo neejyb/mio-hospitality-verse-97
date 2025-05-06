@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useSearchParams } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
@@ -12,6 +12,7 @@ import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { format } from 'date-fns';
 import { toast } from 'sonner';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const serviceOptions = [{
   value: 'interior-design',
@@ -54,8 +55,9 @@ const Book = () => {
   });
   const [selectedTab, setSelectedTab] = useState('general');
   const [loading, setLoading] = useState(false);
+  const isMobile = useIsMobile();
 
-  useState(() => {
+  useEffect(() => {
     if (initialService === 'airbnb') {
       setSelectedTab('airbnb');
     } else if (initialService === 'car-hire') {
@@ -63,7 +65,7 @@ const Book = () => {
     } else if (initialService === 'jet-hire') {
       setSelectedTab('jet');
     }
-  });
+  }, [initialService]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const {
@@ -126,7 +128,7 @@ const Book = () => {
           </div>
         </div>
         
-        <section className="py-16 bg-white">
+        <section className="py-8 md:py-16 bg-white">
           <div className="container mx-auto px-4">
             <motion.div initial={{
             opacity: 0,
@@ -136,16 +138,36 @@ const Book = () => {
             y: 0
           }} transition={{
             duration: 0.5
-          }} className="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-lg">
+          }} className="max-w-4xl mx-auto bg-white p-4 md:p-8 rounded-lg shadow-lg">
               <Tabs defaultValue={selectedTab} value={selectedTab} onValueChange={setSelectedTab} className="w-full">
-                <TabsList className="grid grid-cols-4 mb-8">
-                  <TabsTrigger value="general" className="text-wine-950">General Booking</TabsTrigger>
-                  <TabsTrigger value="airbnb" className="text-wine-950">Airbnb Booking</TabsTrigger>
-                  <TabsTrigger value="car" className="text-wine-950">Car Hire</TabsTrigger>
-                  <TabsTrigger value="jet" className="text-wine-950">Jet Charter</TabsTrigger>
+                <TabsList className={`mb-6 ${isMobile ? 'flex flex-col space-y-2' : 'grid grid-cols-4'} w-full`}>
+                  <TabsTrigger 
+                    value="general" 
+                    className="text-wine-950 py-3 px-4 text-base"
+                  >
+                    General Booking
+                  </TabsTrigger>
+                  <TabsTrigger 
+                    value="airbnb" 
+                    className="text-wine-950 py-3 px-4 text-base"
+                  >
+                    Airbnb Booking
+                  </TabsTrigger>
+                  <TabsTrigger 
+                    value="car" 
+                    className="text-wine-950 py-3 px-4 text-base"
+                  >
+                    Car Hire
+                  </TabsTrigger>
+                  <TabsTrigger 
+                    value="jet" 
+                    className="text-wine-950 py-3 px-4 text-base"
+                  >
+                    Jet Charter
+                  </TabsTrigger>
                 </TabsList>
                 
-                <TabsContent value="general">
+                <TabsContent value="general" className="px-1 md:px-4">
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
                       <label htmlFor="service" className="block text-sm font-medium text-gray-700 mb-1">
@@ -217,7 +239,7 @@ const Book = () => {
                   </form>
                 </TabsContent>
                 
-                <TabsContent value="airbnb">
+                <TabsContent value="airbnb" className="px-1 md:px-4">
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <input type="hidden" name="service" value="airbnb" />
                     
@@ -341,7 +363,7 @@ const Book = () => {
                   </form>
                 </TabsContent>
                 
-                <TabsContent value="car">
+                <TabsContent value="car" className="px-1 md:px-4">
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <input type="hidden" name="service" value="car-hire" />
                     
@@ -459,7 +481,7 @@ const Book = () => {
                   </form>
                 </TabsContent>
                 
-                <TabsContent value="jet">
+                <TabsContent value="jet" className="px-1 md:px-4">
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <input type="hidden" name="service" value="jet-hire" />
                     
