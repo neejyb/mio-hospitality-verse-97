@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useSearchParams } from 'react-router-dom';
@@ -121,8 +122,8 @@ const Book = () => {
       }}>
           <div className="absolute inset-0 bg-black/50"></div>
           <div className="container mx-auto px-4 relative z-10 text-white">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">Book a Service</h1>
-            <p className="text-xl max-w-2xl">
+            <h1 className="text-3xl md:text-5xl font-bold mb-4">Book a Service</h1>
+            <p className="text-lg md:text-xl max-w-2xl">
               Fill out the form below to request our services and we'll get back to you promptly.
             </p>
           </div>
@@ -140,32 +141,34 @@ const Book = () => {
             duration: 0.5
           }} className="max-w-4xl mx-auto bg-white p-4 md:p-8 rounded-lg shadow-lg">
               <Tabs defaultValue={selectedTab} value={selectedTab} onValueChange={setSelectedTab} className="w-full">
-                <TabsList className={`mb-6 ${isMobile ? 'flex flex-col space-y-2' : 'grid grid-cols-4'} w-full`}>
-                  <TabsTrigger 
-                    value="general" 
-                    className="text-wine-950 py-3 px-4 text-base"
-                  >
-                    General Booking
-                  </TabsTrigger>
-                  <TabsTrigger 
-                    value="airbnb" 
-                    className="text-wine-950 py-3 px-4 text-base"
-                  >
-                    Airbnb Booking
-                  </TabsTrigger>
-                  <TabsTrigger 
-                    value="car" 
-                    className="text-wine-950 py-3 px-4 text-base"
-                  >
-                    Car Hire
-                  </TabsTrigger>
-                  <TabsTrigger 
-                    value="jet" 
-                    className="text-wine-950 py-3 px-4 text-base"
-                  >
-                    Jet Charter
-                  </TabsTrigger>
-                </TabsList>
+                <div className="mb-6 overflow-x-auto pb-2">
+                  <TabsList className={`${isMobile ? 'flex w-full' : 'grid grid-cols-4 w-full'}`}>
+                    <TabsTrigger 
+                      value="general" 
+                      className="text-wine-950 py-3 px-4 text-base"
+                    >
+                      General Booking
+                    </TabsTrigger>
+                    <TabsTrigger 
+                      value="airbnb" 
+                      className="text-wine-950 py-3 px-4 text-base"
+                    >
+                      Airbnb Booking
+                    </TabsTrigger>
+                    <TabsTrigger 
+                      value="car" 
+                      className="text-wine-950 py-3 px-4 text-base"
+                    >
+                      Car Hire
+                    </TabsTrigger>
+                    <TabsTrigger 
+                      value="jet" 
+                      className="text-wine-950 py-3 px-4 text-base"
+                    >
+                      Jet Charter
+                    </TabsTrigger>
+                  </TabsList>
+                </div>
                 
                 <TabsContent value="general" className="px-1 md:px-4">
                   <form onSubmit={handleSubmit} className="space-y-6">
