@@ -3,7 +3,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { MapPin, Check, ArrowRight } from 'lucide-react';
-import { CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { useNavigate } from 'react-router-dom';
 import PropertyModal from './PropertyModal';
 import useEmblaCarousel from 'embla-carousel-react';
@@ -247,14 +247,23 @@ const AirbnbBooking = () => {
             ))}
           </div>
           
-          <CarouselPrevious 
-            onClick={() => emblaApi?.scrollPrev()} 
-            className="absolute -left-12 top-1/2 -translate-y-1/2 bg-white text-[#F97316] hover:bg-[#F97316] hover:text-white border border-[#F97316]" 
-          />
-          <CarouselNext 
-            onClick={() => emblaApi?.scrollNext()} 
-            className="absolute -right-12 top-1/2 -translate-y-1/2 bg-white text-[#F97316] hover:bg-[#F97316] hover:text-white border border-[#F97316]" 
-          />
+          {/* Properly wrap carousel navigation buttons in Carousel context */}
+          <Carousel>
+            <CarouselContent>
+              <CarouselItem className="p-0 basis-auto">
+                <div className="relative w-full">
+                  <CarouselPrevious 
+                    onClick={() => emblaApi?.scrollPrev()} 
+                    className="absolute -left-12 top-1/2 -translate-y-1/2 bg-white text-[#F97316] hover:bg-[#F97316] hover:text-white border border-[#F97316]" 
+                  />
+                  <CarouselNext 
+                    onClick={() => emblaApi?.scrollNext()} 
+                    className="absolute -right-12 top-1/2 -translate-y-1/2 bg-white text-[#F97316] hover:bg-[#F97316] hover:text-white border border-[#F97316]" 
+                  />
+                </div>
+              </CarouselItem>
+            </CarouselContent>
+          </Carousel>
         </div>
 
         <div className="mt-12 text-center">
