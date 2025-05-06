@@ -183,14 +183,19 @@ const ServiceGrid = () => {
             ))}
           </div>
           
-          <CarouselPrevious 
-            onClick={() => emblaApi?.scrollPrev()} 
-            className="absolute -left-12 top-1/2 -translate-y-1/2 bg-[#D4AF37] text-white hover:bg-[#B4941F] border-none" 
-          />
-          <CarouselNext 
-            onClick={() => emblaApi?.scrollNext()} 
-            className="absolute -right-12 top-1/2 -translate-y-1/2 bg-[#D4AF37] text-white hover:bg-[#B4941F] border-none" 
-          />
+          {/* Wrap navigation buttons in Carousel to provide context */}
+          <Carousel>
+            <div className="flex items-center justify-center gap-2 absolute w-full">
+              <CarouselPrevious 
+                onClick={() => emblaApi?.scrollPrev()} 
+                className="absolute -left-12 top-1/2 -translate-y-1/2 bg-[#D4AF37] text-white hover:bg-[#B4941F] border-none" 
+              />
+              <CarouselNext 
+                onClick={() => emblaApi?.scrollNext()} 
+                className="absolute -right-12 top-1/2 -translate-y-1/2 bg-[#D4AF37] text-white hover:bg-[#B4941F] border-none" 
+              />
+            </div>
+          </Carousel>
         </div>
       </div>
     </section>

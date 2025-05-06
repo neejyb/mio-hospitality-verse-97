@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
 
@@ -143,14 +143,17 @@ const ServiceTestimonials = ({ testimonials, title = "What Our Clients Say", dar
           </div>
           
           <div className="flex items-center justify-center mt-8 gap-2">
-            <CarouselPrevious 
-              onClick={() => emblaApi?.scrollPrev()} 
-              className={`static translate-y-0 ${darkMode ? 'bg-[#D4AF37] text-white hover:bg-[#B4941F]' : 'border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37]/10'}`} 
-            />
-            <CarouselNext 
-              onClick={() => emblaApi?.scrollNext()} 
-              className={`static translate-y-0 ${darkMode ? 'bg-[#D4AF37] text-white hover:bg-[#B4941F]' : 'border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37]/10'}`} 
-            />
+            {/* Wrapped in Carousel component to provide proper context */}
+            <Carousel>
+              <CarouselPrevious 
+                onClick={() => emblaApi?.scrollPrev()} 
+                className={`static translate-y-0 ${darkMode ? 'bg-[#D4AF37] text-white hover:bg-[#B4941F]' : 'border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37]/10'}`} 
+              />
+              <CarouselNext 
+                onClick={() => emblaApi?.scrollNext()} 
+                className={`static translate-y-0 ${darkMode ? 'bg-[#D4AF37] text-white hover:bg-[#B4941F]' : 'border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37]/10'}`} 
+              />
+            </Carousel>
           </div>
         </div>
       </div>
