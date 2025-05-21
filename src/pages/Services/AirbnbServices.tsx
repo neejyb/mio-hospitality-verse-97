@@ -7,6 +7,9 @@ import ServiceFeatures from '@/components/ServiceFeatures';
 import ServiceGallery from '@/components/ServiceGallery';
 import ServiceTestimonials from '@/components/ServiceTestimonials';
 import ServiceCta from '@/components/ServiceCta';
+import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
 const AirbnbServices = () => {
   // Features data
@@ -151,6 +154,15 @@ const AirbnbServices = () => {
     },
   ];
 
+  const scrollToBookingForm = () => {
+    const bookingElement = document.getElementById('booking-section');
+    if (bookingElement) {
+      bookingElement.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      window.location.href = '/book?service=airbnb';
+    }
+  };
+
   return (
     <ServiceLayout>
       <ServiceHero
@@ -165,15 +177,58 @@ const AirbnbServices = () => {
             <p className="text-gray-600 mb-4">
               Mio's Hospitality & Co offers end-to-end Airbnb and vacation rental management services designed to maximize your property's income potential while eliminating the hassles of day-to-day management. We handle everything from listing creation and optimization to guest communication, cleaning coordination, and maintenance.
             </p>
-            <p className="text-gray-600">
+            <p className="text-gray-600 mb-6">
               Our team of hospitality experts combines industry knowledge with innovative strategies to ensure your property stands out in a competitive market. Whether you own a single apartment or multiple properties, we provide tailored solutions that drive bookings, maintain five-star reviews, and create memorable guest experiences.
             </p>
+            <div className="flex flex-wrap gap-4 mt-6">
+              <Button asChild>
+                <Link to="/properties">View All Our Properties</Link>
+              </Button>
+              <Button 
+                variant="outline-gold" 
+                onClick={scrollToBookingForm}
+              >
+                Book This Service
+              </Button>
+            </div>
           </>
         }
         image="https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2070"
         imageAlt="Luxury vacation rental property"
         reversed={true}
       />
+
+      {/* Hosting Services Section */}
+      <section className="py-12 bg-gray-50">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          viewport={{ once: true }}
+          className="container mx-auto px-4"
+        >
+          <h2 className="text-3xl font-bold mb-6 text-center md:text-left">Hosting Services</h2>
+          <p className="text-gray-600 max-w-3xl mx-auto md:mx-0">
+            We help property owners get started with Airbnb the right way. From professional listing creation and strategic pricing to optimized guest communication, our hosting service ensures your property stands out and stays fully booked. We guide you through the setup process, ensuring a smooth and profitable hosting experience.
+          </p>
+        </motion.div>
+      </section>
+
+      {/* Airbnb Management Section */}
+      <section className="py-12 bg-white">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          viewport={{ once: true }}
+          className="container mx-auto px-4"
+        >
+          <h2 className="text-3xl font-bold mb-6 text-center md:text-left">Airbnb Management</h2>
+          <p className="text-gray-600 max-w-3xl mx-auto md:mx-0">
+            Our Airbnb management service handles everything for you — from guest check-in and support to cleaning coordination, property maintenance, and ensuring five-star reviews. Whether you're a frequent traveler or a hands-off investor, we offer end-to-end management that keeps your rental running efficiently and profitably.
+          </p>
+        </motion.div>
+      </section>
       
       <ServiceFeatures
         title="Comprehensive Management Services"
