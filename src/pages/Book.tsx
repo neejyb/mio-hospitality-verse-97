@@ -1,7 +1,6 @@
-
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useLocation } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
@@ -14,6 +13,8 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { format } from 'date-fns';
 import { toast } from 'sonner';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { Card, CardContent } from '@/components/ui/card';
+import { Check } from 'lucide-react';
 
 const serviceOptions = [{
   value: 'interior-design',
@@ -41,32 +42,171 @@ const serviceOptions = [{
   label: 'Facility Support'
 }];
 
+// Import the properties array from the same file where it's defined in AllProperties.tsx
+// This is a simplified version for this example - in a real application, 
+// you'd likely fetch this from an API or context
+const properties = [{
+  id: 1,
+  name: 'Luxury Downtown Apartment',
+  location: 'City Center',
+  price: 250,
+  image: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=2070',
+  features: [{
+    id: 'f1-1',
+    name: '2 Bedrooms'
+  }, {
+    id: 'f1-2',
+    name: 'Fully Equipped Kitchen'
+  }, {
+    id: 'f1-3',
+    name: 'City View'
+  }, {
+    id: 'f1-4',
+    name: 'High-Speed WiFi'
+  }],
+  images: ['https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=2070', 'https://images.unsplash.com/photo-1554995207-c18c203602cb?q=80&w=2070', 'https://images.unsplash.com/photo-1630699144867-37acec97df5a?q=80&w=2070'],
+  description: 'Experience luxury living in the heart of the city with our stylish downtown apartment.'
+}, {
+  id: 2,
+  name: 'Modern Beachfront Villa',
+  location: 'Coastal Paradise',
+  price: 350,
+  image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2070',
+  features: [{
+    id: 'f2-1',
+    name: 'Private Pool'
+  }, {
+    id: 'f2-2',
+    name: 'Ocean View'
+  }, {
+    id: 'f2-3',
+    name: '3 Bedrooms'
+  }, {
+    id: 'f2-4',
+    name: 'Beach Access'
+  }],
+  images: ['https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2070', 'https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?q=80&w=2070', 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?q=80&w=2070'],
+  description: 'Wake up to stunning ocean views in our modern beachfront villa.'
+}, {
+  id: 3,
+  name: 'Mountain Retreat Cabin',
+  location: 'Mountain Range',
+  price: 195,
+  image: 'https://images.unsplash.com/photo-1518732714860-b62714ce0c59?q=80&w=2070',
+  features: [{
+    id: 'f3-1',
+    name: 'Fireplace'
+  }, {
+    id: 'f3-2',
+    name: 'Mountain Views'
+  }, {
+    id: 'f3-3',
+    name: 'Hiking Trails'
+  }, {
+    id: 'f3-4',
+    name: 'Hot Tub'
+  }],
+  images: ['https://images.unsplash.com/photo-1518732714860-b62714ce0c59?q=80&w=2070', 'https://images.unsplash.com/photo-1542718610-a1d656d1884c?q=80&w=2070', 'https://images.unsplash.com/photo-1520984032042-162d526883e0?q=80&w=2070'],
+  description: 'Escape to the tranquility of nature in our cozy mountain retreat.'
+}, {
+  id: 4,
+  name: 'Urban Loft Apartment',
+  location: 'Arts District',
+  price: 220,
+  image: 'https://images.unsplash.com/photo-1536376072261-38c75010e6c9?q=80&w=2070',
+  features: [{
+    id: 'f4-1',
+    name: 'Open Floor Plan'
+  }, {
+    id: 'f4-2',
+    name: 'Industrial Design'
+  }, {
+    id: 'f4-3',
+    name: 'Smart Home System'
+  }, {
+    id: 'f4-4',
+    name: 'Rooftop Access'
+  }],
+  images: ['https://images.unsplash.com/photo-1536376072261-38c75010e6c9?q=80&w=2070', 'https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?q=80&w=2070', 'https://images.unsplash.com/photo-1560448075-32cc8b68e9c4?q=80&w=2070'],
+  description: 'Experience urban living at its finest in this stylish loft apartment.'
+}, {
+  id: 5,
+  name: 'Seaside Cottage',
+  location: 'Coastal Village',
+  price: 175,
+  image: 'https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?q=80&w=2070',
+  features: [{
+    id: 'f5-1',
+    name: 'Waterfront'
+  }, {
+    id: 'f5-2',
+    name: 'Private Garden'
+  }, {
+    id: 'f5-3',
+    name: '2 Bedrooms'
+  }, {
+    id: 'f5-4',
+    name: 'Outdoor BBQ'
+  }],
+  images: ['https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?q=80&w=2070', 'https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2070', 'https://images.unsplash.com/photo-1518780664697-55e3ad937233?q=80&w=2065'],
+  description: 'Relax in this charming seaside cottage with direct access to the waterfront.'
+}, {
+  id: 6,
+  name: 'Luxury Penthouse',
+  location: 'Financial District',
+  price: 450,
+  image: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=2080',
+  features: [{
+    id: 'f6-1',
+    name: 'Panoramic Views'
+  }, {
+    id: 'f6-2',
+    name: 'Private Elevator'
+  }, {
+    id: 'f6-3',
+    name: '3 Bedrooms'
+  }, {
+    id: 'f6-4',
+    name: 'Home Theater'
+  }],
+  images: ['https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=2080', 'https://images.unsplash.com/photo-1600585152220-90363fe7e115?q=80&w=2070', 'https://images.unsplash.com/photo-1560448075-32cc8b68e9c4?q=80&w=2070'],
+  description: 'Indulge in the height of luxury in this stunning penthouse with breathtaking panoramic city views.'
+}];
+
 const Book = () => {
   const [searchParams] = useSearchParams();
   const initialService = searchParams.get('service') || '';
-  const initialProperty = searchParams.get('property') || '';
+  const propertyIdParam = searchParams.get('propertyId');
+  const initialPropertyId = propertyIdParam ? parseInt(propertyIdParam) : null;
+  
   const [formData, setFormData] = useState({
-    service: initialService,
+    service: initialService || 'airbnb',
     name: '',
     email: '',
     phone: '',
     date: null as Date | null,
     message: '',
-    property: initialProperty
+    property: initialPropertyId ? initialPropertyId.toString() : ''
   });
-  const [selectedTab, setSelectedTab] = useState('general');
+  
+  const [selectedTab, setSelectedTab] = useState(initialPropertyId ? 'airbnb' : 'general');
   const [loading, setLoading] = useState(false);
   const isMobile = useIsMobile();
+  
+  // Find the selected property from the properties array
+  const selectedProperty = initialPropertyId 
+    ? properties.find(p => p.id === initialPropertyId) 
+    : null;
 
   useEffect(() => {
-    if (initialService === 'airbnb') {
+    if (initialService === 'airbnb' || initialPropertyId) {
       setSelectedTab('airbnb');
     } else if (initialService === 'car-hire') {
       setSelectedTab('car');
     } else if (initialService === 'jet-hire') {
       setSelectedTab('jet');
     }
-  }, [initialService]);
+  }, [initialService, initialPropertyId]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const {
@@ -140,6 +280,36 @@ const Book = () => {
           }} transition={{
             duration: 0.5
           }} className="max-w-4xl mx-auto bg-white p-4 md:p-8 rounded-lg shadow-lg">
+              {selectedProperty && (
+                <div className="mb-8">
+                  <h2 className="text-2xl font-semibold mb-4">Selected Property</h2>
+                  <Card className="overflow-hidden">
+                    <div className="flex flex-col md:flex-row">
+                      <div className="md:w-1/3 h-48 md:h-auto">
+                        <img 
+                          src={selectedProperty.image} 
+                          alt={selectedProperty.name}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <CardContent className="flex-1 p-4">
+                        <h3 className="text-xl font-bold mb-2">{selectedProperty.name}</h3>
+                        <p className="text-gray-600 mb-2">{selectedProperty.location}</p>
+                        <div className="text-red-600 font-bold mb-3">${selectedProperty.price} / night</div>
+                        <div className="grid grid-cols-2 gap-2">
+                          {selectedProperty.features.map((feature) => (
+                            <div key={feature.id} className="flex items-center text-sm">
+                              <Check size={16} className="text-green-500 mr-1" />
+                              <span>{feature.name}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </CardContent>
+                    </div>
+                  </Card>
+                </div>
+              )}
+              
               <Tabs defaultValue={selectedTab} value={selectedTab} onValueChange={setSelectedTab} className="w-full">
                 <div className="mb-6 overflow-x-auto pb-2">
                   <TabsList className={`${isMobile ? 'flex w-full' : 'grid grid-cols-4 w-full'}`}>
@@ -170,7 +340,7 @@ const Book = () => {
                   </TabsList>
                 </div>
                 
-                <TabsContent value="general" className="px-1 md:px-4">
+                <TabsContent value="general">
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
                       <label htmlFor="service" className="block text-sm font-medium text-gray-700 mb-1">
@@ -250,14 +420,19 @@ const Book = () => {
                       <label htmlFor="property" className="block text-sm font-medium text-gray-700 mb-1">
                         Select Property
                       </label>
-                      <Select value={formData.property} onValueChange={value => handleSelectChange('property', value)}>
+                      <Select 
+                        value={formData.property} 
+                        onValueChange={value => handleSelectChange('property', value)}
+                      >
                         <SelectTrigger>
                           <SelectValue placeholder="Select a property" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="luxury-apartment">Luxury Downtown Apartment</SelectItem>
-                          <SelectItem value="beachfront-villa">Beachfront Villa</SelectItem>
-                          <SelectItem value="modern-loft">Modern Urban Loft</SelectItem>
+                          {properties.map(property => (
+                            <SelectItem key={property.id} value={property.id.toString()}>
+                              {property.name} - ${property.price}/night
+                            </SelectItem>
+                          ))}
                         </SelectContent>
                       </Select>
                     </div>

@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { Home } from 'lucide-react';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -40,6 +41,11 @@ const Navbar = () => {
         </div>
 
         <div className="hidden md:flex items-center space-x-6">
+          <Link to="/" className={`font-medium transition-colors flex items-center gap-1 ${isScrolled ? 'text-gray-800 hover:text-mio-orange' : 'text-white hover:text-mio-yellow'}`}>
+            <Home size={18} />
+            Home
+          </Link>
+          
           <Link to="/about" className={`font-medium transition-colors ${isScrolled ? 'text-gray-800 hover:text-mio-orange' : 'text-white hover:text-mio-yellow'}`}>
             About Us
           </Link>
@@ -92,9 +98,15 @@ const Navbar = () => {
 
       {isMobileMenuOpen && <div className="md:hidden bg-white shadow-lg py-4 animate-slide-in">
           <div className="container mx-auto px-4 flex flex-col space-y-3">
+            <Link to="/" className="font-medium text-gray-800 hover:text-mio-orange py-2 flex items-center gap-1" onClick={() => setIsMobileMenuOpen(false)}>
+              <Home size={18} />
+              Home
+            </Link>
+            
             <Link to="/about" className="font-medium text-gray-800 hover:text-mio-orange py-2" onClick={() => setIsMobileMenuOpen(false)}>
               About Us
             </Link>
+            
             <div className="py-2">
               <p className="font-medium text-gray-800 mb-2">Services</p>
               <div className="pl-4 flex flex-col space-y-2">
@@ -124,9 +136,11 @@ const Navbar = () => {
                 </Link>
               </div>
             </div>
+            
             <Link to="/contact" className="font-medium text-gray-800 hover:text-mio-orange py-2" onClick={() => setIsMobileMenuOpen(false)}>
               Contact Us
             </Link>
+            
             <Link to="/book" className="py-2" onClick={() => setIsMobileMenuOpen(false)}>
               <Button className="w-full bg-mio-orange hover:bg-mio-red text-white transition-colors">
                 Book a Service

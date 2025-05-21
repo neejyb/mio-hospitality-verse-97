@@ -163,12 +163,7 @@ const AllProperties = () => {
     return true;
   });
   const handleBookNow = propertyId => {
-    navigate('/book', {
-      state: {
-        service: 'airbnb',
-        property: propertyId
-      }
-    });
+    navigate(`/book?propertyId=${propertyId}`);
   };
   return <div className="min-h-screen flex flex-col">
       <Navbar />
