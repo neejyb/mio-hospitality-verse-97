@@ -10,6 +10,7 @@ import Footer from '@/components/Footer';
 import PropertyModal from '@/components/PropertyModal';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+
 const properties = [{
   id: 1,
   name: 'Luxury Downtown Apartment',
@@ -137,6 +138,7 @@ const properties = [{
   images: ['https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=2080', 'https://images.unsplash.com/photo-1600585152220-90363fe7e115?q=80&w=2070', 'https://images.unsplash.com/photo-1560448075-32cc8b68e9c4?q=80&w=2070'],
   description: 'Indulge in the height of luxury in this stunning penthouse with breathtaking panoramic city views. Accessible via private elevator, this exclusive property features three elegant bedrooms, a state-of-the-art home theater, and premium finishes throughout. The epitome of sophisticated urban living.'
 }];
+
 const AllProperties = () => {
   const navigate = useNavigate();
   const [selectedProperty, setSelectedProperty] = useState(null);
@@ -144,6 +146,7 @@ const AllProperties = () => {
   const [location, setLocation] = useState('');
   const [bedrooms, setBedrooms] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
+
   const filteredProperties = properties.filter(property => {
     if (property.price < priceRange[0] || property.price > priceRange[1]) {
       return false;
@@ -162,9 +165,11 @@ const AllProperties = () => {
     }
     return true;
   });
+
   const handleBookNow = propertyId => {
     navigate(`/book?propertyId=${propertyId}`);
   };
+
   return <div className="min-h-screen flex flex-col">
       <Navbar />
       <main className="flex-grow">
@@ -307,7 +312,12 @@ const AllProperties = () => {
                         <Button variant="outline" size="sm" className="flex-1 border-[#D4AF37] text-[#D4AF37] bg-white hover:bg-[#D4AF37]/10" onClick={() => setSelectedProperty(property)}>
                           View Details
                         </Button>
-                        <Button variant="default" size="sm" onClick={() => handleBookNow(property.id)} className="flex-1 bg-[#4f1002]">
+                        <Button 
+                          variant="default" 
+                          size="sm" 
+                          onClick={() => handleBookNow(property.id)} 
+                          className="flex-1 bg-[#4f1002]"
+                        >
                           Book Now
                         </Button>
                       </div>
@@ -322,4 +332,5 @@ const AllProperties = () => {
       {selectedProperty && <PropertyModal property={selectedProperty} isOpen={!!selectedProperty} onClose={() => setSelectedProperty(null)} onBookNow={handleBookNow} />}
     </div>;
 };
+
 export default AllProperties;

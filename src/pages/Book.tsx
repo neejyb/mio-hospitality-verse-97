@@ -191,12 +191,33 @@ const Book = () => {
   
   const [selectedTab, setSelectedTab] = useState(initialPropertyId ? 'airbnb' : 'general');
   const [loading, setLoading] = useState(false);
+  const [selectedProperty, setSelectedProperty] = useState<any>(null);
   const isMobile = useIsMobile();
-  
-  // Find the selected property from the properties array
-  const selectedProperty = initialPropertyId 
-    ? properties.find(p => p.id === initialPropertyId) 
-    : null;
+
+  // Find the selected property from the properties array based on URL param
+  useEffect(() => {
+    if (initialPropertyId) {
+      const property = properties.find(p => p.id === initialPropertyId);
+      if (property) {
+        setSelectedProperty(property);
+        setFormData(prev => ({
+          ...prev,
+          property: initialPropertyId.toString(),
+          service: 'airbnb'
+        }));
+      }
+    }
+  }, [initialPropertyId]);
+
+  // Handle property selection change
+  const handlePropertyChange = (propertyId: string) => {
+    const property = properties.find(p => p.id === parseInt(propertyId));
+    setSelectedProperty(property);
+    setFormData(prev => ({
+      ...prev,
+      property: propertyId
+    }));
+  };
 
   useEffect(() => {
     if (initialService === 'airbnb' || initialPropertyId) {
@@ -220,6 +241,10 @@ const Book = () => {
   };
 
   const handleSelectChange = (name: string, value: string) => {
+    if (name === 'property') {
+      handlePropertyChange(value);
+    }
+    
     setFormData(prev => ({
       ...prev,
       [name]: value
@@ -249,6 +274,7 @@ const Book = () => {
         message: '',
         property: ''
       });
+      setSelectedProperty(null);
       setLoading(false);
     }, 1500);
   };
