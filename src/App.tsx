@@ -11,6 +11,7 @@ import Contact from "./pages/Contact";
 import Book from "./pages/Book";
 import NotFound from "./pages/NotFound";
 import AllProperties from "./pages/AllProperties";
+import Artisans from "./pages/Artisans";
 
 // Import service pages
 import InteriorDesign from "./pages/Services/InteriorDesign";
@@ -21,6 +22,7 @@ import JetHire from "./pages/Services/JetHire";
 import Maintenance from "./pages/Services/Maintenance";
 import PropertyManagement from "./pages/Services/PropertyManagement";
 import FacilitySupport from "./pages/Services/FacilitySupport";
+import FacilityManagement from "./pages/Services/FacilityManagement";
 
 // Create a client
 const queryClient = new QueryClient();
@@ -36,6 +38,7 @@ const AnimatedRoutes = () => {
         <Route path="/contact" element={<Contact />} />
         <Route path="/book" element={<Book />} />
         <Route path="/properties" element={<AllProperties />} />
+        <Route path="/artisans" element={<Artisans />} />
         
         {/* Service Routes */}
         <Route path="/services/interior-design" element={<InteriorDesign />} />
@@ -46,6 +49,7 @@ const AnimatedRoutes = () => {
         <Route path="/services/maintenance" element={<Maintenance />} />
         <Route path="/services/property-management" element={<PropertyManagement />} />
         <Route path="/services/facility-support" element={<FacilitySupport />} />
+        <Route path="/services/facility-management" element={<FacilityManagement />} />
         
         <Route path="*" element={<NotFound />} />
       </Routes>
