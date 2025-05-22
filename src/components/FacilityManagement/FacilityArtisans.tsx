@@ -1,5 +1,6 @@
+
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -23,6 +24,8 @@ interface ServiceCategory {
 }
 
 const FacilityArtisans: React.FC = () => {
+  const navigate = useNavigate();
+  
   // Featured artisans
   const featuredArtisans = [
     {
@@ -72,6 +75,12 @@ const FacilityArtisans: React.FC = () => {
     { id: 'hvac', label: 'HVAC', icon: <Wrench className="h-4 w-4 mr-1" /> },
   ];
 
+  // Function to handle booking request
+  const handleBookRequest = (artisan) => {
+    const artisanSlug = artisan.name.toLowerCase().replace(/\s+/g, '-');
+    navigate(`/book?artisan=${artisanSlug}&service=facility-management&artisanType=${artisan.serviceType}`);
+  };
+
   return (
     <section className="py-16 bg-gray-50">
       <div className="container mx-auto px-4">
@@ -95,7 +104,7 @@ const FacilityArtisans: React.FC = () => {
           <TabsContent value="all" className="mt-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {featuredArtisans.map((artisan) => (
-                <Card key={artisan.id} className="overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                <Card key={artisan.id} className="overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col">
                   <div className="aspect-square relative overflow-hidden">
                     <img 
                       src={artisan.image} 
@@ -103,7 +112,7 @@ const FacilityArtisans: React.FC = () => {
                       className="w-full h-full object-cover object-center transition-transform duration-300 hover:scale-105"
                     />
                   </div>
-                  <CardContent className="pt-6">
+                  <CardContent className="pt-6 flex-grow">
                     <div className="flex justify-between items-start mb-2">
                       <h3 className="font-bold text-lg">{artisan.name}</h3>
                       {artisan.verified && (
@@ -120,7 +129,11 @@ const FacilityArtisans: React.FC = () => {
                     <p className="text-gray-600 text-sm line-clamp-2">{artisan.tagline}</p>
                   </CardContent>
                   <CardFooter className="pt-0">
-                    <Button variant="outline-gold" size="sm" className="w-full">
+                    <Button 
+                      variant="outline-gold" 
+                      className="w-full"
+                      onClick={() => handleBookRequest(artisan)}
+                    >
                       Request Service
                     </Button>
                   </CardFooter>
@@ -150,7 +163,7 @@ const FacilityArtisans: React.FC = () => {
                     (category.id === 'general' && ['Cleaning Supervisor'].includes(a.serviceType))
                   )
                   .map((artisan) => (
-                    <Card key={artisan.id} className="overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                    <Card key={artisan.id} className="overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col">
                       <div className="aspect-square relative overflow-hidden">
                         <img 
                           src={artisan.image} 
@@ -158,7 +171,7 @@ const FacilityArtisans: React.FC = () => {
                           className="w-full h-full object-cover object-center transition-transform duration-300 hover:scale-105"
                         />
                       </div>
-                      <CardContent className="pt-6">
+                      <CardContent className="pt-6 flex-grow">
                         <div className="flex justify-between items-start mb-2">
                           <h3 className="font-bold text-lg">{artisan.name}</h3>
                           {artisan.verified && (
@@ -175,7 +188,11 @@ const FacilityArtisans: React.FC = () => {
                         <p className="text-gray-600 text-sm line-clamp-2">{artisan.tagline}</p>
                       </CardContent>
                       <CardFooter className="pt-0">
-                        <Button variant="outline-gold" size="sm" className="w-full">
+                        <Button 
+                          variant="outline-gold" 
+                          className="w-full"
+                          onClick={() => handleBookRequest(artisan)}
+                        >
                           Request Service
                         </Button>
                       </CardFooter>

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { useSearchParams, useLocation } from 'react-router-dom';
+import { useSearchParams, useLocation, useNavigate } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
@@ -14,7 +14,7 @@ import { format } from 'date-fns';
 import { toast } from 'sonner';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Card, CardContent } from '@/components/ui/card';
-import { Check } from 'lucide-react';
+import { Check, ArrowLeft } from 'lucide-react';
 
 const serviceOptions = [{
   value: 'interior-design',
@@ -32,14 +32,8 @@ const serviceOptions = [{
   value: 'jet-hire',
   label: 'Private Jet Hire'
 }, {
-  value: 'maintenance',
-  label: 'Maintenance Services'
-}, {
-  value: 'property-management',
-  label: 'Property Management'
-}, {
-  value: 'facility-support',
-  label: 'Facility Support'
+  value: 'facility-management',
+  label: 'Facility Management'
 }];
 
 // Import the properties array from the same file where it's defined in AllProperties.tsx
@@ -173,11 +167,27 @@ const properties = [{
   description: 'Indulge in the height of luxury in this stunning penthouse with breathtaking panoramic city views.'
 }];
 
+// Sample artisans data for dropdown
+const artisanOptions = [
+  { value: '', label: 'None - Select an Artisan' },
+  { value: 'michael-chen', label: 'Michael Chen - Electrician' },
+  { value: 'sarah-johnson', label: 'Sarah Johnson - Plumber' },
+  { value: 'david-williams', label: 'David Williams - HVAC Specialist' },
+  { value: 'elena-rodriguez', label: 'Elena Rodriguez - Cleaning Supervisor' }
+];
+
 const Book = () => {
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const initialService = searchParams.get('service') || '';
   const propertyIdParam = searchParams.get('propertyId');
   const initialPropertyId = propertyIdParam ? parseInt(propertyIdParam) : null;
+  
+  // New artisan parameters
+  const artisanParam = searchParams.get('artisan') || '';
+  const artisanIdParam = searchParams.get('artisanId') || '';
+  const artisanTypeParam = searchParams.get('artisanType') || '';
+  const artisanImageParam = searchParams.get('artisanImage') || '';
   
   const [formData, setFormData] = useState({
     service: initialService || 'airbnb',
@@ -186,12 +196,14 @@ const Book = () => {
     phone: '',
     date: null as Date | null,
     message: '',
-    property: initialPropertyId ? initialPropertyId.toString() : ''
+    property: initialPropertyId ? initialPropertyId.toString() : '',
+    artisan: artisanParam || ''
   });
   
-  const [selectedTab, setSelectedTab] = useState(initialPropertyId ? 'airbnb' : 'general');
+  const [selectedTab, setSelectedTab] = useState(initialPropertyId ? 'airbnb' : (artisanParam ? 'artisan' : 'general'));
   const [loading, setLoading] = useState(false);
   const [selectedProperty, setSelectedProperty] = useState<any>(null);
+  const [selectedArtisan, setSelectedArtisan] = useState<any>(null);
   const isMobile = useIsMobile();
 
   // Find the selected property from the properties array based on URL param
@@ -209,6 +221,25 @@ const Book = () => {
     }
   }, [initialPropertyId]);
 
+  // Set up selected artisan from URL parameters
+  useEffect(() => {
+    if (artisanParam) {
+      const artisanData = {
+        id: artisanIdParam || '0',
+        name: decodeURIComponent(artisanParam).replace(/-/g, ' '),
+        type: artisanTypeParam || 'Specialist',
+        image: decodeURIComponent(artisanImageParam || '')
+      };
+      
+      setSelectedArtisan(artisanData);
+      setFormData(prev => ({
+        ...prev,
+        artisan: artisanParam,
+        service: 'facility-management'
+      }));
+    }
+  }, [artisanParam, artisanIdParam, artisanTypeParam, artisanImageParam]);
+
   // Handle property selection change
   const handlePropertyChange = (propertyId: string) => {
     const property = properties.find(p => p.id === parseInt(propertyId));
@@ -219,6 +250,38 @@ const Book = () => {
     }));
   };
 
+  // Handle artisan selection change
+  const handleArtisanChange = (artisanId: string) => {
+    if (!artisanId) {
+      setSelectedArtisan(null);
+      setFormData(prev => ({
+        ...prev,
+        artisan: ''
+      }));
+      return;
+    }
+    
+    const artisan = artisanOptions.find(a => a.value === artisanId);
+    if (artisan) {
+      setSelectedArtisan({
+        id: artisanId,
+        name: artisan.label.split(' - ')[0],
+        type: artisan.label.split(' - ')[1] || 'Specialist',
+        image: '' // In a real app, you'd have the image URL in your artisan data
+      });
+      
+      setFormData(prev => ({
+        ...prev,
+        artisan: artisanId
+      }));
+    }
+  };
+
+  // Handle "Change Artisan" button click
+  const handleChangeArtisan = () => {
+    navigate('/artisans');
+  };
+
   useEffect(() => {
     if (initialService === 'airbnb' || initialPropertyId) {
       setSelectedTab('airbnb');
@@ -226,8 +289,10 @@ const Book = () => {
       setSelectedTab('car');
     } else if (initialService === 'jet-hire') {
       setSelectedTab('jet');
+    } else if (initialService === 'facility-management' && artisanParam) {
+      setSelectedTab('artisan');
     }
-  }, [initialService, initialPropertyId]);
+  }, [initialService, initialPropertyId, artisanParam]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const {
@@ -243,6 +308,8 @@ const Book = () => {
   const handleSelectChange = (name: string, value: string) => {
     if (name === 'property') {
       handlePropertyChange(value);
+    } else if (name === 'artisan') {
+      handleArtisanChange(value);
     }
     
     setFormData(prev => ({
@@ -272,9 +339,11 @@ const Book = () => {
         phone: '',
         date: null,
         message: '',
-        property: ''
+        property: '',
+        artisan: ''
       });
       setSelectedProperty(null);
+      setSelectedArtisan(null);
       setLoading(false);
     }, 1500);
   };
@@ -336,9 +405,54 @@ const Book = () => {
                 </div>
               )}
               
+              {/* Selected Artisan Card */}
+              {selectedArtisan && (
+                <div className="mb-8">
+                  <div className="flex justify-between items-center mb-4">
+                    <h2 className="text-2xl font-semibold">Selected Artisan</h2>
+                    <Button 
+                      variant="outline"
+                      size="sm"
+                      onClick={handleChangeArtisan}
+                      className="flex items-center gap-1"
+                    >
+                      <ArrowLeft size={16} />
+                      Change Artisan
+                    </Button>
+                  </div>
+                  <Card className="overflow-hidden">
+                    <div className="flex flex-col md:flex-row">
+                      <div className="md:w-1/4 h-48 md:h-auto">
+                        {selectedArtisan.image ? (
+                          <img 
+                            src={selectedArtisan.image}
+                            alt={selectedArtisan.name}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                            <span className="text-gray-500">No image</span>
+                          </div>
+                        )}
+                      </div>
+                      <CardContent className="flex-1 p-4">
+                        <div className="bg-[#D4AF37]/10 text-[#D4AF37] px-3 py-1 rounded-full text-sm inline-block mb-2">
+                          You're currently booking
+                        </div>
+                        <h3 className="text-xl font-bold mb-2">{selectedArtisan.name}</h3>
+                        <p className="text-[#D4AF37] font-medium mb-3">{selectedArtisan.type}</p>
+                        <div className="text-gray-600">
+                          Professional {selectedArtisan.type.toLowerCase()} specializing in facility management.
+                        </div>
+                      </CardContent>
+                    </div>
+                  </Card>
+                </div>
+              )}
+              
               <Tabs defaultValue={selectedTab} value={selectedTab} onValueChange={setSelectedTab} className="w-full">
                 <div className="mb-6 overflow-x-auto pb-2">
-                  <TabsList className={`${isMobile ? 'flex w-full' : 'grid grid-cols-4 w-full'}`}>
+                  <TabsList className={`${isMobile ? 'flex w-full' : 'grid grid-cols-5 w-full'}`}>
                     <TabsTrigger 
                       value="general" 
                       className="text-wine-950 py-3 px-4 text-base"
@@ -362,6 +476,12 @@ const Book = () => {
                       className="text-wine-950 py-3 px-4 text-base"
                     >
                       Jet Charter
+                    </TabsTrigger>
+                    <TabsTrigger 
+                      value="artisan" 
+                      className="text-wine-950 py-3 px-4 text-base"
+                    >
+                      Book Artisan
                     </TabsTrigger>
                   </TabsList>
                 </div>
@@ -786,6 +906,109 @@ const Book = () => {
                     
                     <Button type="submit" disabled={loading} className="w-full text-white transition-colors bg-wine-500 hover:bg-wine-600">
                       {loading ? 'Processing...' : 'Request Jet Charter'}
+                    </Button>
+                  </form>
+                </TabsContent>
+                
+                {/* New Artisan Booking Tab */}
+                <TabsContent value="artisan" className="px-1 md:px-4">
+                  <form onSubmit={handleSubmit} className="space-y-6">
+                    <input type="hidden" name="service" value="facility-management" />
+                    
+                    <div>
+                      <label htmlFor="artisan" className="block text-sm font-medium text-gray-700 mb-1">
+                        Select Artisan
+                      </label>
+                      <Select 
+                        value={formData.artisan} 
+                        onValueChange={value => handleSelectChange('artisan', value)}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select an artisan" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {artisanOptions.map(artisan => (
+                            <SelectItem key={artisan.value} value={artisan.value}>
+                              {artisan.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          Service Date
+                        </label>
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <Button variant="outline" className="w-full justify-start text-left font-normal">
+                              {formData.date ? format(formData.date, 'PPP') : <span>Select service date</span>}
+                            </Button>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-auto p-0 bg-white pointer-events-auto">
+                            <Calendar mode="single" selected={formData.date || undefined} onSelect={handleDateChange} initialFocus className="p-3" disabled={date => date < new Date()} />
+                          </PopoverContent>
+                        </Popover>
+                      </div>
+                      
+                      <div>
+                        <label htmlFor="service-time" className="block text-sm font-medium text-gray-700 mb-1">
+                          Preferred Time
+                        </label>
+                        <Select defaultValue="morning">
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select time" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="morning">Morning (8:00 AM - 12:00 PM)</SelectItem>
+                            <SelectItem value="afternoon">Afternoon (12:00 PM - 4:00 PM)</SelectItem>
+                            <SelectItem value="evening">Evening (4:00 PM - 8:00 PM)</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+                          Full Name
+                        </label>
+                        <Input id="name" name="name" value={formData.name} onChange={handleChange} placeholder="John Doe" required />
+                      </div>
+                      
+                      <div>
+                        <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                          Email
+                        </label>
+                        <Input id="email" name="email" type="email" value={formData.email} onChange={handleChange} placeholder="john@example.com" required />
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+                        Phone Number
+                      </label>
+                      <Input id="phone" name="phone" value={formData.phone} onChange={handleChange} placeholder="+1 (555) 123-4567" required />
+                    </div>
+                    
+                    <div>
+                      <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-1">
+                        Service Address
+                      </label>
+                      <Input id="address" name="address" placeholder="123 Main St, City" required />
+                    </div>
+                    
+                    <div>
+                      <label htmlFor="artisan-message" className="block text-sm font-medium text-gray-700 mb-1">
+                        Service Details
+                      </label>
+                      <Textarea id="artisan-message" name="message" value={formData.message} onChange={handleChange} placeholder="Please describe the issue or service needed in detail..." rows={4} />
+                    </div>
+                    
+                    <Button type="submit" disabled={loading} className="w-full text-white transition-colors bg-[#D4AF37] hover:bg-[#B4941F]">
+                      {loading ? 'Processing...' : selectedArtisan ? `Request Service from ${selectedArtisan.name}` : 'Request Service'}
                     </Button>
                   </form>
                 </TabsContent>

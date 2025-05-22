@@ -33,11 +33,12 @@ const Artisans = () => {
     setServiceFilter(filter);
   }, [location.search]);
 
-  const handleBookNow = (artisanId) => {
-    navigate(`/book?service=facility-management&artisan=${artisanId}`);
+  const handleBookNow = (artisanId: number, artisanName: string, serviceType: string, image: string) => {
+    const artisanSlug = artisanName.toLowerCase().replace(/\s+/g, '-');
+    navigate(`/book?service=facility-management&artisan=${artisanSlug}&artisanId=${artisanId}&artisanType=${serviceType}&artisanImage=${encodeURIComponent(image)}`);
   };
 
-  const handleTabChange = (value) => {
+  const handleTabChange = (value: string) => {
     setServiceFilter(value);
     navigate(value === 'all' ? '/artisans' : `/artisans?filter=${value}`);
   };

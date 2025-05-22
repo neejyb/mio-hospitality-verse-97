@@ -18,7 +18,7 @@ interface ArtisanCardProps {
     verified: boolean;
     availability: string;
   };
-  onBookNow: (artisanId: number) => void;
+  onBookNow: (artisanId: number, artisanName: string, serviceType: string, image: string) => void;
 }
 
 const ArtisanCard: React.FC<ArtisanCardProps> = ({ artisan, onBookNow }) => {
@@ -61,7 +61,7 @@ const ArtisanCard: React.FC<ArtisanCardProps> = ({ artisan, onBookNow }) => {
         <Button 
           variant="default" 
           className="w-full" 
-          onClick={() => onBookNow(artisan.id)}
+          onClick={() => onBookNow(artisan.id, artisan.name, artisan.serviceType, artisan.image)}
         >
           Request Service
         </Button>

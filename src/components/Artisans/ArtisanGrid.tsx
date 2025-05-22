@@ -18,7 +18,7 @@ interface ArtisanGridProps {
     verified: boolean;
     availability: string;
   }>;
-  onBookNow: (artisanId: number) => void;
+  onBookNow: (artisanId: number, artisanName: string, serviceType: string, image: string) => void;
   onResetFilters: () => void;
 }
 
