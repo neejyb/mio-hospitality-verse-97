@@ -73,13 +73,7 @@ const Navbar = () => {
                 <Link to="/services/jet-hire" className="w-full">Private Jet Hire</Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <Link to="/services/maintenance" className="w-full">Maintenance Services</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Link to="/services/property-management" className="w-full">Property Management</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Link to="/services/facility-support" className="w-full">Facility Support</Link>
+                <Link to="/services/facility-management" className="w-full">Facility Management</Link>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -125,14 +119,8 @@ const Navbar = () => {
                 <Link to="/services/jet-hire" className="text-gray-600 hover:text-mio-orange" onClick={() => setIsMobileMenuOpen(false)}>
                   Private Jet Hire
                 </Link>
-                <Link to="/services/maintenance" className="text-gray-600 hover:text-mio-orange" onClick={() => setIsMobileMenuOpen(false)}>
-                  Maintenance Services
-                </Link>
-                <Link to="/services/property-management" className="text-gray-600 hover:text-mio-orange" onClick={() => setIsMobileMenuOpen(false)}>
-                  Property Management
-                </Link>
-                <Link to="/services/facility-support" className="text-gray-600 hover:text-mio-orange" onClick={() => setIsMobileMenuOpen(false)}>
-                  Facility Support
+                <Link to="/services/facility-management" className="text-gray-600 hover:text-mio-orange" onClick={() => setIsMobileMenuOpen(false)}>
+                  Facility Management
                 </Link>
               </div>
             </div>

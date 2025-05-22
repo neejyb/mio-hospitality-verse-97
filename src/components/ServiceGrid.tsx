@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
@@ -47,23 +46,11 @@ const services: Service[] = [{
   description: 'Exclusive private jet charter services for seamless travel.',
   link: '/services/jet-hire'
 }, {
-  id: 'maintenance',
-  iconUrl: 'https://images.unsplash.com/photo-1584637098437-e5e89b789ad6?q=80&w=300',
-  title: 'Maintenance Services',
-  description: 'Comprehensive property maintenance and repair solutions.',
-  link: '/services/maintenance'
-}, {
-  id: 'property-management',
-  iconUrl: 'https://images.unsplash.com/photo-1582407947304-fd86f028f716?q=80&w=300',
-  title: 'Property Management',
-  description: 'End-to-end property management and upkeep services.',
-  link: '/services/property-management'
-}, {
-  id: 'facility-support',
-  iconUrl: 'https://images.unsplash.com/photo-1588421357574-87938a86fa28?q=80&w=300',
-  title: 'Facility Support',
-  description: 'Professional support services for commercial facilities.',
-  link: '/services/facility-support'
+  id: 'facility-management',
+  iconUrl: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=300',
+  title: 'Facility Management',
+  description: 'Comprehensive solutions for property maintenance, management, and facility support.',
+  link: '/services/facility-management'
 }];
 
 const ServiceGrid = () => {
