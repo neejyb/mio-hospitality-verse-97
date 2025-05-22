@@ -10,7 +10,7 @@ import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
-import { Wrench, Tool, Plug, ShowerHead, Users, Star } from 'lucide-react';
+import { Wrench, Plug, ShowerHead, Users, Star, Hammer } from 'lucide-react';
 
 const FacilityManagement = () => {
   // Features data
@@ -92,11 +92,11 @@ const FacilityManagement = () => {
     { id: 'all', label: 'All Services' },
     { id: 'electrical', label: 'Electrical', icon: <Plug className="h-4 w-4 mr-1" /> },
     { id: 'plumbing', label: 'Plumbing', icon: <ShowerHead className="h-4 w-4 mr-1" /> },
-    { id: 'general', label: 'General Maintenance', icon: <Tool className="h-4 w-4 mr-1" /> },
+    { id: 'general', label: 'General Maintenance', icon: <Hammer className="h-4 w-4 mr-1" /> },
     { id: 'hvac', label: 'HVAC', icon: <Wrench className="h-4 w-4 mr-1" /> },
   ];
 
-  // Testimonials data - combine testimonials from all three services
+  // Testimonials data
   const testimonials = [
     {
       id: 'testimonial-1',
