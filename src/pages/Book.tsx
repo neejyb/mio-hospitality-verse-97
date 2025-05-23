@@ -100,7 +100,7 @@ const properties = [{
     id: 'f3-4',
     name: 'Hot Tub'
   }],
-  images: ['https://images.unsplash.com/photo-1518732714860-b62714ce0c59?q=80&w=2070', 'https://images.unsplash.com/photo-1542718610-a1d656d1884c?q=80&w=2070', 'https://images.unsplash.com/photo-1520984032042-162d526883e0?q=80&w=2070'],
+  images: ['https://images.unsplash.com/photo-1518732714860-b62714ce0c59?q=80&w=2070', 'https://images.unsplash.com/photo-1542718610-a1d656d1884c?q=80&w=2070', 'https://images.unsplash.com/photo-1520984032042-162d526883e0?q=80&w=2065'],
   description: 'Escape to the tranquility of nature in our cozy mountain retreat.'
 }, {
   id: 4,
@@ -169,7 +169,7 @@ const properties = [{
 
 // Sample artisans data for dropdown
 const artisanOptions = [
-  { value: '', label: 'None - Select an Artisan' },
+  { value: 'none', label: 'None - Select an Artisan' },
   { value: 'michael-chen', label: 'Michael Chen - Electrician' },
   { value: 'sarah-johnson', label: 'Sarah Johnson - Plumber' },
   { value: 'david-williams', label: 'David Williams - HVAC Specialist' },
@@ -197,7 +197,7 @@ const Book = () => {
     date: null as Date | null,
     message: '',
     property: initialPropertyId ? initialPropertyId.toString() : '',
-    artisan: artisanParam || ''
+    artisan: artisanParam || 'none'  // Changed from empty string to 'none'
   });
   
   const [selectedTab, setSelectedTab] = useState(initialPropertyId ? 'airbnb' : (artisanParam ? 'artisan' : 'general'));
@@ -252,11 +252,11 @@ const Book = () => {
 
   // Handle artisan selection change
   const handleArtisanChange = (artisanId: string) => {
-    if (!artisanId) {
+    if (artisanId === 'none') {  // Changed from empty string to 'none'
       setSelectedArtisan(null);
       setFormData(prev => ({
         ...prev,
-        artisan: ''
+        artisan: 'none'  // Changed from empty string to 'none'
       }));
       return;
     }
