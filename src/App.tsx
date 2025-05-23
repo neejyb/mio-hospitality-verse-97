@@ -1,74 +1,65 @@
 
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import Services from "./pages/Services";
 import Book from "./pages/Book";
-import NotFound from "./pages/NotFound";
 import AllProperties from "./pages/AllProperties";
+import PropertyDetails from "./pages/PropertyDetails";
 import Artisans from "./pages/Artisans";
+import Fleet from "./pages/Fleet";
+import Jets from "./pages/Jets";
+import NotFound from "./pages/NotFound";
 
-// Import service pages
+// Service Pages
 import InteriorDesign from "./pages/Services/InteriorDesign";
 import AirbnbServices from "./pages/Services/AirbnbServices";
-import Videography from "./pages/Services/Videography";
 import CarHire from "./pages/Services/CarHire";
 import JetHire from "./pages/Services/JetHire";
-import Maintenance from "./pages/Services/Maintenance";
-import PropertyManagement from "./pages/Services/PropertyManagement";
-import FacilitySupport from "./pages/Services/FacilitySupport";
+import Videography from "./pages/Services/Videography";
 import FacilityManagement from "./pages/Services/FacilityManagement";
 
-// Create a client
-const queryClient = new QueryClient();
+import "./App.css";
 
-const AnimatedRoutes = () => {
-  const location = useLocation();
-  
-  return (
-    <AnimatePresence mode="wait">
-      <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<Index />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/book" element={<Book />} />
-        <Route path="/properties" element={<AllProperties />} />
-        <Route path="/artisans" element={<Artisans />} />
-        
-        {/* Service Routes */}
-        <Route path="/services/interior-design" element={<InteriorDesign />} />
-        <Route path="/services/airbnb" element={<AirbnbServices />} />
-        <Route path="/services/videography" element={<Videography />} />
-        <Route path="/services/car-hire" element={<CarHire />} />
-        <Route path="/services/jet-hire" element={<JetHire />} />
-        <Route path="/services/maintenance" element={<Maintenance />} />
-        <Route path="/services/property-management" element={<PropertyManagement />} />
-        <Route path="/services/facility-support" element={<FacilitySupport />} />
-        <Route path="/services/facility-management" element={<FacilityManagement />} />
-        
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </AnimatePresence>
-  );
-};
+function App() {
+  useEffect(() => {
+    // Scroll to top on initial page load
+    window.scrollTo(0, 0);
 
-const App = () => {
+    // Update document title
+    document.title = "Luxe Homes & Co";
+  }, []);
+
   return (
-    <BrowserRouter>
-      <QueryClientProvider client={queryClient}>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <AnimatedRoutes />
-        </TooltipProvider>
-      </QueryClientProvider>
-    </BrowserRouter>
+    <Router>
+      <div className="app">
+        <Routes>
+          <Route path="/" element={<Index />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/book" element={<Book />} />
+          <Route path="/properties" element={<AllProperties />} />
+          <Route path="/properties/:id" element={<PropertyDetails />} />
+          <Route path="/artisans" element={<Artisans />} />
+          <Route path="/fleet" element={<Fleet />} />
+          <Route path="/jets" element={<Jets />} />
+          
+          {/* Service Pages */}
+          <Route path="/services/interior-design" element={<InteriorDesign />} />
+          <Route path="/services/airbnb" element={<AirbnbServices />} />
+          <Route path="/services/car-hire" element={<CarHire />} />
+          <Route path="/services/jet-hire" element={<JetHire />} />
+          <Route path="/services/videography" element={<Videography />} />
+          <Route path="/services/facility-management" element={<FacilityManagement />} />
+          
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </div>
+    </Router>
   );
-};
+}
 
 export default App;
