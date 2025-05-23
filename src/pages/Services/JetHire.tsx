@@ -94,26 +94,24 @@ const JetHire = () => {
         imageAlt="Private jet charter"
       />
       
-      <section className="py-12 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto flex flex-col md:flex-row gap-6 items-center justify-center">
-            <Button 
-              className="w-full md:w-auto bg-wine-500 hover:bg-wine-600 text-white"
-              onClick={() => navigate('/jets')}
-              size="lg"
-            >
-              View Our Jets
-            </Button>
-            
-            <Button 
-              variant="outline-gold"
-              className="w-full md:w-auto"
-              onClick={() => navigate('/book?service=jet-hire')}
-              size="lg"
-            >
-              Charter a Jet Now
-            </Button>
-          </div>
+      <section className="py-12 bg-white w-full">
+        <div className="container mx-auto flex flex-col md:flex-row gap-6 items-center justify-center">
+          <Button 
+            className="w-full md:w-auto bg-wine-500 hover:bg-wine-600 text-white"
+            onClick={() => navigate('/jets')}
+            size="lg"
+          >
+            View Our Jets
+          </Button>
+          
+          <Button 
+            variant="outline-gold"
+            className="w-full md:w-auto"
+            onClick={() => navigate('/book?service=jet-hire')}
+            size="lg"
+          >
+            Charter a Jet Now
+          </Button>
         </div>
       </section>
       
