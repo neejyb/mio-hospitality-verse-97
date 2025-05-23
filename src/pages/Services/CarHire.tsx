@@ -9,6 +9,9 @@ import ServiceGallery from '@/components/ServiceGallery';
 import ServiceTestimonials from '@/components/ServiceTestimonials';
 import ServiceCta from '@/components/ServiceCta';
 import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { Card, CardContent } from '@/components/ui/card';
 import { Car } from 'lucide-react';
 
 const CarHire = () => {
@@ -80,6 +83,15 @@ const CarHire = () => {
     }
   ];
 
+  const scrollToBookingForm = () => {
+    const bookingElement = document.getElementById('booking-section');
+    if (bookingElement) {
+      bookingElement.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      window.location.href = '/book?service=car-hire';
+    }
+  };
+
   return (
     <ServiceLayout>
       <ServiceHero 
@@ -89,30 +101,102 @@ const CarHire = () => {
       />
       
       <ServiceIntroduction 
-        description="Our luxury car hire service offers you access to a curated collection of the world's most prestigious automobiles. Whether you're seeking the thrill of a high-performance sports car, the refinement of a luxury sedan, or the versatility of a premium SUV, our fleet caters to the most discerning tastes."
+        description={
+          <>
+            <p className="text-gray-600 mb-4">
+              Our luxury car hire service offers you access to a curated collection of the world's most prestigious automobiles. Whether you're seeking the thrill of a high-performance sports car, the refinement of a luxury sedan, or the versatility of a premium SUV, our fleet caters to the most discerning tastes.
+            </p>
+            <p className="text-gray-600 mb-6">
+              Each vehicle in our collection is meticulously maintained to ensure an exceptional driving experience. From airport transfers and business travel to special occasions and weekend getaways, we provide the perfect vehicle paired with impeccable service.
+            </p>
+            <div className="flex flex-wrap gap-4 mt-6">
+              <Button asChild>
+                <Link to="/fleet">View Our Fleet</Link>
+              </Button>
+              <Button 
+                variant="outline-gold" 
+                onClick={() => navigate('/book?service=car-hire')}
+              >
+                Book a Car Now
+              </Button>
+            </div>
+          </>
+        }
         image="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=2070"
         imageAlt="Luxury car rental"
+        reversed={true}
       />
-      
-      <section className="py-12 bg-white">
+
+      {/* Luxury Car Service Section */}
+      <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto flex flex-col md:flex-row gap-6 items-center justify-center">
-            <Button 
-              className="w-full md:w-auto bg-wine-500 hover:bg-wine-600 text-white"
-              onClick={() => navigate('/fleet')}
-              size="lg"
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+              className="rounded-xl overflow-hidden shadow-lg"
             >
-              View Our Fleet
-            </Button>
+              <img 
+                src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?q=80&w=2070" 
+                alt="Luxury car on road" 
+                className="w-full h-full object-cover aspect-[4/3]"
+              />
+            </motion.div>
             
-            <Button 
-              variant="outline-gold"
-              className="w-full md:w-auto"
-              onClick={() => navigate('/book?service=car-hire')}
-              size="lg"
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              viewport={{ once: true }}
             >
-              Book a Car Now
-            </Button>
+              <Card className="border-none shadow-lg bg-white h-full">
+                <CardContent className="pt-6 px-6 pb-8">
+                  <h2 className="text-3xl font-bold mb-6 text-zinc-800">Prestige Vehicle Rental</h2>
+                  <p className="text-gray-600 leading-relaxed">
+                    Experience the epitome of luxury with our premium car rental service. Whether you're attending a high-profile event, exploring a new city in style, or simply treating yourself to an extraordinary driving experience, our fleet of prestigious vehicles ensures you make a lasting impression.
+                  </p>
+                </CardContent>
+              </Card>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Chauffeur Service Section */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+            >
+              <Card className="border-none shadow-lg bg-gray-50 h-full">
+                <CardContent className="pt-6 px-6 pb-8">
+                  <h2 className="text-3xl font-bold mb-6 text-zinc-800">Professional Chauffeur Service</h2>
+                  <p className="text-gray-600 leading-relaxed">
+                    Elevate your journey with our professional chauffeur service. Our expertly trained drivers provide a seamless, comfortable experience, allowing you to focus on what matters most. Perfect for business travel, airport transfers, or special events when you want to arrive in sophisticated style.
+                  </p>
+                </CardContent>
+              </Card>
+            </motion.div>
+            
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              viewport={{ once: true }}
+              className="rounded-xl overflow-hidden shadow-lg"
+            >
+              <img 
+                src="https://images.unsplash.com/photo-1560232216-3d0dcf7897de?q=80&w=2066" 
+                alt="Professional chauffeur service" 
+                className="w-full h-full object-cover aspect-[4/3]"
+              />
+            </motion.div>
           </div>
         </div>
       </section>
@@ -130,7 +214,6 @@ const CarHire = () => {
       />
       
       <ServiceTestimonials 
-        title="What Our Clients Say"
         testimonials={testimonials}
       />
       
@@ -139,6 +222,9 @@ const CarHire = () => {
         description="Book your premium vehicle today and make your journey as exceptional as your destination."
         primaryButtonText="Book Now"
         primaryButtonLink="/book?service=car-hire"
+        secondaryButtonText="View Fleet"
+        secondaryButtonLink="/fleet"
+        backgroundImage="https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?q=80&w=2070"
       />
     </ServiceLayout>
   );
