@@ -81,7 +81,7 @@ const properties = [{
     id: 'f2-4',
     name: 'Beach Access'
   }],
-  images: ['https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2070', 'https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?q=80&w=2070', 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?q=80&w=2060'],
+  images: ['https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2070', 'https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?q=80&w=2070', 'https://images.unsplash.com/photo-1520250497591-162f2f40a3f4?q=80&w=2060'],
   description: 'Wake up to stunning ocean views in our modern beachfront villa.'
 }, {
   id: 3,
@@ -248,7 +248,7 @@ const Book = () => {
 
   // Handle property selection change
   const handlePropertyChange = (propertyId: string) => {
-    if (!propertyId) {
+    if (propertyId === 'none') {
       setSelectedProperty(null);
       setFormData(prev => ({ ...prev, property: '' }));
       return;
@@ -264,7 +264,7 @@ const Book = () => {
 
   // Handle artisan selection change
   const handleArtisanChange = (artisanId: string) => {
-    if (!artisanId) {
+    if (artisanId === 'none') {
       setSelectedArtisan(null);
       setFormData(prev => ({ ...prev, artisan: '' }));
       return;
@@ -293,7 +293,7 @@ const Book = () => {
 
   // Handle car selection change
   const handleCarChange = (carId: string) => {
-    if (!carId) {
+    if (carId === 'none') {
       setSelectedCar(null);
       setFormData(prev => ({ ...prev, car: '' }));
       return;
@@ -306,7 +306,7 @@ const Book = () => {
 
   // Handle jet selection change
   const handleJetChange = (jetId: string) => {
-    if (!jetId) {
+    if (jetId === 'none') {
       setSelectedJet(null);
       setFormData(prev => ({ ...prev, jet: '' }));
       return;
@@ -643,7 +643,7 @@ const Book = () => {
                           <SelectValue placeholder="Select a service" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="" className="text-gray-400 italic">None</SelectItem>
+                          <SelectItem value="none" className="text-gray-400 italic">None</SelectItem>
                           {serviceOptions.map(option => <SelectItem key={option.value} value={option.value}>
                               {option.label}
                             </SelectItem>)}
@@ -721,7 +721,7 @@ const Book = () => {
                           <SelectValue placeholder="Select a property" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="" className="text-gray-400 italic">None</SelectItem>
+                          <SelectItem value="none" className="text-gray-400 italic">None</SelectItem>
                           {properties.map(property => (
                             <SelectItem key={property.id} value={property.id.toString()}>
                               {property.name} - ${property.price}/night
@@ -848,7 +848,7 @@ const Book = () => {
                           <SelectValue placeholder="Select a vehicle" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="" className="text-gray-400 italic">None</SelectItem>
+                          <SelectItem value="none" className="text-gray-400 italic">None</SelectItem>
                           {cars.map(car => (
                             <SelectItem key={car.id} value={car.id.toString()}>
                               {car.name} - ${car.price}/day
@@ -968,7 +968,7 @@ const Book = () => {
                           <SelectValue placeholder="Select an aircraft" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="" className="text-gray-400 italic">None</SelectItem>
+                          <SelectItem value="none" className="text-gray-400 italic">None</SelectItem>
                           {jets.map(jet => (
                             <SelectItem key={jet.id} value={jet.id.toString()}>
                               {jet.name} - ${jet.price}/hour
@@ -1064,7 +1064,6 @@ const Book = () => {
                   </form>
                 </TabsContent>
                 
-                {/* New Artisan Booking Tab */}
                 <TabsContent value="artisan" className="px-1 md:px-4">
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <input type="hidden" name="service" value="facility-management" />
@@ -1081,7 +1080,8 @@ const Book = () => {
                           <SelectValue placeholder="Select an artisan" />
                         </SelectTrigger>
                         <SelectContent>
-                          {artisanOptions.map(artisan => (
+                          <SelectItem value="none" className="text-gray-400 italic">None</SelectItem>
+                          {artisanOptions.filter(artisan => artisan.value !== '').map(artisan => (
                             <SelectItem 
                               key={artisan.value} 
                               value={artisan.value}
