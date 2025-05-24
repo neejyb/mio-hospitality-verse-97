@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { motion } from 'framer-motion';
 import ServiceLayout from '@/components/ServiceLayout';
@@ -175,6 +174,8 @@ const InteriorDesign = () => {
         }
         image="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2053"
         imageAlt="Interior designer working on floor plans"
+        buttonText="Explore Interior Projects"
+        buttonLink="/contact"
       />
       
       <ServiceFeatures

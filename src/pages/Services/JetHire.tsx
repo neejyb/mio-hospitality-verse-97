@@ -1,4 +1,3 @@
-
 import React from 'react';
 import ServiceLayout from '@/components/ServiceLayout';
 import ServiceHero from '@/components/ServiceHero';
@@ -175,6 +174,8 @@ const JetHire = () => {
         }
         image="https://images.unsplash.com/photo-1575039303300-6b4ddefb29ae?q=80&w=2070"
         imageAlt="Luxurious private jet interior"
+        buttonText="Check Jet Availability"
+        buttonLink="/contact"
       />
       
       <ServiceFeatures

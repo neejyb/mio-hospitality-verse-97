@@ -1,4 +1,3 @@
-
 import React from 'react';
 import ServiceLayout from '@/components/ServiceLayout';
 import ServiceHero from '@/components/ServiceHero';
@@ -30,6 +29,8 @@ const FacilityManagement = () => {
         }
         image="https://images.unsplash.com/photo-1560520653-9e0e4c89eb11?q=80&w=2073"
         imageAlt="Professional facility management"
+        buttonText="Request Facility Support"
+        buttonLink="/contact"
       />
       
       <FacilityFeatures />

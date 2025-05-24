@@ -1,15 +1,25 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Button } from '@/components/ui/button';
 
 interface ServiceIntroductionProps {
   description: string | React.ReactNode;
   image: string;
   imageAlt: string;
   reversed?: boolean;
+  buttonText?: string;
+  buttonLink?: string;
 }
 
-const ServiceIntroduction = ({ description, image, imageAlt, reversed = false }: ServiceIntroductionProps) => {
+const ServiceIntroduction = ({ 
+  description, 
+  image, 
+  imageAlt, 
+  reversed = false,
+  buttonText,
+  buttonLink 
+}: ServiceIntroductionProps) => {
   return (
     <section className="py-16 bg-white">
       <div className="container mx-auto px-4">
@@ -25,6 +35,17 @@ const ServiceIntroduction = ({ description, image, imageAlt, reversed = false }:
               <p className="text-gray-600">{description}</p>
             ) : (
               description
+            )}
+            
+            {buttonText && buttonLink && (
+              <div className="mt-6">
+                <Button 
+                  asChild
+                  className="bg-[#FFC107] hover:bg-[#E0A800] text-black font-medium px-6 py-3 rounded-md shadow-md hover:shadow-lg transition-all duration-300"
+                >
+                  <a href={buttonLink}>{buttonText}</a>
+                </Button>
+              </div>
             )}
           </motion.div>
           
