@@ -1,4 +1,3 @@
-
 import * as React from "react"
 
 import { cn } from "@/lib/utils"
@@ -77,28 +76,4 @@ const CardFooter = React.forwardRef<
 ))
 CardFooter.displayName = "CardFooter"
 
-const CardImage = React.forwardRef<
-  HTMLDivElement,
-  React.ImgHTMLAttributes<HTMLImageElement> & { containerClassName?: string }
->(({ className, containerClassName, src, alt, ...props }, ref) => (
-  <div className={cn("relative overflow-hidden", containerClassName)}>
-    <img
-      ref={ref as any}
-      src={src}
-      alt={alt}
-      className={cn("w-full h-full object-cover", className)}
-      {...props}
-    />
-  </div>
-))
-CardImage.displayName = "CardImage"
-
-export { 
-  Card, 
-  CardHeader, 
-  CardFooter, 
-  CardTitle, 
-  CardDescription, 
-  CardContent,
-  CardImage
-}
+export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent }

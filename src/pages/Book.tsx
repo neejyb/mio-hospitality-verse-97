@@ -15,10 +15,6 @@ import { toast } from 'sonner';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Card, CardContent } from '@/components/ui/card';
 import { Check, ArrowLeft } from 'lucide-react';
-import { carsData } from '@/data/carsData';
-import { jetsData } from '@/data/jetsData';
-import CarCard from '@/components/Cars/CarCard';
-import JetCard from '@/components/Jets/JetCard';
 
 const serviceOptions = [{
   value: 'interior-design',
@@ -193,10 +189,6 @@ const Book = () => {
   const artisanTypeParam = searchParams.get('artisanType') || '';
   const artisanImageParam = searchParams.get('artisanImage') || '';
   
-  // New car and jet parameters
-  const carIdParam = searchParams.get('carId');
-  const jetIdParam = searchParams.get('jetId');
-  
   const [formData, setFormData] = useState({
     service: initialService || 'airbnb',
     name: '',
@@ -205,20 +197,13 @@ const Book = () => {
     date: null as Date | null,
     message: '',
     property: initialPropertyId ? initialPropertyId.toString() : '',
-    artisan: artisanParam || 'none',  // Changed from empty string to 'none'
-    car: carIdParam || 'none',
-    jet: jetIdParam || 'none'
+    artisan: artisanParam || 'none'  // Changed from empty string to 'none'
   });
   
-  const [selectedTab, setSelectedTab] = useState(initialPropertyId ? 'airbnb' : 
-                                              (artisanParam ? 'artisan' : 
-                                               carIdParam ? 'car' :
-                                               jetIdParam ? 'jet' : 'general'));
+  const [selectedTab, setSelectedTab] = useState(initialPropertyId ? 'airbnb' : (artisanParam ? 'artisan' : 'general'));
   const [loading, setLoading] = useState(false);
   const [selectedProperty, setSelectedProperty] = useState<any>(null);
   const [selectedArtisan, setSelectedArtisan] = useState<any>(null);
-  const [selectedCar, setSelectedCar] = useState<any>(null);
-  const [selectedJet, setSelectedJet] = useState<any>(null);
   const isMobile = useIsMobile();
 
   // Find the selected property from the properties array based on URL param
@@ -254,36 +239,6 @@ const Book = () => {
       }));
     }
   }, [artisanParam, artisanIdParam, artisanTypeParam, artisanImageParam]);
-
-  // Set up selected car from URL parameters
-  useEffect(() => {
-    if (carIdParam) {
-      const car = carsData.find(c => c.id === parseInt(carIdParam));
-      if (car) {
-        setSelectedCar(car);
-        setFormData(prev => ({
-          ...prev,
-          car: carIdParam,
-          service: 'car-hire'
-        }));
-      }
-    }
-  }, [carIdParam]);
-
-  // Set up selected jet from URL parameters
-  useEffect(() => {
-    if (jetIdParam) {
-      const jet = jetsData.find(j => j.id === parseInt(jetIdParam));
-      if (jet) {
-        setSelectedJet(jet);
-        setFormData(prev => ({
-          ...prev,
-          jet: jetIdParam,
-          service: 'jet-hire'
-        }));
-      }
-    }
-  }, [jetIdParam]);
 
   // Handle property selection change
   const handlePropertyChange = (propertyId: string) => {
@@ -322,61 +277,9 @@ const Book = () => {
     }
   };
 
-  // Handle car selection change
-  const handleCarChange = (carId: string) => {
-    if (carId === 'none') {
-      setSelectedCar(null);
-      setFormData(prev => ({
-        ...prev,
-        car: 'none'
-      }));
-      return;
-    }
-    
-    const car = carsData.find(c => c.id === parseInt(carId));
-    if (car) {
-      setSelectedCar(car);
-      setFormData(prev => ({
-        ...prev,
-        car: carId
-      }));
-    }
-  };
-
-  // Handle jet selection change
-  const handleJetChange = (jetId: string) => {
-    if (jetId === 'none') {
-      setSelectedJet(null);
-      setFormData(prev => ({
-        ...prev,
-        jet: 'none'
-      }));
-      return;
-    }
-    
-    const jet = jetsData.find(j => j.id === parseInt(jetId));
-    if (jet) {
-      setSelectedJet(jet);
-      setFormData(prev => ({
-        ...prev,
-        jet: jetId
-      }));
-    }
-  };
-
   // Handle "Change Artisan" button click
   const handleChangeArtisan = () => {
     navigate('/artisans');
-  };
-
-  // Handle "Change Car" button click
-  const handleChangeCar = () => {
-    navigate('/fleet');
-  };
-
-  // Handle "Change Jet" button click
-  const handleChangeJet = () => {
-    navigate('/jets');
   };
 
   useEffect(() => {
@@ -407,10 +310,6 @@ const Book = () => {
       handlePropertyChange(value);
     } else if (name === 'artisan') {
       handleArtisanChange(value);
-    } else if (name === 'car') {
-      handleCarChange(value);
-    } else if (name === 'jet') {
-      handleJetChange(value);
     }
     
     setFormData(prev => ({
@@ -424,33 +323,6 @@ const Book = () => {
       ...prev,
       date
     }));
-  };
-
-  // Clear selections when tab changes
-  const handleTabChange = (value: string) => {
-    // Clear selections that aren't relevant to the new tab
-    if (value !== 'car') {
-      setSelectedCar(null);
-      setFormData(prev => ({ ...prev, car: 'none' }));
-    }
-    
-    if (value !== 'jet') {
-      setSelectedJet(null);
-      setFormData(prev => ({ ...prev, jet: 'none' }));
-    }
-    
-    if (value !== 'artisan') {
-      setSelectedArtisan(null);
-      setFormData(prev => ({ ...prev, artisan: 'none' }));
-    }
-    
-    if (value !== 'airbnb') {
-      setSelectedProperty(null);
-      setFormData(prev => ({ ...prev, property: '' }));
-    }
-    
-    // Update the selected tab
-    setSelectedTab(value);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -468,14 +340,10 @@ const Book = () => {
         date: null,
         message: '',
         property: '',
-        artisan: '',
-        car: '',
-        jet: ''
+        artisan: ''
       });
       setSelectedProperty(null);
       setSelectedArtisan(null);
-      setSelectedCar(null);
-      setSelectedJet(null);
       setLoading(false);
     }, 1500);
   };
@@ -582,51 +450,7 @@ const Book = () => {
                 </div>
               )}
               
-              {/* Selected Car Card */}
-              {selectedCar && (
-                <div className="mb-8">
-                  <div className="flex justify-between items-center mb-4">
-                    <h2 className="text-2xl font-semibold">Selected Car</h2>
-                    <Button 
-                      variant="outline"
-                      size="sm"
-                      onClick={handleChangeCar}
-                      className="flex items-center gap-1"
-                    >
-                      <ArrowLeft size={16} />
-                      Change Car
-                    </Button>
-                  </div>
-                  <CarCard 
-                    car={selectedCar} 
-                    showBookButton={false} 
-                  />
-                </div>
-              )}
-              
-              {/* Selected Jet Card */}
-              {selectedJet && (
-                <div className="mb-8">
-                  <div className="flex justify-between items-center mb-4">
-                    <h2 className="text-2xl font-semibold">Selected Jet</h2>
-                    <Button 
-                      variant="outline"
-                      size="sm"
-                      onClick={handleChangeJet}
-                      className="flex items-center gap-1"
-                    >
-                      <ArrowLeft size={16} />
-                      Change Jet
-                    </Button>
-                  </div>
-                  <JetCard 
-                    jet={selectedJet} 
-                    showCharterButton={false} 
-                  />
-                </div>
-              )}
-              
-              <Tabs defaultValue={selectedTab} value={selectedTab} onValueChange={handleTabChange} className="w-full">
+              <Tabs defaultValue={selectedTab} value={selectedTab} onValueChange={setSelectedTab} className="w-full">
                 <div className="mb-6 overflow-x-auto pb-2">
                   <TabsList className={`${isMobile ? 'flex w-full' : 'grid grid-cols-5 w-full'}`}>
                     <TabsTrigger 
@@ -871,20 +695,15 @@ const Book = () => {
                       <label htmlFor="car-model" className="block text-sm font-medium text-gray-700 mb-1">
                         Choose a Vehicle
                       </label>
-                      <Select 
-                        value={formData.car} 
-                        onValueChange={value => handleSelectChange('car', value)}
-                      >
+                      <Select defaultValue="luxury-sedan">
                         <SelectTrigger>
                           <SelectValue placeholder="Select a vehicle" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="none">None - Select a Car</SelectItem>
-                          {carsData.map(car => (
-                            <SelectItem key={car.id} value={car.id.toString()}>
-                              {car.model} - {car.type}
-                            </SelectItem>
-                          ))}
+                          <SelectItem value="luxury-sedan">Luxury Sedan - Mercedes S-Class</SelectItem>
+                          <SelectItem value="sports-car">Sports Car - Porsche 911</SelectItem>
+                          <SelectItem value="suv">SUV - Range Rover Autobiography</SelectItem>
+                          <SelectItem value="exotic">Exotic - Lamborghini Huracán</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
@@ -981,7 +800,7 @@ const Book = () => {
                     </div>
                     
                     <Button type="submit" disabled={loading} className="w-full transition-colors bg-wine-500 hover:bg-wine-600 text-amber-50">
-                      {loading ? 'Processing...' : selectedCar ? `Book ${selectedCar.model}` : 'Reserve Vehicle'}
+                      {loading ? 'Processing...' : 'Reserve Vehicle'}
                     </Button>
                   </form>
                 </TabsContent>
@@ -990,26 +809,19 @@ const Book = () => {
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <input type="hidden" name="service" value="jet-hire" />
                     
-                    <div>
-                      <label htmlFor="jet-model" className="block text-sm font-medium text-gray-700 mb-1">
-                        Choose a Private Jet
-                      </label>
-                      <Select 
-                        value={formData.jet} 
-                        onValueChange={value => handleSelectChange('jet', value)}
-                      >
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select a jet" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="none">None - Select a Jet</SelectItem>
-                          {jetsData.map(jet => (
-                            <SelectItem key={jet.id} value={jet.id.toString()}>
-                              {jet.name} - {jet.capacity} passengers
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                    <div className="bg-gray-50 p-4 rounded-lg mb-6">
+                      <h3 className="font-semibold text-lg text-gray-900 mb-2">Available Private Jet</h3>
+                      <p className="text-gray-600 mb-4">
+                        We currently have one luxury private jet available for charter:
+                      </p>
+                      <div className="flex items-center">
+                        <img src="https://images.unsplash.com/photo-1540962351504-03099e0a754b?q=80&w=2070" alt="Private Jet" className="w-24 h-24 object-cover rounded-md mr-4" />
+                        <div>
+                          <h4 className="font-medium text-gray-900">Gulfstream G650</h4>
+                          <p className="text-gray-600 text-sm">Capacity: 16 passengers</p>
+                          <p className="text-gray-600 text-sm">Range: Long-haul international flights</p>
+                        </div>
+                      </div>
                     </div>
                     
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -1093,7 +905,7 @@ const Book = () => {
                     </div>
                     
                     <Button type="submit" disabled={loading} className="w-full text-white transition-colors bg-wine-500 hover:bg-wine-600">
-                      {loading ? 'Processing...' : selectedJet ? `Charter ${selectedJet.name}` : 'Request Jet Charter'}
+                      {loading ? 'Processing...' : 'Request Jet Charter'}
                     </Button>
                   </form>
                 </TabsContent>
