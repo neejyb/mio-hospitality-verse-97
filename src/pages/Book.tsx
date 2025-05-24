@@ -15,6 +15,8 @@ import { toast } from 'sonner';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Card, CardContent } from '@/components/ui/card';
 import { Check, ArrowLeft } from 'lucide-react';
+import { cars } from '@/data/cars';
+import { jets } from '@/data/jets';
 
 const serviceOptions = [{
   value: 'interior-design',
@@ -79,7 +81,7 @@ const properties = [{
     id: 'f2-4',
     name: 'Beach Access'
   }],
-  images: ['https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2070', 'https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?q=80&w=2070', 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?q=80&w=2070'],
+  images: ['https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2070', 'https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?q=80&w=2070', 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?q=80&w=2060'],
   description: 'Wake up to stunning ocean views in our modern beachfront villa.'
 }, {
   id: 3,
@@ -197,13 +199,17 @@ const Book = () => {
     date: null as Date | null,
     message: '',
     property: initialPropertyId ? initialPropertyId.toString() : '',
-    artisan: artisanParam || 'none'  // Changed from empty string to 'none'
+    artisan: artisanParam || 'none',
+    car: '',
+    jet: ''
   });
   
   const [selectedTab, setSelectedTab] = useState(initialPropertyId ? 'airbnb' : (artisanParam ? 'artisan' : 'general'));
   const [loading, setLoading] = useState(false);
   const [selectedProperty, setSelectedProperty] = useState<any>(null);
   const [selectedArtisan, setSelectedArtisan] = useState<any>(null);
+  const [selectedCar, setSelectedCar] = useState<any>(null);
+  const [selectedJet, setSelectedJet] = useState<any>(null);
   const isMobile = useIsMobile();
 
   // Find the selected property from the properties array based on URL param
@@ -282,6 +288,46 @@ const Book = () => {
     navigate('/artisans');
   };
 
+  // Handle car selection change
+  const handleCarChange = (carId: string) => {
+    if (!carId) {
+      setSelectedCar(null);
+      setFormData(prev => ({ ...prev, car: '' }));
+      return;
+    }
+    
+    const car = cars.find(c => c.id === parseInt(carId));
+    setSelectedCar(car);
+    setFormData(prev => ({ ...prev, car: carId }));
+  };
+
+  // Handle jet selection change
+  const handleJetChange = (jetId: string) => {
+    if (!jetId) {
+      setSelectedJet(null);
+      setFormData(prev => ({ ...prev, jet: '' }));
+      return;
+    }
+    
+    const jet = jets.find(j => j.id === parseInt(jetId));
+    setSelectedJet(jet);
+    setFormData(prev => ({ ...prev, jet: jetId }));
+  };
+
+  // Clear selections when switching tabs
+  const handleTabChange = (value: string) => {
+    setSelectedTab(value);
+    
+    // Clear all dynamic selections when switching tabs
+    setSelectedCar(null);
+    setSelectedJet(null);
+    setFormData(prev => ({
+      ...prev,
+      car: '',
+      jet: ''
+    }));
+  };
+
   useEffect(() => {
     if (initialService === 'airbnb' || initialPropertyId) {
       setSelectedTab('airbnb');
@@ -310,6 +356,10 @@ const Book = () => {
       handlePropertyChange(value);
     } else if (name === 'artisan') {
       handleArtisanChange(value);
+    } else if (name === 'car') {
+      handleCarChange(value);
+    } else if (name === 'jet') {
+      handleJetChange(value);
     }
     
     setFormData(prev => ({
@@ -450,7 +500,85 @@ const Book = () => {
                 </div>
               )}
               
-              <Tabs defaultValue={selectedTab} value={selectedTab} onValueChange={setSelectedTab} className="w-full">
+              {/* Selected Car Card */}
+              {selectedCar && (
+                <div className="mb-8">
+                  <h2 className="text-2xl font-semibold mb-4">Selected Vehicle</h2>
+                  <Card className="overflow-hidden">
+                    <div className="flex flex-col md:flex-row">
+                      <div className="md:w-1/3 h-48 md:h-auto">
+                        <img 
+                          src={selectedCar.image} 
+                          alt={selectedCar.name}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <CardContent className="flex-1 p-4">
+                        <div className="bg-wine-500/10 text-wine-600 px-3 py-1 rounded-full text-sm inline-block mb-2">
+                          {selectedCar.category}
+                        </div>
+                        <h3 className="text-xl font-bold mb-2">{selectedCar.name}</h3>
+                        <div className="text-wine-600 font-bold mb-3">${selectedCar.price} / day</div>
+                        <p className="text-gray-600 mb-3">{selectedCar.description}</p>
+                        <div className="grid grid-cols-2 gap-2">
+                          {selectedCar.features.map((feature, index) => (
+                            <div key={index} className="flex items-center text-sm">
+                              <Check size={16} className="text-green-500 mr-1" />
+                              <span>{feature}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </CardContent>
+                    </div>
+                  </Card>
+                </div>
+              )}
+              
+              {/* Selected Jet Card */}
+              {selectedJet && (
+                <div className="mb-8">
+                  <h2 className="text-2xl font-semibold mb-4">Selected Aircraft</h2>
+                  <Card className="overflow-hidden">
+                    <div className="flex flex-col md:flex-row">
+                      <div className="md:w-1/3 h-48 md:h-auto">
+                        <img 
+                          src={selectedJet.image} 
+                          alt={selectedJet.name}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <CardContent className="flex-1 p-4">
+                        <div className="bg-blue-500/10 text-blue-600 px-3 py-1 rounded-full text-sm inline-block mb-2">
+                          {selectedJet.category}
+                        </div>
+                        <h3 className="text-xl font-bold mb-2">{selectedJet.name}</h3>
+                        <div className="text-blue-600 font-bold mb-3">${selectedJet.price} / hour</div>
+                        <p className="text-gray-600 mb-3">{selectedJet.description}</p>
+                        <div className="grid grid-cols-2 gap-2 mb-3">
+                          <div className="flex items-center text-sm">
+                            <Check size={16} className="text-green-500 mr-1" />
+                            <span>Capacity: {selectedJet.capacity} passengers</span>
+                          </div>
+                          <div className="flex items-center text-sm">
+                            <Check size={16} className="text-green-500 mr-1" />
+                            <span>Range: {selectedJet.range}</span>
+                          </div>
+                        </div>
+                        <div className="grid grid-cols-2 gap-2">
+                          {selectedJet.features.map((feature, index) => (
+                            <div key={index} className="flex items-center text-sm">
+                              <Check size={16} className="text-green-500 mr-1" />
+                              <span>{feature}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </CardContent>
+                    </div>
+                  </Card>
+                </div>
+              )}
+              
+              <Tabs defaultValue={selectedTab} value={selectedTab} onValueChange={handleTabChange} className="w-full">
                 <div className="mb-6 overflow-x-auto pb-2">
                   <TabsList className={`${isMobile ? 'flex w-full' : 'grid grid-cols-5 w-full'}`}>
                     <TabsTrigger 
@@ -695,15 +823,16 @@ const Book = () => {
                       <label htmlFor="car-model" className="block text-sm font-medium text-gray-700 mb-1">
                         Choose a Vehicle
                       </label>
-                      <Select defaultValue="luxury-sedan">
+                      <Select value={formData.car} onValueChange={handleCarChange}>
                         <SelectTrigger>
                           <SelectValue placeholder="Select a vehicle" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="luxury-sedan">Luxury Sedan - Mercedes S-Class</SelectItem>
-                          <SelectItem value="sports-car">Sports Car - Porsche 911</SelectItem>
-                          <SelectItem value="suv">SUV - Range Rover Autobiography</SelectItem>
-                          <SelectItem value="exotic">Exotic - Lamborghini Huracán</SelectItem>
+                          {cars.map(car => (
+                            <SelectItem key={car.id} value={car.id.toString()}>
+                              {car.name} - ${car.price}/day
+                            </SelectItem>
+                          ))}
                         </SelectContent>
                       </Select>
                     </div>
