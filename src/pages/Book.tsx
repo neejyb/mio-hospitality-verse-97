@@ -390,10 +390,14 @@ const Book = () => {
         date: null,
         message: '',
         property: '',
-        artisan: ''
+        artisan: '',
+        car: '',
+        jet: ''
       });
       setSelectedProperty(null);
       setSelectedArtisan(null);
+      setSelectedCar(null);
+      setSelectedJet(null);
       setLoading(false);
     }, 1500);
   };
