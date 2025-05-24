@@ -1,167 +1,188 @@
 
 import React from 'react';
 import ServiceLayout from '@/components/ServiceLayout';
-import ServiceHero from '@/components/ServiceHero';
-import ServiceIntroduction from '@/components/ServiceIntroduction';
-import ServiceFeatures from '@/components/ServiceFeatures';
-import ServiceGallery from '@/components/ServiceGallery';
-import ServiceTestimonials from '@/components/ServiceTestimonials';
-import ServiceCta from '@/components/ServiceCta';
-import { Button } from '@/components/ui/button';
-import { Link } from 'react-router-dom';
-import { Car } from 'lucide-react';
+import { Check } from 'lucide-react';
 
 const CarHire = () => {
-  // Features data
-  const features = [
-    {
-      id: "feature-1",
-      title: "Premium Vehicle Selection",
-      description: "Choose from our fleet of luxury and exotic cars for any occasion.",
-      icon: <Car className="h-12 w-12 text-wine-500" />
-    },
-    {
-      id: "feature-2",
-      title: "Chauffeur Service",
-      description: "Opt for our professional chauffeurs for a truly luxurious experience.",
-      icon: <Car className="h-12 w-12 text-wine-500" />
-    },
-    {
-      id: "feature-3",
-      title: "Flexible Rental Options",
-      description: "From hourly rentals to monthly leases, we offer options to suit your needs.",
-      icon: <Car className="h-12 w-12 text-wine-500" />
-    },
-    {
-      id: "feature-4",
-      title: "Delivery & Pickup",
-      description: "We deliver the vehicle to your location and pick it up when you're done.",
-      icon: <Car className="h-12 w-12 text-wine-500" />
-    }
-  ];
-
-  // Gallery images
-  const galleryImages = [
-    { 
-      id: "gallery-1",
-      src: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=2070",
-      alt: "Luxury Car on Road",
-      caption: "Premium sports cars for an exceptional driving experience"
-    },
-    { 
-      id: "gallery-2",
-      src: "https://images.unsplash.com/photo-1583121274602-3e2820c69888?q=80&w=2070",
-      alt: "Sports Car Interior",
-      caption: "Luxurious interiors for maximum comfort"
-    },
-    { 
-      id: "gallery-3",
-      src: "https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?q=80&w=2070",
-      alt: "Car Keys Handover",
-      caption: "Seamless rental experience from start to finish"
-    },
-    { 
-      id: "gallery-4",
-      src: "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?q=80&w=2070",
-      alt: "Classic sports car on road",
-      caption: "Experience the thrill of driving iconic vehicles"
-    },
-    { 
-      id: "gallery-5",
-      src: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2070",
-      alt: "Luxury sedan",
-      caption: "Elegant sedans for business and special occasions"
-    },
-    { 
-      id: "gallery-6",
-      src: "https://images.unsplash.com/photo-1560177112-fbfd5fde9566?q=80&w=2070",
-      alt: "Luxury SUV",
-      caption: "Premium SUVs for versatility and comfort"
-    }
-  ];
-
-  // Testimonials data
-  const testimonials = [
-    {
-      id: "testimonial-1",
-      content: "The Porsche 911 I rented was the highlight of my weekend getaway. Impeccable service from start to finish.",
-      author: "James Wilson",
-      position: "Executive",
-      avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200"
-    },
-    {
-      id: "testimonial-2",
-      content: "Having a chauffeur drive us in the S-Class made our anniversary celebration truly special and memorable.",
-      author: "Sarah & Michael",
-      position: "Clients",
-      avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200"
-    },
-    {
-      id: "testimonial-3",
-      content: "As a car enthusiast, I was impressed by the condition of the vehicle and the team's attention to detail.",
-      author: "David Chen",
-      position: "Car Collector",
-      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200"
-    },
-    {
-      id: "testimonial-4",
-      content: "The convenience of having the car delivered directly to my hotel made my business trip so much smoother.",
-      author: "Elizabeth Taylor",
-      position: "Business Traveler",
-      avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200"
-    }
-  ];
-
   return (
     <ServiceLayout>
-      <ServiceHero
-        title="Luxury Car Hire"
-        subtitle="Experience the thrill of driving the world's finest automobiles"
-        backgroundImage="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=2070"
-      />
-      
-      <ServiceIntroduction
-        description={
-          <>
-            <p className="text-gray-600 mb-4">
-              Our luxury car hire service offers you access to a curated collection of the world's most prestigious automobiles. Whether you're seeking the thrill of a high-performance sports car, the refinement of a luxury sedan, or the versatility of a premium SUV, our fleet caters to the most discerning tastes.
+      {/* Hero Section */}
+      <div 
+        className="relative h-screen bg-cover bg-center flex items-center" 
+        style={{ backgroundImage: `url(https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=2070)` }}
+      >
+        <div className="absolute inset-0 bg-black/50"></div>
+        <div className="container mx-auto px-4 relative z-10 text-white">
+          <div className="max-w-2xl">
+            <h1 className="text-5xl md:text-6xl font-bold mb-6">
+              Luxury Car Hire
+            </h1>
+            <p className="text-xl md:text-2xl text-gray-200">
+              Experience exceptional driving with our premium and exotic car rental services
             </p>
-            <p className="text-gray-600">
-              Each vehicle in our collection is meticulously maintained to ensure an exceptional driving experience. From airport transfers and business travel to special occasions and weekend getaways, we provide the perfect vehicle paired with impeccable service.
+          </div>
+        </div>
+      </div>
+
+      {/* Exceptional Car Hire Services Section */}
+      <section className="py-20" style={{ backgroundColor: '#330000' }}>
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+              Exceptional Car Hire Services
+            </h2>
+            <p className="text-xl text-gray-300 max-w-4xl mx-auto">
+              Discover the range of premium services offered with our luxury vehicle rentals
             </p>
-          </>
-        }
-        image="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=2070"
-        imageAlt="Luxury car rental"
-      />
-      
-      <ServiceFeatures
-        title="Our Car Hire Services"
-        subtitle="Exceptional vehicles and service for every occasion"
-        features={features}
-        darkMode={true}
-      />
-      
-      <ServiceGallery
-        title="Luxury Fleet Gallery"
-        subtitle="Browse our collection of premium vehicles"
-        images={galleryImages}
-      />
-      
-      <ServiceTestimonials
-        testimonials={testimonials}
-        darkMode={true}
-      />
-      
-      <ServiceCta
-        title="Ready to Experience Luxury on Wheels?"
-        description="Book your premium vehicle today and make your journey as exceptional as your destination."
-        primaryButtonText="Book Now"
-        primaryButtonLink="/book?service=car-hire"
-        secondaryButtonText="View Fleet"
-        secondaryButtonLink="/fleet"
-        backgroundImage="https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?q=80&w=2070"
-      />
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+            {/* Row 1 */}
+            <div className="bg-black/40 p-8 rounded-lg">
+              <div className="flex items-start mb-4">
+                <Check className="h-6 w-6 text-[#D4AF37] mr-4 mt-1 flex-shrink-0" />
+                <h3 className="text-2xl font-bold text-white">Luxury Fleet</h3>
+              </div>
+              <p className="text-gray-300 leading-relaxed">
+                Access to a curated collection of premium and luxury vehicles from renowned brands like Mercedes-Benz, BMW, Porsche, and more.
+              </p>
+            </div>
+
+            <div className="bg-black/40 p-8 rounded-lg">
+              <div className="flex items-start mb-4">
+                <Check className="h-6 w-6 text-[#D4AF37] mr-4 mt-1 flex-shrink-0" />
+                <h3 className="text-2xl font-bold text-white">Chauffeur Services</h3>
+              </div>
+              <p className="text-gray-300 leading-relaxed">
+                Professional, discreet drivers available for airport transfers, event transportation, or full-day service during your stay.
+              </p>
+            </div>
+
+            <div className="bg-black/40 p-8 rounded-lg">
+              <div className="flex items-start mb-4">
+                <Check className="h-6 w-6 text-[#D4AF37] mr-4 mt-1 flex-shrink-0" />
+                <h3 className="text-2xl font-bold text-white">Self-Drive Options</h3>
+              </div>
+              <p className="text-gray-300 leading-relaxed">
+                Flexible self-drive rentals with comprehensive insurance coverage for those who prefer to take the wheel themselves.
+              </p>
+            </div>
+
+            {/* Row 2 */}
+            <div className="bg-black/40 p-8 rounded-lg">
+              <div className="flex items-start mb-4">
+                <Check className="h-6 w-6 text-[#D4AF37] mr-4 mt-1 flex-shrink-0" />
+                <h3 className="text-2xl font-bold text-white">Concierge Delivery</h3>
+              </div>
+              <p className="text-gray-300 leading-relaxed">
+                Convenient vehicle delivery and pickup at your location—hotel, villa, airport, or any address within our service area.
+              </p>
+            </div>
+
+            <div className="bg-black/40 p-8 rounded-lg">
+              <div className="flex items-start mb-4">
+                <Check className="h-6 w-6 text-[#D4AF37] mr-4 mt-1 flex-shrink-0" />
+                <h3 className="text-2xl font-bold text-white">Special Occasions</h3>
+              </div>
+              <p className="text-gray-300 leading-relaxed">
+                Custom packages for weddings, anniversaries, photo shoots, and other special events requiring distinctive transportation.
+              </p>
+            </div>
+
+            <div className="bg-black/40 p-8 rounded-lg">
+              <div className="flex items-start mb-4">
+                <Check className="h-6 w-6 text-[#D4AF37] mr-4 mt-1 flex-shrink-0" />
+                <h3 className="text-2xl font-bold text-white">Corporate Solutions</h3>
+              </div>
+              <p className="text-gray-300 leading-relaxed">
+                Tailored transportation solutions for business events, executive travel, and corporate retreats with account management.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Our Exclusive Fleet Section */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+              Our Exclusive Fleet
+            </h2>
+            <p className="text-xl text-gray-600 max-w-4xl mx-auto">
+              Explore our collection of luxury, sports, and exotic vehicles available for your next journey
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
+            {[
+              {
+                src: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=600",
+                caption: "Sports car convoy"
+              },
+              {
+                src: "https://images.unsplash.com/photo-1583121274602-3e2820c69888?q=80&w=600",
+                caption: "Professional chauffeur service available"
+              },
+              {
+                src: "https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?q=80&w=600",
+                caption: "Car keys handover"
+              },
+              {
+                src: "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?q=80&w=600",
+                caption: "Mercedes-AMG GT"
+              },
+              {
+                src: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=600",
+                caption: "Porsche 911 Carrera"
+              },
+              {
+                src: "https://images.unsplash.com/photo-1560177112-fbfd5fde9566?q=80&w=600",
+                caption: "BMW X7 Luxury SUV"
+              },
+              {
+                src: "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?q=80&w=600",
+                caption: "Lamborghini Huracán"
+              },
+              {
+                src: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=600",
+                caption: "Mercedes S-Class"
+              },
+              {
+                src: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=600",
+                caption: "BMW M4 Convertible"
+              },
+              {
+                src: "https://images.unsplash.com/photo-1549927681-0b673b922890?q=80&w=600",
+                caption: "Porsche Cayenne"
+              },
+              {
+                src: "https://images.unsplash.com/photo-1502877338535-766e1452684a?q=80&w=600",
+                caption: "Ferrari 488 Spider"
+              },
+              {
+                src: "https://images.unsplash.com/photo-1553978297-833d09932d96?q=80&w=600",
+                caption: "Audi R8 V10"
+              }
+            ].map((car, index) => (
+              <div key={index} className="group">
+                <div className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                  <div className="aspect-[4/3] overflow-hidden">
+                    <img 
+                      src={car.src} 
+                      alt={car.caption}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
+                  <div className="p-4">
+                    <p className="text-gray-700 font-medium text-center">{car.caption}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
     </ServiceLayout>
   );
 };
