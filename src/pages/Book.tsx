@@ -171,7 +171,7 @@ const properties = [{
 
 // Sample artisans data for dropdown
 const artisanOptions = [
-  { value: 'none', label: 'None - Select an Artisan' },
+  { value: '', label: 'None', style: 'text-gray-400 italic' },
   { value: 'michael-chen', label: 'Michael Chen - Electrician' },
   { value: 'sarah-johnson', label: 'Sarah Johnson - Plumber' },
   { value: 'david-williams', label: 'David Williams - HVAC Specialist' },
@@ -192,14 +192,14 @@ const Book = () => {
   const artisanImageParam = searchParams.get('artisanImage') || '';
   
   const [formData, setFormData] = useState({
-    service: initialService || 'airbnb',
+    service: initialService || '',
     name: '',
     email: '',
     phone: '',
     date: null as Date | null,
     message: '',
     property: initialPropertyId ? initialPropertyId.toString() : '',
-    artisan: artisanParam || 'none',
+    artisan: artisanParam || '',
     car: '',
     jet: ''
   });
@@ -248,6 +248,12 @@ const Book = () => {
 
   // Handle property selection change
   const handlePropertyChange = (propertyId: string) => {
+    if (!propertyId) {
+      setSelectedProperty(null);
+      setFormData(prev => ({ ...prev, property: '' }));
+      return;
+    }
+    
     const property = properties.find(p => p.id === parseInt(propertyId));
     setSelectedProperty(property);
     setFormData(prev => ({
@@ -258,12 +264,9 @@ const Book = () => {
 
   // Handle artisan selection change
   const handleArtisanChange = (artisanId: string) => {
-    if (artisanId === 'none') {  // Changed from empty string to 'none'
+    if (!artisanId) {
       setSelectedArtisan(null);
-      setFormData(prev => ({
-        ...prev,
-        artisan: 'none'  // Changed from empty string to 'none'
-      }));
+      setFormData(prev => ({ ...prev, artisan: '' }));
       return;
     }
     
@@ -318,7 +321,7 @@ const Book = () => {
   const handleTabChange = (value: string) => {
     setSelectedTab(value);
     
-    // Clear all dynamic selections when switching tabs
+    // Clear all dynamic selections and their form data when switching tabs
     setSelectedCar(null);
     setSelectedJet(null);
     setFormData(prev => ({
@@ -326,6 +329,17 @@ const Book = () => {
       car: '',
       jet: ''
     }));
+    
+    // Also clear property and artisan selections if switching away from their respective tabs
+    if (value !== 'airbnb') {
+      setSelectedProperty(null);
+      setFormData(prev => ({ ...prev, property: '' }));
+    }
+    
+    if (value !== 'artisan') {
+      setSelectedArtisan(null);
+      setFormData(prev => ({ ...prev, artisan: '' }));
+    }
   };
 
   useEffect(() => {
@@ -629,6 +643,7 @@ const Book = () => {
                           <SelectValue placeholder="Select a service" />
                         </SelectTrigger>
                         <SelectContent>
+                          <SelectItem value="" className="text-gray-400 italic">None</SelectItem>
                           {serviceOptions.map(option => <SelectItem key={option.value} value={option.value}>
                               {option.label}
                             </SelectItem>)}
@@ -706,6 +721,7 @@ const Book = () => {
                           <SelectValue placeholder="Select a property" />
                         </SelectTrigger>
                         <SelectContent>
+                          <SelectItem value="" className="text-gray-400 italic">None</SelectItem>
                           {properties.map(property => (
                             <SelectItem key={property.id} value={property.id.toString()}>
                               {property.name} - ${property.price}/night
@@ -832,6 +848,7 @@ const Book = () => {
                           <SelectValue placeholder="Select a vehicle" />
                         </SelectTrigger>
                         <SelectContent>
+                          <SelectItem value="" className="text-gray-400 italic">None</SelectItem>
                           {cars.map(car => (
                             <SelectItem key={car.id} value={car.id.toString()}>
                               {car.name} - ${car.price}/day
@@ -942,19 +959,23 @@ const Book = () => {
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <input type="hidden" name="service" value="jet-hire" />
                     
-                    <div className="bg-gray-50 p-4 rounded-lg mb-6">
-                      <h3 className="font-semibold text-lg text-gray-900 mb-2">Available Private Jet</h3>
-                      <p className="text-gray-600 mb-4">
-                        We currently have one luxury private jet available for charter:
-                      </p>
-                      <div className="flex items-center">
-                        <img src="https://images.unsplash.com/photo-1540962351504-03099e0a754b?q=80&w=2070" alt="Private Jet" className="w-24 h-24 object-cover rounded-md mr-4" />
-                        <div>
-                          <h4 className="font-medium text-gray-900">Gulfstream G650</h4>
-                          <p className="text-gray-600 text-sm">Capacity: 16 passengers</p>
-                          <p className="text-gray-600 text-sm">Range: Long-haul international flights</p>
-                        </div>
-                      </div>
+                    <div>
+                      <label htmlFor="jet" className="block text-sm font-medium text-gray-700 mb-1">
+                        Choose an Aircraft
+                      </label>
+                      <Select value={formData.jet} onValueChange={handleJetChange}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select an aircraft" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="" className="text-gray-400 italic">None</SelectItem>
+                          {jets.map(jet => (
+                            <SelectItem key={jet.id} value={jet.id.toString()}>
+                              {jet.name} - ${jet.price}/hour
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                     </div>
                     
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -1061,7 +1082,11 @@ const Book = () => {
                         </SelectTrigger>
                         <SelectContent>
                           {artisanOptions.map(artisan => (
-                            <SelectItem key={artisan.value} value={artisan.value}>
+                            <SelectItem 
+                              key={artisan.value} 
+                              value={artisan.value}
+                              className={artisan.style || ''}
+                            >
                               {artisan.label}
                             </SelectItem>
                           ))}
