@@ -174,8 +174,10 @@ const InteriorDesign = () => {
         }
         image="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2053"
         imageAlt="Interior designer working on floor plans"
-        buttonText="Explore Interior Projects"
-        buttonLink="/contact"
+        primaryButtonText="View Interior Projects"
+        primaryButtonLink="/contact"
+        secondaryButtonText="Book Interior Design"
+        secondaryButtonLink="/book?service=interior-design"
       />
       
       <ServiceFeatures

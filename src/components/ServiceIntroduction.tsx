@@ -8,8 +8,10 @@ interface ServiceIntroductionProps {
   image: string;
   imageAlt: string;
   reversed?: boolean;
-  buttonText?: string;
-  buttonLink?: string;
+  primaryButtonText?: string;
+  primaryButtonLink?: string;
+  secondaryButtonText?: string;
+  secondaryButtonLink?: string;
 }
 
 const ServiceIntroduction = ({ 
@@ -17,8 +19,10 @@ const ServiceIntroduction = ({
   image, 
   imageAlt, 
   reversed = false,
-  buttonText,
-  buttonLink 
+  primaryButtonText,
+  primaryButtonLink,
+  secondaryButtonText,
+  secondaryButtonLink
 }: ServiceIntroductionProps) => {
   return (
     <section className="py-16 bg-white">
@@ -37,14 +41,26 @@ const ServiceIntroduction = ({
               description
             )}
             
-            {buttonText && buttonLink && (
-              <div className="mt-6">
-                <Button 
-                  asChild
-                  className="bg-[#FFC107] hover:bg-[#E0A800] text-black font-medium px-6 py-3 rounded-md shadow-md hover:shadow-lg transition-all duration-300"
-                >
-                  <a href={buttonLink}>{buttonText}</a>
-                </Button>
+            {(primaryButtonText || secondaryButtonText) && (
+              <div className="mt-5 flex flex-col sm:flex-row gap-3">
+                {primaryButtonText && primaryButtonLink && (
+                  <Button 
+                    asChild
+                    className="bg-[#D6AC2E] hover:bg-[#B8941F] text-white font-bold px-6 py-3 rounded-md transition-all duration-300"
+                  >
+                    <a href={primaryButtonLink}>{primaryButtonText}</a>
+                  </Button>
+                )}
+                
+                {secondaryButtonText && secondaryButtonLink && (
+                  <Button 
+                    asChild
+                    variant="outline"
+                    className="border-2 border-[#D6AC2E] bg-transparent text-[#D6AC2E] hover:bg-[#D6AC2E] hover:text-white font-bold px-6 py-3 rounded-md transition-all duration-300"
+                  >
+                    <a href={secondaryButtonLink}>{secondaryButtonText}</a>
+                  </Button>
+                )}
               </div>
             )}
           </motion.div>

@@ -172,8 +172,10 @@ const Videography = () => {
         }
         image="https://images.unsplash.com/photo-1585813375255-6c8dfabd8f6f?q=80&w=2080"
         imageAlt="Professional videographer with equipment"
-        buttonText="View Our Showreel"
-        buttonLink="/contact"
+        primaryButtonText="Watch Our Showreel"
+        primaryButtonLink="/contact"
+        secondaryButtonText="Book Videography"
+        secondaryButtonLink="/book?service=videography"
       />
       
       <ServiceFeatures

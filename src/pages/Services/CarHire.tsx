@@ -173,8 +173,10 @@ const CarHire = () => {
         image="https://images.unsplash.com/photo-1553440569-bcc63803a83d?q=80&w=2025"
         imageAlt="Luxury sports car from our fleet"
         reversed={true}
-        buttonText="Browse Our Fleet"
-        buttonLink="/contact"
+        primaryButtonText="Browse Our Fleet"
+        primaryButtonLink="/contact"
+        secondaryButtonText="Book a Car"
+        secondaryButtonLink="/book?service=car-hire"
       />
       
       <ServiceFeatures
