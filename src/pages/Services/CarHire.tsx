@@ -174,7 +174,7 @@ const CarHire = () => {
         imageAlt="Luxury sports car from our fleet"
         reversed={true}
         primaryButtonText="Browse Our Fleet"
-        primaryButtonLink="/contact"
+        primaryButtonLink="/car-fleet"
         secondaryButtonText="Book a Car"
         secondaryButtonLink="/book?service=car-hire"
       />

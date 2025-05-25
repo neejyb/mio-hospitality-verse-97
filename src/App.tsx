@@ -12,6 +12,8 @@ import Book from "./pages/Book";
 import NotFound from "./pages/NotFound";
 import AllProperties from "./pages/AllProperties";
 import Artisans from "./pages/Artisans";
+import CarFleet from "./pages/CarFleet";
+import JetOptions from "./pages/JetOptions";
 
 // Import service pages
 import InteriorDesign from "./pages/Services/InteriorDesign";
@@ -39,6 +41,8 @@ const AnimatedRoutes = () => {
         <Route path="/book" element={<Book />} />
         <Route path="/properties" element={<AllProperties />} />
         <Route path="/artisans" element={<Artisans />} />
+        <Route path="/car-fleet" element={<CarFleet />} />
+        <Route path="/jet-options" element={<JetOptions />} />
         
         {/* Service Routes */}
         <Route path="/services/interior-design" element={<InteriorDesign />} />

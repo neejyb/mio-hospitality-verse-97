@@ -175,7 +175,7 @@ const JetHire = () => {
         image="https://images.unsplash.com/photo-1575039303300-6b4ddefb29ae?q=80&w=2070"
         imageAlt="Luxurious private jet interior"
         primaryButtonText="See Jet Options"
-        primaryButtonLink="/contact"
+        primaryButtonLink="/jet-options"
         secondaryButtonText="Book a Jet"
         secondaryButtonLink="/book?service=jet-hire"
       />
