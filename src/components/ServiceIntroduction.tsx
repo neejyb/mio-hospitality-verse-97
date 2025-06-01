@@ -24,6 +24,20 @@ const ServiceIntroduction = ({
   secondaryButtonText,
   secondaryButtonLink
 }: ServiceIntroductionProps) => {
+  const handleSmoothScroll = (link: string) => {
+    if (link === '#portfolio-section') {
+      const element = document.getElementById('portfolio-section');
+      if (element) {
+        element.scrollIntoView({ 
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    } else {
+      window.location.href = link;
+    }
+  };
+
   return (
     <section className="py-16 bg-white">
       <div className="container mx-auto px-4">
@@ -45,20 +59,20 @@ const ServiceIntroduction = ({
               <div className="mt-5 flex flex-col sm:flex-row gap-3">
                 {primaryButtonText && primaryButtonLink && (
                   <Button 
-                    asChild
+                    onClick={() => handleSmoothScroll(primaryButtonLink)}
                     className="bg-[#D6AC2E] hover:bg-[#B8941F] text-white font-bold px-6 py-3 rounded-md transition-all duration-300"
                   >
-                    <a href={primaryButtonLink}>{primaryButtonText}</a>
+                    {primaryButtonText}
                   </Button>
                 )}
                 
                 {secondaryButtonText && secondaryButtonLink && (
                   <Button 
-                    asChild
+                    onClick={() => handleSmoothScroll(secondaryButtonLink)}
                     variant="outline"
                     className="border-2 border-[#D6AC2E] bg-transparent text-[#D6AC2E] hover:bg-[#D6AC2E] hover:text-white font-bold px-6 py-3 rounded-md transition-all duration-300"
                   >
-                    <a href={secondaryButtonLink}>{secondaryButtonText}</a>
+                    {secondaryButtonText}
                   </Button>
                 )}
               </div>

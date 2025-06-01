@@ -1,3 +1,4 @@
+
 import React from 'react';
 import ServiceLayout from '@/components/ServiceLayout';
 import ServiceHero from '@/components/ServiceHero';
@@ -6,6 +7,7 @@ import ServiceFeatures from '@/components/ServiceFeatures';
 import ServiceGallery from '@/components/ServiceGallery';
 import ServiceTestimonials from '@/components/ServiceTestimonials';
 import ServiceCta from '@/components/ServiceCta';
+import WhatsAppCTA from '@/components/WhatsAppCTA';
 
 const Videography = () => {
   // Features data
@@ -118,7 +120,6 @@ const Videography = () => {
     },
   ];
 
-  // Testimonials data
   const testimonials = [
     {
       id: 'testimonial-1',
@@ -173,7 +174,7 @@ const Videography = () => {
         image="https://images.unsplash.com/photo-1585813375255-6c8dfabd8f6f?q=80&w=2080"
         imageAlt="Professional videographer with equipment"
         primaryButtonText="Watch Our Showreel"
-        primaryButtonLink="/contact"
+        primaryButtonLink="#portfolio-section"
         secondaryButtonText="Book Videography"
         secondaryButtonLink="/book?service=videography"
       />
@@ -205,6 +206,8 @@ const Videography = () => {
         secondaryButtonLink="/contact"
         backgroundImage="https://images.unsplash.com/photo-1617191979714-ea21a8cb4657?q=80&w=2070"
       />
+      
+      <WhatsAppCTA />
     </ServiceLayout>
   );
 };

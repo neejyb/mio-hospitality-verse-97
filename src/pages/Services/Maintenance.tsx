@@ -7,6 +7,7 @@ import ServiceFeatures from '@/components/ServiceFeatures';
 import ServiceGallery from '@/components/ServiceGallery';
 import ServiceTestimonials from '@/components/ServiceTestimonials';
 import ServiceCta from '@/components/ServiceCta';
+import WhatsAppCTA from '@/components/WhatsAppCTA';
 
 const Maintenance = () => {
   // Features data
@@ -43,7 +44,6 @@ const Maintenance = () => {
     },
   ];
 
-  // Gallery images
   const galleryImages = [
     {
       id: 'gallery-1',
@@ -119,7 +119,6 @@ const Maintenance = () => {
     },
   ];
 
-  // Testimonials data
   const testimonials = [
     {
       id: 'testimonial-1',
@@ -202,6 +201,8 @@ const Maintenance = () => {
         secondaryButtonLink="/contact"
         backgroundImage="https://images.unsplash.com/photo-1581578731548-c64695cc6952?q=80&w=2070"
       />
+      
+      <WhatsAppCTA />
     </ServiceLayout>
   );
 };

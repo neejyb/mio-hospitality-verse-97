@@ -1,3 +1,4 @@
+
 import React from 'react';
 import ServiceLayout from '@/components/ServiceLayout';
 import ServiceHero from '@/components/ServiceHero';
@@ -6,6 +7,7 @@ import ServiceCta from '@/components/ServiceCta';
 import FacilityFeatures from '@/components/FacilityManagement/FacilityFeatures';
 import FacilityArtisans from '@/components/FacilityManagement/FacilityArtisans';
 import FacilityTestimonials from '@/components/FacilityManagement/FacilityTestimonials';
+import WhatsAppCTA from '@/components/WhatsAppCTA';
 
 const FacilityManagement = () => {
   return (
@@ -30,7 +32,7 @@ const FacilityManagement = () => {
         image="https://images.unsplash.com/photo-1560520653-9e0e4c89eb11?q=80&w=2073"
         imageAlt="Professional facility management"
         primaryButtonText="Explore Services"
-        primaryButtonLink="/contact"
+        primaryButtonLink="#portfolio-section"
         secondaryButtonText="Request Facility Support"
         secondaryButtonLink="/book?service=facility-management"
       />
@@ -50,6 +52,8 @@ const FacilityManagement = () => {
         secondaryButtonLink="/artisans"
         backgroundImage="https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=2070"
       />
+      
+      <WhatsAppCTA />
     </ServiceLayout>
   );
 };

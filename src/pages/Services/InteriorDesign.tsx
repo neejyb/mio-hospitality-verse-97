@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { motion } from 'framer-motion';
 import ServiceLayout from '@/components/ServiceLayout';
@@ -7,6 +8,7 @@ import ServiceFeatures from '@/components/ServiceFeatures';
 import ServiceGallery from '@/components/ServiceGallery';
 import ServiceTestimonials from '@/components/ServiceTestimonials';
 import ServiceCta from '@/components/ServiceCta';
+import WhatsAppCTA from '@/components/WhatsAppCTA';
 
 const InteriorDesign = () => {
   // Features data
@@ -175,7 +177,7 @@ const InteriorDesign = () => {
         image="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2053"
         imageAlt="Interior designer working on floor plans"
         primaryButtonText="View Interior Projects"
-        primaryButtonLink="/contact"
+        primaryButtonLink="#portfolio-section"
         secondaryButtonText="Book Interior Design"
         secondaryButtonLink="/book?service=interior-design"
       />
@@ -207,6 +209,8 @@ const InteriorDesign = () => {
         secondaryButtonLink="/contact"
         backgroundImage="https://images.unsplash.com/photo-1615874959474-d609969a20ed?q=80&w=2080"
       />
+      
+      <WhatsAppCTA />
     </ServiceLayout>
   );
 };
