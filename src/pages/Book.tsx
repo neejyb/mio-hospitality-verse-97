@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useSearchParams, useLocation, useNavigate } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import WhatsAppCTA from '@/components/WhatsAppCTA';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -180,10 +181,15 @@ const artisanOptions = [
 
 const Book = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [searchParams] = useSearchParams();
   const initialService = searchParams.get('service') || '';
   const propertyIdParam = searchParams.get('propertyId');
   const initialPropertyId = propertyIdParam ? parseInt(propertyIdParam) : null;
+  
+  // Check for property ID from navigation state (from Book Now button)
+  const statePropertyId = location.state?.property;
+  const finalPropertyId = statePropertyId || initialPropertyId;
   
   // New artisan parameters
   const artisanParam = searchParams.get('artisan') || '';
@@ -192,19 +198,22 @@ const Book = () => {
   const artisanImageParam = searchParams.get('artisanImage') || '';
   
   const [formData, setFormData] = useState({
-    service: initialService || '',
+    service: initialService || location.state?.service || '',
     name: '',
     email: '',
     phone: '',
     date: null as Date | null,
     message: '',
-    property: initialPropertyId ? initialPropertyId.toString() : '',
+    property: finalPropertyId ? finalPropertyId.toString() : '',
     artisan: artisanParam || '',
     car: '',
     jet: ''
   });
   
-  const [selectedTab, setSelectedTab] = useState(initialPropertyId ? 'airbnb' : (artisanParam ? 'artisan' : 'general'));
+  const [selectedTab, setSelectedTab] = useState(
+    location.state?.service === 'airbnb' || finalPropertyId ? 'airbnb' : 
+    (artisanParam ? 'artisan' : 'general')
+  );
   const [loading, setLoading] = useState(false);
   const [selectedProperty, setSelectedProperty] = useState<any>(null);
   const [selectedArtisan, setSelectedArtisan] = useState<any>(null);
@@ -212,20 +221,21 @@ const Book = () => {
   const [selectedJet, setSelectedJet] = useState<any>(null);
   const isMobile = useIsMobile();
 
-  // Find the selected property from the properties array based on URL param
+  // Find the selected property from the properties array based on URL param or state
   useEffect(() => {
-    if (initialPropertyId) {
-      const property = properties.find(p => p.id === initialPropertyId);
+    if (finalPropertyId) {
+      const property = properties.find(p => p.id === finalPropertyId);
       if (property) {
         setSelectedProperty(property);
         setFormData(prev => ({
           ...prev,
-          property: initialPropertyId.toString(),
+          property: finalPropertyId.toString(),
           service: 'airbnb'
         }));
+        setSelectedTab('airbnb');
       }
     }
-  }, [initialPropertyId]);
+  }, [finalPropertyId]);
 
   // Set up selected artisan from URL parameters
   useEffect(() => {
@@ -1177,6 +1187,7 @@ const Book = () => {
       </main>
       
       <Footer />
+      <WhatsAppCTA />
     </div>;
 };
 

@@ -6,6 +6,7 @@ import TransportSection from '@/components/TransportSection';
 import GallerySection from '@/components/GallerySection';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import WhatsAppCTA from '@/components/WhatsAppCTA';
 
 const Index = () => {
   return (
@@ -17,6 +18,7 @@ const Index = () => {
       <TransportSection />
       <GallerySection />
       <Footer />
+      <WhatsAppCTA />
     </div>
   );
 };
