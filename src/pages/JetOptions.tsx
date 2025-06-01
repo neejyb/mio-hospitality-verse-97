@@ -4,10 +4,13 @@ import { motion } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import ServiceLayout from '@/components/ServiceLayout';
+import WhatsAppCTA from '@/components/WhatsAppCTA';
 
 const JetOptions = () => {
+  const navigate = useNavigate();
+
   const jets = [
     {
       id: 1,
@@ -15,7 +18,9 @@ const JetOptions = () => {
       image: 'https://images.unsplash.com/photo-1540962351504-03099e0a754b?q=80&w=2070',
       shortDescription: '16-seat · Executive Cabin · WiFi Included',
       fullDescription: 'The flagship of luxury aviation, the Gulfstream G650 offers unparalleled comfort and range. With its spacious cabin and advanced avionics, it sets the standard for ultra-long-range business jets.',
-      specs: ['Range: 7,000 nautical miles', 'Max Speed: Mach 0.925', 'Cabin Height: 6.2 feet', 'High-Speed Internet', 'Luxury Galley', 'Private Lavatory']
+      specs: ['Range: 7,000 nautical miles', 'Max Speed: Mach 0.925', 'Cabin Height: 6.2 feet', 'High-Speed Internet', 'Luxury Galley', 'Private Lavatory'],
+      price: '$8,500/hour',
+      tag: 'Ultra Long Range'
     },
     {
       id: 2,
@@ -23,7 +28,9 @@ const JetOptions = () => {
       image: 'https://images.unsplash.com/photo-1583992781145-4b80b2dd2ba0?q=80&w=2070',
       shortDescription: '14-seat · Four Living Spaces · Master Suite',
       fullDescription: 'The world\'s largest and longest-range business jet, featuring four distinct living spaces including a master suite with a permanent bed and stand-up shower.',
-      specs: ['Range: 7,700 nautical miles', 'Max Speed: Mach 0.925', 'Four Living Spaces', 'Master Suite with Bed', 'Stand-up Shower', 'Advanced Connectivity']
+      specs: ['Range: 7,700 nautical miles', 'Max Speed: Mach 0.925', 'Four Living Spaces', 'Master Suite with Bed', 'Stand-up Shower', 'Advanced Connectivity'],
+      price: '$9,200/hour',
+      tag: 'Ultra Long Range'
     },
     {
       id: 3,
@@ -31,7 +38,9 @@ const JetOptions = () => {
       image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=2070',
       shortDescription: '10-seat · High Speed · Premium Cabin',
       fullDescription: 'The fastest civilian aircraft in the world, the Citation X+ combines speed with luxury. Perfect for time-sensitive travel with its ability to reach Mach 0.935.',
-      specs: ['Range: 3,460 nautical miles', 'Max Speed: Mach 0.935', 'Fastest Civilian Aircraft', 'Advanced Flight Deck', 'Premium Materials', 'Spacious Cabin']
+      specs: ['Range: 3,460 nautical miles', 'Max Speed: Mach 0.935', 'Fastest Civilian Aircraft', 'Advanced Flight Deck', 'Premium Materials', 'Spacious Cabin'],
+      price: '$5,800/hour',
+      tag: 'Super Mid-Size'
     },
     {
       id: 4,
@@ -39,39 +48,64 @@ const JetOptions = () => {
       image: 'https://images.unsplash.com/photo-1569154941061-e231b4725ef1?q=80&w=2070',
       shortDescription: '8-seat · Light Jet · Efficient Performance',
       fullDescription: 'The most delivered light jet for multiple years running, the Phenom 300E offers excellent performance and comfort for shorter regional flights with surprising cabin space.',
-      specs: ['Range: 2,010 nautical miles', 'Max Speed: 464 knots', 'Largest Cabin in Class', 'Advanced Avionics', 'Quiet Cabin', 'Excellent Fuel Efficiency']
+      specs: ['Range: 2,010 nautical miles', 'Max Speed: 464 knots', 'Largest Cabin in Class', 'Advanced Avionics', 'Quiet Cabin', 'Excellent Fuel Efficiency'],
+      price: '$3,200/hour',
+      tag: 'Light Jet'
     }
   ];
+
+  const handleBookNow = (jet: typeof jets[0]) => {
+    const jetData = {
+      id: jet.id,
+      name: jet.name,
+      image: jet.image,
+      price: jet.price,
+      tag: jet.tag,
+      description: jet.fullDescription,
+      features: jet.specs
+    };
+
+    navigate(`/book?service=jet-hire&selectedJet=${encodeURIComponent(JSON.stringify(jetData))}`);
+  };
 
   return (
     <ServiceLayout>
       <div className="min-h-screen bg-white">
         {/* Hero Section */}
-        <section className="relative bg-gradient-to-r from-blue-900 to-blue-700 text-white py-24">
-          <div className="container mx-auto px-4 text-center">
-            <motion.h1 
-              className="text-4xl md:text-6xl font-bold mb-4"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-            >
-              Available Jet Options
-            </motion.h1>
-            <motion.p 
-              className="text-xl md:text-2xl text-blue-200 max-w-3xl mx-auto"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-            >
-              Browse our premium charter jets for your next luxury flight.
-            </motion.p>
+        <section className="relative h-96 bg-gradient-to-r from-blue-900/80 to-blue-700/80">
+          <div 
+            className="absolute inset-0 bg-cover bg-center"
+            style={{
+              backgroundImage: 'url(https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=2074)'
+            }}
+          />
+          <div className="absolute inset-0 bg-black/40" />
+          <div className="relative container mx-auto px-4 h-full flex items-center justify-center text-center">
+            <div className="text-white">
+              <motion.h1 
+                className="text-4xl md:text-6xl font-bold mb-4"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+              >
+                Elevate Your Journey
+              </motion.h1>
+              <motion.p 
+                className="text-xl md:text-2xl text-blue-200"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+              >
+                Discover our premium private jet experiences
+              </motion.p>
+            </div>
           </div>
         </section>
 
         {/* Jets Grid */}
         <section className="py-16">
           <div className="container mx-auto px-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
               {jets.map((jet, index) => (
                 <motion.div
                   key={jet.id}
@@ -80,17 +114,21 @@ const JetOptions = () => {
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                   viewport={{ once: true }}
                 >
-                  <Card className="overflow-hidden hover:shadow-xl transition-shadow duration-300">
-                    <div className="relative h-64">
+                  <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 group h-full">
+                    <div className="relative h-48 overflow-hidden">
                       <img
                         src={jet.image}
                         alt={jet.name}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
+                      <div className="absolute top-2 right-2 bg-blue-600 text-white px-2 py-1 rounded text-xs font-medium">
+                        {jet.tag}
+                      </div>
                     </div>
-                    <CardContent className="p-6">
-                      <h3 className="text-xl font-bold mb-2">{jet.name}</h3>
-                      <p className="text-gray-600 mb-4">{jet.shortDescription}</p>
+                    <CardContent className="p-4">
+                      <h3 className="text-lg font-bold mb-1">{jet.name}</h3>
+                      <p className="text-blue-600 font-semibold mb-2">{jet.price}</p>
+                      <p className="text-gray-600 text-sm mb-4">{jet.shortDescription}</p>
                       
                       <Dialog>
                         <DialogTrigger asChild>
@@ -98,7 +136,7 @@ const JetOptions = () => {
                             View Details
                           </Button>
                         </DialogTrigger>
-                        <DialogContent className="max-w-2xl">
+                        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
                           <DialogHeader>
                             <DialogTitle className="text-2xl font-bold">{jet.name}</DialogTitle>
                           </DialogHeader>
@@ -108,6 +146,10 @@ const JetOptions = () => {
                               alt={jet.name}
                               className="w-full h-64 object-cover rounded-lg"
                             />
+                            <div className="flex justify-between items-center">
+                              <span className="text-2xl font-bold text-blue-600">{jet.price}</span>
+                              <span className="bg-gray-100 px-3 py-1 rounded-full text-sm font-medium">{jet.tag}</span>
+                            </div>
                             <p className="text-gray-700">{jet.fullDescription}</p>
                             <div>
                               <h4 className="font-semibold mb-2">Specifications:</h4>
@@ -117,11 +159,12 @@ const JetOptions = () => {
                                 ))}
                               </ul>
                             </div>
-                            <Link to="/book?service=jet-hire">
-                              <Button className="w-full bg-[#D6AC2E] hover:bg-[#B8941F] text-white">
-                                Book a Jet
-                              </Button>
-                            </Link>
+                            <Button 
+                              onClick={() => handleBookNow(jet)}
+                              className="w-full bg-[#D6AC2E] hover:bg-[#B8941F] text-white"
+                            >
+                              Book Now
+                            </Button>
                           </div>
                         </DialogContent>
                       </Dialog>
@@ -132,6 +175,8 @@ const JetOptions = () => {
             </div>
           </div>
         </section>
+        
+        <WhatsAppCTA />
       </div>
     </ServiceLayout>
   );

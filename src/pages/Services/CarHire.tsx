@@ -6,6 +6,7 @@ import ServiceFeatures from '@/components/ServiceFeatures';
 import ServiceGallery from '@/components/ServiceGallery';
 import ServiceTestimonials from '@/components/ServiceTestimonials';
 import ServiceCta from '@/components/ServiceCta';
+import WhatsAppCTA from '@/components/WhatsAppCTA';
 
 const CarHire = () => {
   // Features data
@@ -206,6 +207,8 @@ const CarHire = () => {
         secondaryButtonLink="/contact"
         backgroundImage="https://images.unsplash.com/photo-1494905998402-395d579af36f?q=80&w=2070"
       />
+      
+      <WhatsAppCTA />
     </ServiceLayout>
   );
 };

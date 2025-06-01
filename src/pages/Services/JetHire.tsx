@@ -6,6 +6,7 @@ import ServiceFeatures from '@/components/ServiceFeatures';
 import ServiceGallery from '@/components/ServiceGallery';
 import ServiceTestimonials from '@/components/ServiceTestimonials';
 import ServiceCta from '@/components/ServiceCta';
+import WhatsAppCTA from '@/components/WhatsAppCTA';
 
 const JetHire = () => {
   // Features data
@@ -205,6 +206,8 @@ const JetHire = () => {
         secondaryButtonLink="/contact"
         backgroundImage="https://images.unsplash.com/photo-1559060615-2d831388105d?q=80&w=2071"
       />
+      
+      <WhatsAppCTA />
     </ServiceLayout>
   );
 };
