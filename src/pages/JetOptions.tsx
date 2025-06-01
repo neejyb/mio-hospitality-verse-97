@@ -114,54 +114,66 @@ const JetOptions = () => {
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                   viewport={{ once: true }}
                 >
-                  <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 group h-full">
+                  <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 group h-full flex flex-col">
                     <div className="relative h-48 overflow-hidden">
                       <img
                         src={jet.image}
                         alt={jet.name}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        onError={(e) => {
+                          e.currentTarget.src = 'https://images.unsplash.com/photo-1540962351504-03099e0a754b?q=80&w=2070';
+                        }}
                       />
-                      <div className="absolute top-2 right-2 bg-blue-600 text-white px-2 py-1 rounded text-xs font-medium">
+                      <div className="absolute top-2 right-2 bg-[#D4AF37] text-white px-2 py-1 rounded text-xs font-medium">
                         {jet.tag}
                       </div>
                     </div>
-                    <CardContent className="p-4">
-                      <h3 className="text-lg font-bold mb-1">{jet.name}</h3>
-                      <p className="text-blue-600 font-semibold mb-2">{jet.price}</p>
-                      <p className="text-gray-600 text-sm mb-4">{jet.shortDescription}</p>
+                    <CardContent className="p-4 flex-grow flex flex-col">
+                      <h3 className="text-lg font-bold mb-1 line-clamp-2">{jet.name}</h3>
+                      <p className="text-[#D4AF37] font-semibold mb-2">{jet.price}</p>
+                      <p className="text-gray-600 text-sm mb-4 flex-grow">{jet.shortDescription}</p>
                       
                       <Dialog>
                         <DialogTrigger asChild>
-                          <Button className="w-full bg-[#D6AC2E] hover:bg-[#B8941F] text-white">
+                          <Button 
+                            className="w-full h-10 bg-[#D4AF37] hover:bg-[#B4941F] text-white font-medium rounded-md shadow-md transition-all duration-300 hover:shadow-lg hover:scale-105"
+                          >
                             View Details
                           </Button>
                         </DialogTrigger>
-                        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
-                          <DialogHeader>
+                        <DialogContent className="max-w-2xl w-[95vw] max-h-[85vh] h-[600px] p-0 gap-0 overflow-hidden flex flex-col">
+                          <DialogHeader className="p-6 pb-0 flex-shrink-0">
                             <DialogTitle className="text-2xl font-bold">{jet.name}</DialogTitle>
                           </DialogHeader>
-                          <div className="space-y-4">
-                            <img
-                              src={jet.image}
-                              alt={jet.name}
-                              className="w-full h-64 object-cover rounded-lg"
-                            />
-                            <div className="flex justify-between items-center">
-                              <span className="text-2xl font-bold text-blue-600">{jet.price}</span>
-                              <span className="bg-gray-100 px-3 py-1 rounded-full text-sm font-medium">{jet.tag}</span>
+                          <div className="flex-1 overflow-y-auto p-6 pt-0">
+                            <div className="space-y-4">
+                              <img
+                                src={jet.image}
+                                alt={jet.name}
+                                className="w-full h-64 object-cover rounded-lg"
+                                onError={(e) => {
+                                  e.currentTarget.src = 'https://images.unsplash.com/photo-1540962351504-03099e0a754b?q=80&w=2070';
+                                }}
+                              />
+                              <div className="flex justify-between items-center">
+                                <span className="text-2xl font-bold text-[#D4AF37]">{jet.price}</span>
+                                <span className="bg-gray-100 px-3 py-1 rounded-full text-sm font-medium">{jet.tag}</span>
+                              </div>
+                              <p className="text-gray-700">{jet.fullDescription}</p>
+                              <div>
+                                <h4 className="font-semibold mb-2">Specifications:</h4>
+                                <ul className="grid grid-cols-1 gap-2">
+                                  {jet.specs.map((spec, idx) => (
+                                    <li key={idx} className="text-sm text-gray-600">• {spec}</li>
+                                  ))}
+                                </ul>
+                              </div>
                             </div>
-                            <p className="text-gray-700">{jet.fullDescription}</p>
-                            <div>
-                              <h4 className="font-semibold mb-2">Specifications:</h4>
-                              <ul className="grid grid-cols-1 gap-2">
-                                {jet.specs.map((spec, idx) => (
-                                  <li key={idx} className="text-sm text-gray-600">• {spec}</li>
-                                ))}
-                              </ul>
-                            </div>
+                          </div>
+                          <div className="p-6 pt-0 flex-shrink-0">
                             <Button 
                               onClick={() => handleBookNow(jet)}
-                              className="w-full bg-[#D6AC2E] hover:bg-[#B8941F] text-white"
+                              className="w-full h-12 bg-[#D4AF37] hover:bg-[#B4941F] text-white font-medium rounded-md shadow-md transition-all duration-300 hover:shadow-lg hover:scale-105"
                             >
                               Book Now
                             </Button>
