@@ -145,6 +145,7 @@ const CarFleet = () => {
     price: '$280/day',
     tag: 'Luxury SUV'
   }];
+  
   const handleBookNow = (car: typeof cars[0]) => {
     const carData = {
       id: car.id,
@@ -157,7 +158,9 @@ const CarFleet = () => {
     };
     navigate(`/book?service=car-hire&selectedCar=${encodeURIComponent(JSON.stringify(carData))}`);
   };
-  return <ServiceLayout>
+  
+  return (
+    <ServiceLayout>
       <div className="min-h-screen bg-white">
         {/* Hero Section */}
         <section className="relative h-96 bg-gradient-to-r from-gray-900/80 to-gray-700/80">
@@ -198,18 +201,8 @@ const CarFleet = () => {
         <section className="py-16">
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
-              {cars.map((car, index) => <motion.div key={car.id} initial={{
-              opacity: 0,
-              y: 20
-            }} whileInView={{
-              opacity: 1,
-              y: 0
-            }} transition={{
-              duration: 0.5,
-              delay: index * 0.05
-            }} viewport={{
-              once: true
-            }}>
+              {cars.map((car, index) => (
+                <motion.div key={car.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: index * 0.05 }} viewport={{ once: true }}>
                   <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 group h-full flex flex-col">
                     <div className="relative h-48 overflow-hidden">
                       <img src={car.image} alt={car.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onError={e => {
@@ -261,13 +254,16 @@ const CarFleet = () => {
                       </Dialog>
                     </CardContent>
                   </Card>
-                </motion.div>)}
+                </motion.div>
+              ))}
             </div>
           </div>
         </section>
         
         <WhatsAppCTA />
       </div>
-    </ServiceLayout>;
+    </ServiceLayout>
+  );
 };
+
 export default CarFleet;
