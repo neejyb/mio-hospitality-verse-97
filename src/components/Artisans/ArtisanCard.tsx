@@ -1,10 +1,8 @@
-
 import React from 'react';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Star, Calendar, CircleCheck } from 'lucide-react';
-
 interface ArtisanCardProps {
   artisan: {
     id: number;
@@ -20,24 +18,19 @@ interface ArtisanCardProps {
   };
   onBookNow: (artisanId: number, artisanName: string, serviceType: string, image: string) => void;
 }
-
-const ArtisanCard: React.FC<ArtisanCardProps> = ({ artisan, onBookNow }) => {
-  return (
-    <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-300 h-full flex flex-col">
+const ArtisanCard: React.FC<ArtisanCardProps> = ({
+  artisan,
+  onBookNow
+}) => {
+  return <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-300 h-full flex flex-col">
       <div className="aspect-square relative overflow-hidden">
-        <img 
-          src={artisan.image} 
-          alt={artisan.name} 
-          className="w-full h-full object-cover object-center transition-transform duration-300 hover:scale-105"
-        />
-        {artisan.verified && (
-          <div className="absolute top-3 right-3">
-            <Badge className="bg-[#D4AF37] text-white">
+        <img src={artisan.image} alt={artisan.name} className="w-full h-full object-cover object-center transition-transform duration-300 hover:scale-105" />
+        {artisan.verified && <div className="absolute top-3 right-3">
+            <Badge className="text-white bg-red-950">
               <CircleCheck className="h-3 w-3 mr-1" />
               Verified
             </Badge>
-          </div>
-        )}
+          </div>}
       </div>
       <CardContent className="pt-6 flex-grow">
         <div className="flex justify-between items-start mb-2">
@@ -58,16 +51,10 @@ const ArtisanCard: React.FC<ArtisanCardProps> = ({ artisan, onBookNow }) => {
         </div>
       </CardContent>
       <CardFooter className="pt-0">
-        <Button 
-          variant="default" 
-          className="w-full" 
-          onClick={() => onBookNow(artisan.id, artisan.name, artisan.serviceType, artisan.image)}
-        >
+        <Button variant="default" onClick={() => onBookNow(artisan.id, artisan.name, artisan.serviceType, artisan.image)} className="w-full bg-[#520c00]">
           Request Service
         </Button>
       </CardFooter>
-    </Card>
-  );
+    </Card>;
 };
-
 export default ArtisanCard;
