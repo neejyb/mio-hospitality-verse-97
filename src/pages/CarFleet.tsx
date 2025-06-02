@@ -7,8 +7,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import { X } from 'lucide-react';
 import ServiceLayout from '@/components/ServiceLayout';
 import WhatsAppCTA from '@/components/WhatsAppCTA';
+
 const CarFleet = () => {
   const navigate = useNavigate();
+
   const cars = [{
     id: 1,
     name: 'Mercedes S-Class',
@@ -145,6 +147,7 @@ const CarFleet = () => {
     price: '$280/day',
     tag: 'Luxury SUV'
   }];
+
   const handleBookNow = (car: typeof cars[0]) => {
     const carData = {
       id: car.id,
@@ -157,37 +160,32 @@ const CarFleet = () => {
     };
     navigate(`/book?service=car-hire&selectedCar=${encodeURIComponent(JSON.stringify(carData))}`);
   };
-  return <ServiceLayout>
+
+  return (
+    <ServiceLayout>
       <div className="min-h-screen bg-white">
         {/* Hero Section */}
         <section className="relative h-96 bg-gradient-to-r from-gray-900/80 to-gray-700/80">
           <div className="absolute inset-0 bg-cover bg-center" style={{
-          backgroundImage: 'url(https://images.unsplash.com/photo-1449824913935-59a10b8d2000?q=80&w=2070)'
-        }} />
+            backgroundImage: 'url(https://images.unsplash.com/photo-1449824913935-59a10b8d2000?q=80&w=2070)'
+          }} />
           <div className="absolute inset-0 bg-black/40" />
           <div className="relative container mx-auto px-4 h-full flex items-center justify-center text-center">
             <div className="text-white">
-              <motion.h1 className="text-4xl md:text-6xl font-bold mb-4" initial={{
-              opacity: 0,
-              y: 20
-            }} animate={{
-              opacity: 1,
-              y: 0
-            }} transition={{
-              duration: 0.6
-            }}>
+              <motion.h1 
+                className="text-4xl md:text-6xl font-bold mb-4"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+              >
                 Drive in Style
               </motion.h1>
-              <motion.p className="text-xl md:text-2xl text-gray-200" initial={{
-              opacity: 0,
-              y: 20
-            }} animate={{
-              opacity: 1,
-              y: 0
-            }} transition={{
-              duration: 0.6,
-              delay: 0.2
-            }}>
+              <motion.p 
+                className="text-xl md:text-2xl text-gray-200"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+              >
                 Explore our curated fleet of luxury vehicles
               </motion.p>
             </div>
@@ -198,23 +196,24 @@ const CarFleet = () => {
         <section className="py-16">
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
-              {cars.map((car, index) => <motion.div key={car.id} initial={{
-              opacity: 0,
-              y: 20
-            }} whileInView={{
-              opacity: 1,
-              y: 0
-            }} transition={{
-              duration: 0.5,
-              delay: index * 0.05
-            }} viewport={{
-              once: true
-            }}>
+              {cars.map((car, index) => (
+                <motion.div
+                  key={car.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.05 }}
+                  viewport={{ once: true }}
+                >
                   <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 group h-full flex flex-col">
                     <div className="relative h-48 overflow-hidden">
-                      <img src={car.image} alt={car.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onError={e => {
-                    e.currentTarget.src = 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2070';
-                  }} />
+                      <img 
+                        src={car.image} 
+                        alt={car.name} 
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                        onError={(e) => {
+                          e.currentTarget.src = 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2070';
+                        }}
+                      />
                       <div className="absolute top-2 right-2 text-white px-2 py-1 rounded text-xs font-medium bg-red-950">
                         {car.tag}
                       </div>
@@ -236,9 +235,14 @@ const CarFleet = () => {
                           </DialogHeader>
                           <div className="flex-1 overflow-y-auto p-6 pt-0">
                             <div className="space-y-4">
-                              <img src={car.image} alt={car.name} className="w-full h-64 object-cover rounded-lg" onError={e => {
-                            e.currentTarget.src = 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2070';
-                          }} />
+                              <img 
+                                src={car.image} 
+                                alt={car.name} 
+                                className="w-full h-64 object-cover rounded-lg" 
+                                onError={(e) => {
+                                  e.currentTarget.src = 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2070';
+                                }}
+                              />
                               <div className="flex justify-between items-center">
                                 <span className="text-2xl font-bold text-[#D4AF37]">{car.price}</span>
                                 <span className="bg-gray-100 px-3 py-1 rounded-full text-sm font-medium">{car.tag}</span>
@@ -247,13 +251,18 @@ const CarFleet = () => {
                               <div>
                                 <h4 className="font-semibold mb-2">Key Features:</h4>
                                 <ul className="grid grid-cols-2 gap-2">
-                                  {car.specs.map((spec, idx) => <li key={idx} className="text-sm text-gray-600">• {spec}</li>)}
+                                  {car.specs.map((spec, idx) => (
+                                    <li key={idx} className="text-sm text-gray-600">• {spec}</li>
+                                  ))}
                                 </ul>
                               </div>
                             </div>
                           </div>
                           <div className="p-6 pt-0 flex-shrink-0">
-                            <Button onClick={() => handleBookNow(car)} className="w-full h-12 bg-[#D4AF37] hover:bg-[#B4941F] text-white font-medium rounded-md shadow-md transition-all duration-300 hover:shadow-lg hover:scale-105">
+                            <Button 
+                              onClick={() => handleBookNow(car)}
+                              className="w-full h-12 bg-[#D4AF37] hover:bg-[#B4941F] text-white font-medium rounded-md shadow-md transition-all duration-300 hover:shadow-lg hover:scale-105"
+                            >
                               Book Now
                             </Button>
                           </div>
@@ -261,13 +270,16 @@ const CarFleet = () => {
                       </Dialog>
                     </CardContent>
                   </Card>
-                </motion.div>)}
+                </motion.div>
+              ))}
             </div>
           </div>
         </section>
         
         <WhatsAppCTA />
       </div>
-    </ServiceLayout>;
+    </ServiceLayout>
+  );
 };
+
 export default CarFleet;
