@@ -27,21 +27,10 @@ export const jets = [
     name: 'Cessna Citation X+',
     category: 'Super Mid-Size',
     image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=2070',
-    price: 5800,
+    price: 4800,
     capacity: 10,
     range: '3,460 nm',
     description: 'The fastest civilian aircraft in the world. Speed and luxury in perfect harmony.',
     features: ['Fastest Speed', 'Advanced Flight Deck', 'Spacious Cabin', 'Premium Materials']
-  },
-  {
-    id: 4,
-    name: 'Embraer Phenom 300E',
-    category: 'Light Jet',
-    image: 'https://images.unsplash.com/photo-1569154941061-e231b4725ef1?q=80&w=2070',
-    price: 3200,
-    capacity: 8,
-    range: '2,010 nm',
-    description: 'The most delivered light jet for multiple years running, offering excellent performance and comfort.',
-    features: ['Largest Cabin in Class', 'Advanced Avionics', 'Quiet Cabin', 'Excellent Fuel Efficiency']
   }
 ];
