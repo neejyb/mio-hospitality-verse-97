@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
@@ -15,7 +16,7 @@ import { jets } from '@/data/jets';
 
 const Book = () => {
   const [searchParams] = useSearchParams();
-  const { artisans } = useArtisanData();
+  const { filteredArtisans: artisans } = useArtisanData('all');
   const [selectedArtisan, setSelectedArtisan] = useState<any>(null);
   const [selectedCar, setSelectedCar] = useState<any>(null);
   const [selectedJet, setSelectedJet] = useState<any>(null);
