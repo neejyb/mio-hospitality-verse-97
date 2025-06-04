@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
@@ -11,6 +10,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Calendar, MapPin, Users, Clock, Car, Plane, Wrench, Camera, Palette, Home, User, MessageSquare } from 'lucide-react';
 import { useSearchParams } from 'react-router-dom';
 import { useArtisanData } from '@/hooks/useArtisanData';
+import { cars } from '@/data/cars';
+import { jets } from '@/data/jets';
 
 const Book = () => {
   const [searchParams] = useSearchParams();
@@ -19,184 +20,9 @@ const Book = () => {
   const [selectedCar, setSelectedCar] = useState<any>(null);
   const [selectedJet, setSelectedJet] = useState<any>(null);
 
-  // Cars data from Car Fleet page
-  const cars = [
-    {
-      id: 1,
-      name: 'Mercedes S-Class',
-      image: 'https://images.unsplash.com/photo-1563720223185-11003d516935?q=80&w=2070',
-      price: '$350/day',
-      tag: 'Luxury Sedan',
-      description: 'Experience ultimate luxury with the flagship Mercedes S-Class. This premium sedan features advanced driver assistance, massage seats, and a whisper-quiet cabin perfect for executive travel.',
-      features: ['V8 Twin-Turbo Engine', 'Massage Seats', 'Premium Sound System', 'Advanced Safety Features']
-    },
-    {
-      id: 2,
-      name: 'Porsche 911 Carrera',
-      image: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2070',
-      price: '$450/day',
-      tag: 'Sports Car',
-      description: 'The iconic Porsche 911 delivers pure driving excitement with its legendary flat-six engine and precise handling. Perfect for weekend getaways and special occasions.',
-      features: ['3.0L Flat-6 Engine', 'Sport Chrono Package', 'Premium Audio', 'Carbon Fiber Accents']
-    },
-    {
-      id: 3,
-      name: 'Range Rover Autobiography',
-      image: 'https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?q=80&w=2070',
-      price: '$400/day',
-      tag: 'Luxury SUV',
-      description: 'Command any terrain with the Range Rover Autobiography. This luxury SUV combines off-road capability with on-road refinement and executive-level comfort.',
-      features: ['All-Terrain Capability', 'Air Suspension', 'Luxury Interior', 'Advanced Infotainment']
-    },
-    {
-      id: 4,
-      name: 'BMW 7 Series',
-      image: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?q=80&w=2070',
-      price: '$320/day',
-      tag: 'Executive Sedan',
-      description: 'The BMW 7 Series redefines luxury sedan standards with its spacious executive lounge rear compartment and cutting-edge technology.',
-      features: ['Executive Lounge Seating', 'Gesture Control', 'Surround Sound', 'Active Comfort']
-    },
-    {
-      id: 5,
-      name: 'Lamborghini Huracán',
-      image: 'https://images.unsplash.com/photo-1544636331-e26879cd4d9b?q=80&w=2070',
-      price: '$800/day',
-      tag: 'Supercar',
-      description: 'Experience pure Italian performance with the Lamborghini Huracán. This supercar delivers breathtaking acceleration and head-turning style.',
-      features: ['5.2L V10 Engine', 'Carbon Fiber Body', 'Sport Exhaust', 'Track Performance']
-    },
-    {
-      id: 6,
-      name: 'Bentley Continental GT',
-      image: 'https://images.unsplash.com/photo-1532581140115-3e355d1ed1de?q=80&w=2070',
-      price: '$600/day',
-      tag: 'Grand Tourer',
-      description: 'The Bentley Continental GT combines British luxury with impressive performance. Handcrafted details and a powerful W12 engine create an unforgettable driving experience.',
-      features: ['6.0L W12 Engine', 'Handcrafted Interior', 'Diamond Quilted Seats', 'Naim Audio']
-    },
-    {
-      id: 7,
-      name: 'Audi R8',
-      image: 'https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?q=80&w=2070',
-      price: '$750/day',
-      tag: 'Supercar',
-      description: 'The Audi R8 brings race-inspired performance to the road with its naturally aspirated V10 engine and quattro all-wheel drive system.',
-      features: ['5.2L V10 Plus', 'Carbon Fiber Cabin', 'Quattro AWD', 'Virtual Cockpit']
-    },
-    {
-      id: 8,
-      name: 'Ferrari 488 GTB',
-      image: 'https://images.unsplash.com/photo-1583121274602-3e2820c69888?q=80&w=2070',
-      price: '$900/day',
-      tag: 'Supercar',
-      description: 'The Ferrari 488 GTB delivers exceptional performance with its twin-turbocharged V8 engine and aerodynamic design inspired by Formula 1.',
-      features: ['3.9L Twin-Turbo V8', 'Racing Technology', 'Aerodynamic Design', 'Launch Control']
-    },
-    {
-      id: 9,
-      name: 'Rolls-Royce Ghost',
-      image: 'https://images.unsplash.com/photo-1631295868785-d4f06cd7a6e6?q=80&w=2070',
-      price: '$1200/day',
-      tag: 'Ultra Luxury',
-      description: 'The Rolls-Royce Ghost represents the pinnacle of automotive luxury with its serene cabin, powerful V12 engine, and meticulous attention to detail.',
-      features: ['6.75L V12 Engine', 'Magic Carpet Ride', 'Starlight Headliner', 'Bespoke Interior']
-    },
-    {
-      id: 10,
-      name: 'McLaren 720S',
-      image: 'https://images.unsplash.com/photo-1558618047-0c4c245e28e0?q=80&w=2070',
-      price: '$850/day',
-      tag: 'Supercar',
-      description: 'The McLaren 720S combines supercar performance with everyday usability, featuring advanced aerodynamics and a lightweight carbon fiber chassis.',
-      features: ['4.0L Twin-Turbo V8', 'Carbon Fiber Chassis', 'Active Aerodynamics', 'Track Telemetry']
-    },
-    {
-      id: 11,
-      name: 'Tesla Model S Plaid',
-      image: 'https://images.unsplash.com/photo-1617788138017-80ad40651399?q=80&w=2070',
-      price: '$300/day',
-      tag: 'Electric Luxury',
-      description: 'The Tesla Model S Plaid delivers incredible acceleration with its tri-motor setup while offering cutting-edge technology and sustainable luxury.',
-      features: ['Tri-Motor Setup', 'Autopilot', '17" Touchscreen', 'Supercharging']
-    },
-    {
-      id: 12,
-      name: 'Maserati Quattroporte',
-      image: 'https://images.unsplash.com/photo-1609521263047-f8f205293f24?q=80&w=2070',
-      price: '$380/day',
-      tag: 'Executive Sedan',
-      description: 'The Maserati Quattroporte combines Italian elegance with executive comfort, featuring a powerful V6 engine and distinctive styling.',
-      features: ['3.0L V6 Twin-Turbo', 'Italian Leather', 'Bowers & Wilkins Audio', 'Sport Mode']
-    },
-    {
-      id: 13,
-      name: 'Jaguar F-Type R',
-      image: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=2070',
-      price: '$420/day',
-      tag: 'Sports Car',
-      description: 'The Jaguar F-Type R offers thrilling performance with its supercharged V8 engine and stunning convertible design perfect for spirited drives.',
-      features: ['5.0L Supercharged V8', 'Convertible Top', 'Meridian Audio', 'Performance Exhaust']
-    },
-    {
-      id: 14,
-      name: 'Aston Martin DB11',
-      image: 'https://images.unsplash.com/photo-1544829099-b9a0c5303bea?q=80&w=2070',
-      price: '$650/day',
-      tag: 'Grand Tourer',
-      description: 'The Aston Martin DB11 epitomizes British grand touring with its elegant design, powerful V8 engine, and handcrafted luxury interior.',
-      features: ['4.0L V8 Twin-Turbo', 'Carbon Fiber', 'Bang & Olufsen Audio', 'Adaptive Dampers']
-    },
-    {
-      id: 15,
-      name: 'Cadillac Escalade',
-      image: 'https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?q=80&w=2070',
-      price: '$280/day',
-      tag: 'Luxury SUV',
-      description: 'The Cadillac Escalade provides spacious luxury for large groups with its commanding presence, premium interior, and advanced technology.',
-      features: ['6.2L V8 Engine', '7-Passenger Seating', '36-Speaker Audio', 'Super Cruise']
-    }
-  ];
-
-  // Jets data from Jet Options page
-  const jets = [
-    {
-      id: 1,
-      name: 'Gulfstream G650',
-      image: 'https://images.unsplash.com/photo-1540962351504-03099e0a754b?q=80&w=2070',
-      price: '$8,500/hour',
-      tag: 'Ultra Long Range',
-      description: 'The flagship of luxury aviation, the Gulfstream G650 offers unparalleled comfort and range. With its spacious cabin and advanced avionics, it sets the standard for ultra-long-range business jets.',
-      features: ['Range: 7,000 nautical miles', 'Max Speed: Mach 0.925', 'Cabin Height: 6.2 feet', 'High-Speed Internet', 'Luxury Galley', 'Private Lavatory']
-    },
-    {
-      id: 2,
-      name: 'Bombardier Global 7500',
-      image: 'https://images.unsplash.com/photo-1583992781145-4b80b2dd2ba0?q=80&w=2070',
-      price: '$9,200/hour',
-      tag: 'Ultra Long Range',
-      description: 'The world\'s largest and longest-range business jet, featuring four distinct living spaces including a master suite with a permanent bed and stand-up shower.',
-      features: ['Range: 7,700 nautical miles', 'Max Speed: Mach 0.925', 'Four Living Spaces', 'Master Suite with Bed', 'Stand-up Shower', 'Advanced Connectivity']
-    },
-    {
-      id: 3,
-      name: 'Cessna Citation X+',
-      image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=2070',
-      price: '$5,800/hour',
-      tag: 'Super Mid-Size',
-      description: 'The fastest civilian aircraft in the world, the Citation X+ combines speed with luxury. Perfect for time-sensitive travel with its ability to reach Mach 0.935.',
-      features: ['Range: 3,460 nautical miles', 'Max Speed: Mach 0.935', 'Fastest Civilian Aircraft', 'Advanced Flight Deck', 'Premium Materials', 'Spacious Cabin']
-    },
-    {
-      id: 4,
-      name: 'Embraer Phenom 300E',
-      image: 'https://images.unsplash.com/photo-1569154941061-e231b4725ef1?q=80&w=2070',
-      price: '$3,200/hour',
-      tag: 'Light Jet',
-      description: 'The most delivered light jet for multiple years running, the Phenom 300E offers excellent performance and comfort for shorter regional flights with surprising cabin space.',
-      features: ['Range: 2,010 nautical miles', 'Max Speed: 464 knots', 'Largest Cabin in Class', 'Advanced Avionics', 'Quiet Cabin', 'Excellent Fuel Efficiency']
-    }
-  ];
+  // Ensure cars and jets are arrays with fallbacks
+  const carsData = cars || [];
+  const jetsData = jets || [];
 
   // Check for URL parameters to pre-select service
   useEffect(() => {
@@ -233,12 +59,12 @@ const Book = () => {
   };
 
   const handleCarSelect = (carId: string) => {
-    const car = cars.find(c => c.id === parseInt(carId));
+    const car = carsData.find(c => c.id === parseInt(carId));
     setSelectedCar(car);
   };
 
   const handleJetSelect = (jetId: string) => {
-    const jet = jets.find(j => j.id === parseInt(jetId));
+    const jet = jetsData.find(j => j.id === parseInt(jetId));
     setSelectedJet(jet);
   };
 
@@ -382,9 +208,9 @@ const Book = () => {
                         <div className="flex-1">
                           <div className="flex justify-between items-start mb-2">
                             <h4 className="font-semibold text-lg">{selectedCar.name}</h4>
-                            <span className="bg-gray-100 px-2 py-1 rounded text-sm font-medium">{selectedCar.tag}</span>
+                            <span className="bg-gray-100 px-2 py-1 rounded text-sm font-medium">{selectedCar.category}</span>
                           </div>
-                          <p className="text-[#D4AF37] font-semibold mb-2">{selectedCar.price}</p>
+                          <p className="text-[#D4AF37] font-semibold mb-2">${selectedCar.price}/day</p>
                           <p className="text-gray-600 text-sm mb-2">{selectedCar.description}</p>
                           <div className="flex flex-wrap gap-2">
                             {selectedCar.features?.slice(0, 3).map((feature, idx) => (
@@ -406,9 +232,9 @@ const Book = () => {
                           <SelectValue placeholder="Choose a vehicle" />
                         </SelectTrigger>
                         <SelectContent>
-                          {cars.map((car) => (
+                          {carsData.map((car) => (
                             <SelectItem key={car.id} value={car.id.toString()}>
-                              {car.name} – {car.price}
+                              {car.name} – ${car.price}/day
                             </SelectItem>
                           ))}
                         </SelectContent>
@@ -482,9 +308,9 @@ const Book = () => {
                         <div className="flex-1">
                           <div className="flex justify-between items-start mb-2">
                             <h4 className="font-semibold text-lg">{selectedJet.name}</h4>
-                            <span className="bg-gray-100 px-2 py-1 rounded text-sm font-medium">{selectedJet.tag}</span>
+                            <span className="bg-gray-100 px-2 py-1 rounded text-sm font-medium">{selectedJet.category}</span>
                           </div>
-                          <p className="text-[#D4AF37] font-semibold mb-2">{selectedJet.price}</p>
+                          <p className="text-[#D4AF37] font-semibold mb-2">${selectedJet.price}/hour</p>
                           <p className="text-gray-600 text-sm mb-2">{selectedJet.description}</p>
                           <div className="flex flex-wrap gap-2">
                             {selectedJet.features?.slice(0, 3).map((feature, idx) => (
@@ -506,9 +332,9 @@ const Book = () => {
                           <SelectValue placeholder="Choose an aircraft" />
                         </SelectTrigger>
                         <SelectContent>
-                          {jets.map((jet) => (
+                          {jetsData.map((jet) => (
                             <SelectItem key={jet.id} value={jet.id.toString()}>
-                              {jet.name} – {jet.price}
+                              {jet.name} – ${jet.price}/hour
                             </SelectItem>
                           ))}
                         </SelectContent>
