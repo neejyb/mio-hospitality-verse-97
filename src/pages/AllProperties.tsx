@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { MapPin, Check } from 'lucide-react';
@@ -331,7 +330,19 @@ const AllProperties = () => {
   const [selectedProperty, setSelectedProperty] = useState(null);
 
   const handleBookNow = propertyId => {
-    navigate(`/book?propertyId=${propertyId}`);
+    const property = properties.find(p => p.id === propertyId);
+    if (property) {
+      const params = new URLSearchParams({
+        service: 'airbnb',
+        propertyId: property.id.toString(),
+        propertyName: property.name,
+        propertyPrice: property.price.toString(),
+        propertyLocation: property.location,
+        propertyImage: property.image,
+        propertyFeatures: JSON.stringify(property.features)
+      });
+      navigate(`/book?${params.toString()}`);
+    }
   };
 
   return (

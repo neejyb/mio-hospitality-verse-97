@@ -49,8 +49,14 @@ const getFeatureIcon = (featureName: string) => {
 const PropertyModal = ({ property, isOpen, onClose, onBookNow }: PropertyModalProps) => {
   const [activeTab, setActiveTab] = useState('photos');
   
-  // Use property.images if available, otherwise create an array with just the main image
-  const propertyImages = property.images || [property.image];
+  // Use property.images if available, otherwise create an array with just the main image plus additional property images
+  const propertyImages = property.images && property.images.length > 0 
+    ? property.images 
+    : [
+        property.image,
+        'https://images.unsplash.com/photo-1554995207-c18c203602cb?q=80&w=2070',
+        'https://images.unsplash.com/photo-1630699144867-37acec97df5a?q=80&w=2070'
+      ];
   
   // Generate a simple description if one is not provided
   const description = property.description || `This beautiful ${property.name} is located in ${property.location}. It offers ${property.features.map(f => f.name).join(', ')}. It's perfect for your next getaway.`;

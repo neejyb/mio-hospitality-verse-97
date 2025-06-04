@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useSearchParams, useLocation, useNavigate } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -14,10 +14,11 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { format } from 'date-fns';
 import { toast } from 'sonner';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { Card, CardContent } from '@/components/ui/card';
-import { Check, ArrowLeft } from 'lucide-react';
-import { cars } from '@/data/cars';
-import { jets } from '@/data/jets';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { cn } from '@/lib/utils';
+import { CalendarIcon, Star, X, MapPin, Check, Users, Car as CarIcon, Plane } from 'lucide-react';
+import { useArtisanData } from '@/hooks/useArtisanData';
 
 const serviceOptions = [{
   value: 'interior-design',
@@ -228,6 +229,7 @@ const Book = () => {
   const [selectedCar, setSelectedCar] = useState<any>(null);
   const [selectedJet, setSelectedJet] = useState<any>(null);
   const isMobile = useIsMobile();
+  const { artisans, loading: artisansLoading } = useArtisanData();
 
   // Find the selected property from the properties array based on URL param or state
   useEffect(() => {
@@ -299,6 +301,29 @@ const Book = () => {
       }
     }
   }, [selectedJetParam]);
+
+  // Property data handling
+  useEffect(() => {
+    const propertyId = searchParams.get('propertyId');
+    const propertyName = searchParams.get('propertyName');
+    const propertyPrice = searchParams.get('propertyPrice');
+    const propertyLocation = searchParams.get('propertyLocation');
+    const propertyImage = searchParams.get('propertyImage');
+    const propertyFeatures = searchParams.get('propertyFeatures');
+
+    if (propertyId && propertyName) {
+      const property = {
+        id: parseInt(propertyId),
+        name: propertyName,
+        price: parseInt(propertyPrice || '0'),
+        location: propertyLocation || '',
+        image: propertyImage || '',
+        features: propertyFeatures ? JSON.parse(propertyFeatures) : []
+      };
+      setSelectedProperty(property);
+      setFormData(prev => ({ ...prev, property: propertyName }));
+    }
+  }, [searchParams]);
 
   // Handle property selection change
   const handlePropertyChange = (propertyId: string) => {
@@ -467,11 +492,75 @@ const Book = () => {
     }, 1500);
   };
 
+  const removeSelectedProperty = () => {
+    setSelectedProperty(null);
+    setFormData(prev => ({ ...prev, property: '' }));
+  };
+
+  const renderPropertyPreview = () => {
+    if (!selectedProperty) return null;
+
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -20 }}
+        className="mb-6"
+      >
+        <Card className="border-[#D4AF37]/20 bg-gradient-to-r from-[#D4AF37]/5 to-transparent">
+          <CardContent className="p-4">
+            <div className="flex items-start gap-4">
+              <div className="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
+                <img 
+                  src={selectedProperty.image} 
+                  alt={selectedProperty.name}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="flex-grow min-w-0">
+                <div className="flex items-start justify-between gap-2">
+                  <div>
+                    <h3 className="font-semibold text-gray-900 text-sm">{selectedProperty.name}</h3>
+                    <div className="flex items-center text-gray-600 text-xs mt-1">
+                      <MapPin className="w-3 h-3 mr-1" />
+                      <span>{selectedProperty.location}</span>
+                    </div>
+                    <div className="text-[#D4AF37] font-bold text-sm mt-1">
+                      ${selectedProperty.price}/night
+                    </div>
+                  </div>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={removeSelectedProperty}
+                    className="h-6 w-6 p-0 hover:bg-red-100"
+                  >
+                    <X className="h-3 w-3 text-red-500" />
+                  </Button>
+                </div>
+                <div className="mt-2">
+                  <div className="flex flex-wrap gap-1">
+                    {selectedProperty.features?.slice(0, 3).map((feature, index) => (
+                      <div key={index} className="flex items-center text-xs text-gray-600">
+                        <Check className="w-3 h-3 text-green-500 mr-1" />
+                        <span>{feature.name}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </motion.div>
+    );
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
       
-      <main className="flex-grow">
+      <main className="flex-grow py-8">
         <div className="relative h-[40vh] bg-cover bg-center flex items-center" style={{
           backgroundImage: "url('https://images.unsplash.com/photo-1506485338023-6ce5f36692df?q=80&w=2070')"
         }}>
@@ -654,7 +743,7 @@ const Book = () => {
                 </div>
               )}
               
-              <Tabs defaultValue={selectedTab} value={selectedTab} onValueChange={handleTabChange} className="w-full">
+              <Tabs value={selectedTab} onValueChange={handleTabChange} className="w-full">
                 <div className="mb-6 overflow-x-auto pb-2">
                   <TabsList className={`${isMobile ? 'flex w-full' : 'grid grid-cols-5 w-full'}`}>
                     <TabsTrigger 
