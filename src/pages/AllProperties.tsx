@@ -1,14 +1,12 @@
+
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Slider } from '@/components/ui/slider';
-import { MapPin, Check, Search } from 'lucide-react';
+import { MapPin, Check } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import PropertyModal from '@/components/PropertyModal';
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 
 const properties = [{
@@ -142,195 +140,125 @@ const properties = [{
 const AllProperties = () => {
   const navigate = useNavigate();
   const [selectedProperty, setSelectedProperty] = useState(null);
-  const [priceRange, setPriceRange] = useState([0, 500]);
-  const [location, setLocation] = useState('');
-  const [bedrooms, setBedrooms] = useState('');
-  const [searchTerm, setSearchTerm] = useState('');
-
-  const filteredProperties = properties.filter(property => {
-    if (property.price < priceRange[0] || property.price > priceRange[1]) {
-      return false;
-    }
-    if (location && !property.location.toLowerCase().includes(location.toLowerCase())) {
-      return false;
-    }
-    if (bedrooms) {
-      const bedroomFeature = property.features.find(feature => feature.name.toLowerCase().includes('bedroom'));
-      if (!bedroomFeature || !bedroomFeature.name.includes(bedrooms)) {
-        return false;
-      }
-    }
-    if (searchTerm && !property.name.toLowerCase().includes(searchTerm.toLowerCase()) && !property.location.toLowerCase().includes(searchTerm.toLowerCase())) {
-      return false;
-    }
-    return true;
-  });
 
   const handleBookNow = propertyId => {
     navigate(`/book?propertyId=${propertyId}`);
   };
 
-  return <div className="min-h-screen flex flex-col">
+  return (
+    <div className="min-h-screen flex flex-col">
       <Navbar />
       <main className="flex-grow">
-        <div className="relative h-64 bg-gradient-to-r from-[#370202] to-[#D4AF37] text-white">
-          <div className="container mx-auto px-4 h-full flex flex-col justify-center">
-            <motion.h1 initial={{
-            opacity: 0,
-            y: -20
-          }} animate={{
-            opacity: 1,
-            y: 0
-          }} transition={{
-            duration: 0.5
-          }} className="text-3xl md:text-5xl font-bold mb-4">
+        {/* Hero Section */}
+        <div className="relative h-96 bg-cover bg-center" style={{
+          backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2070")'
+        }}>
+          <div className="container mx-auto px-4 h-full flex flex-col justify-center items-center text-center">
+            <motion.h1 
+              initial={{ opacity: 0, y: -20 }} 
+              animate={{ opacity: 1, y: 0 }} 
+              transition={{ duration: 0.5 }}
+              className="text-4xl md:text-6xl font-bold mb-4 text-white"
+            >
               Available Listings
             </motion.h1>
-            <motion.p initial={{
-            opacity: 0,
-            y: -10
-          }} animate={{
-            opacity: 1,
-            y: 0
-          }} transition={{
-            duration: 0.5,
-            delay: 0.2
-          }} className="text-xl max-w-2xl">
+            <motion.p 
+              initial={{ opacity: 0, y: -10 }} 
+              animate={{ opacity: 1, y: 0 }} 
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="text-xl md:text-2xl max-w-3xl text-white/90"
+            >
               Discover your perfect stay from our selection of premium properties
             </motion.p>
           </div>
         </div>
 
-        <div className="bg-white shadow-md py-6">
-          <div className="container mx-auto px-4">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-                <Input placeholder="Search by name or location" className="pl-9" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
-              </div>
-              
-              <Select value={location} onValueChange={setLocation}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Location" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectItem value="all">All Locations</SelectItem>
-                    <SelectItem value="city">City Center</SelectItem>
-                    <SelectItem value="coastal">Coastal Areas</SelectItem>
-                    <SelectItem value="mountain">Mountain Range</SelectItem>
-                    <SelectItem value="arts">Arts District</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-              
-              <Select value={bedrooms} onValueChange={setBedrooms}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Bedrooms" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectItem value="any">Any</SelectItem>
-                    <SelectItem value="1">1 Bedroom</SelectItem>
-                    <SelectItem value="2">2 Bedrooms</SelectItem>
-                    <SelectItem value="3">3+ Bedrooms</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-              
-              <div className="space-y-2">
-                <div className="flex justify-between text-sm">
-                  <span>${priceRange[0]}</span>
-                  <span>${priceRange[1]}</span>
-                </div>
-                <Slider defaultValue={[0, 500]} max={500} step={25} value={priceRange} onValueChange={setPriceRange} className="py-2 text-red-950" />
-              </div>
-            </div>
-          </div>
-        </div>
-
+        {/* Property Grid */}
         <div className="container mx-auto px-4 py-12">
-          {filteredProperties.length === 0 ? <div className="text-center py-12">
-              <h3 className="text-xl font-medium mb-2">No properties match your filters</h3>
-              <p className="text-gray-500 mb-4">Try adjusting your search criteria</p>
-              <Button variant="outline" onClick={() => {
-            setSearchTerm('');
-            setLocation('');
-            setBedrooms('');
-            setPriceRange([0, 500]);
-          }}>
-                Reset Filters
-              </Button>
-            </div> : <motion.div initial={{
-          opacity: 0
-        }} animate={{
-          opacity: 1
-        }} transition={{
-          duration: 0.5
-        }} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {filteredProperties.map(property => <motion.div key={property.id} initial={{
-            opacity: 0,
-            y: 20
-          }} whileInView={{
-            opacity: 1,
-            y: 0
-          }} transition={{
-            duration: 0.3
-          }} viewport={{
-            once: true
-          }}>
-                  <Card className="h-full flex flex-col overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                    <div className="relative h-48 overflow-hidden">
-                      <img src={property.image} alt={property.name} className="w-full h-full object-cover transition-transform duration-500 hover:scale-105" />
+          <motion.div 
+            initial={{ opacity: 0 }} 
+            animate={{ opacity: 1 }} 
+            transition={{ duration: 0.5 }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6"
+          >
+            {properties.map(property => (
+              <motion.div 
+                key={property.id}
+                initial={{ opacity: 0, y: 20 }} 
+                whileInView={{ opacity: 1, y: 0 }} 
+                transition={{ duration: 0.3 }} 
+                viewport={{ once: true }}
+              >
+                <Card className="h-full flex flex-col overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                  <div className="relative h-40 overflow-hidden">
+                    <img 
+                      src={property.image} 
+                      alt={property.name} 
+                      className="w-full h-full object-cover transition-transform duration-500 hover:scale-105" 
+                    />
+                  </div>
+                  
+                  <CardHeader className="pb-2 p-4">
+                    <h3 className="text-lg font-bold text-gray-800 line-clamp-2">{property.name}</h3>
+                    <div className="flex items-center text-gray-600 text-sm">
+                      <MapPin className="w-3 h-3 mr-1 flex-shrink-0" />
+                      <span className="truncate">{property.location}</span>
+                    </div>
+                  </CardHeader>
+                  
+                  <CardContent className="pb-0 flex-grow p-4 pt-0">
+                    <div className="text-[#ea384c] font-bold text-lg mb-3">
+                      ${property.price} <span className="text-gray-600 text-sm font-normal">/ night</span>
                     </div>
                     
-                    <CardHeader className="pb-2">
-                      <h3 className="text-xl font-bold text-gray-800">{property.name}</h3>
-                      <div className="flex items-center text-gray-600">
-                        <MapPin className="w-4 h-4 mr-1 flex-shrink-0" />
-                        <span>{property.location}</span>
-                      </div>
-                    </CardHeader>
-                    
-                    <CardContent className="pb-0 flex-grow">
-                      <div className="text-[#ea384c] font-bold text-lg mb-3">
-                        ${property.price} <span className="text-gray-600 text-sm font-normal">/ night</span>
-                      </div>
-                      
-                      <div>
-                        <ul className="grid grid-cols-2 gap-1 mb-4">
-                          {property.features.slice(0, 4).map(feature => <li key={feature.id} className="flex items-center text-sm">
-                              <Check className="w-3.5 h-3.5 text-green-500 mr-1 flex-shrink-0" />
-                              <span className="text-gray-700 truncate">{feature.name}</span>
-                            </li>)}
-                        </ul>
-                      </div>
-                    </CardContent>
-                    
-                    <CardFooter className="pt-4">
-                      <div className="flex gap-3 w-full">
-                        <Button variant="outline" size="sm" className="flex-1 border-[#D4AF37] text-[#D4AF37] bg-white hover:bg-[#D4AF37]/10" onClick={() => setSelectedProperty(property)}>
-                          View Details
-                        </Button>
-                        <Button 
-                          variant="default" 
-                          size="sm" 
-                          onClick={() => handleBookNow(property.id)} 
-                          className="flex-1 bg-[#4f1002]"
-                        >
-                          Book Now
-                        </Button>
-                      </div>
-                    </CardFooter>
-                  </Card>
-                </motion.div>)}
-            </motion.div>}
+                    <div>
+                      <ul className="grid grid-cols-1 gap-1 mb-4">
+                        {property.features.slice(0, 3).map(feature => (
+                          <li key={feature.id} className="flex items-center text-xs">
+                            <Check className="w-3 h-3 text-green-500 mr-1 flex-shrink-0" />
+                            <span className="text-gray-700 truncate">{feature.name}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </CardContent>
+                  
+                  <CardFooter className="pt-2 p-4 flex flex-col gap-2">
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="w-full border-[#D4AF37] text-[#D4AF37] bg-white hover:bg-[#D4AF37]/10 text-xs" 
+                      onClick={() => setSelectedProperty(property)}
+                    >
+                      View Details
+                    </Button>
+                    <Button 
+                      variant="default" 
+                      size="sm" 
+                      onClick={() => handleBookNow(property.id)} 
+                      className="w-full bg-[#4f1002] text-xs"
+                    >
+                      Book Now
+                    </Button>
+                  </CardFooter>
+                </Card>
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
       </main>
       <Footer />
 
-      {selectedProperty && <PropertyModal property={selectedProperty} isOpen={!!selectedProperty} onClose={() => setSelectedProperty(null)} onBookNow={handleBookNow} />}
-    </div>;
+      {selectedProperty && (
+        <PropertyModal 
+          property={selectedProperty} 
+          isOpen={!!selectedProperty} 
+          onClose={() => setSelectedProperty(null)} 
+          onBookNow={handleBookNow} 
+        />
+      )}
+    </div>
+  );
 };
 
 export default AllProperties;
