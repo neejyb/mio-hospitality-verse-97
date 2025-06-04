@@ -17,8 +17,10 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
-import { CalendarIcon, Star, X, MapPin, Check, Users, Car as CarIcon, Plane } from 'lucide-react';
+import { CalendarIcon, Star, X, MapPin, Check, Users, Car as CarIcon, Plane, ArrowLeft } from 'lucide-react';
 import { useArtisanData } from '@/hooks/useArtisanData';
+import { cars } from '@/data/cars';
+import { jets } from '@/data/jets';
 
 const serviceOptions = [{
   value: 'interior-design',
@@ -378,7 +380,7 @@ const Book = () => {
       return;
     }
     
-    const car = cars?.find(c => c.id === parseInt(carId));
+    const car = cars.find(c => c.id === parseInt(carId));
     setSelectedCar(car);
     setFormData(prev => ({ ...prev, car: carId }));
   };
@@ -391,7 +393,7 @@ const Book = () => {
       return;
     }
     
-    const jet = jets?.find(j => j.id === parseInt(jetId));
+    const jet = jets.find(j => j.id === parseInt(jetId));
     setSelectedJet(jet);
     setFormData(prev => ({ ...prev, jet: jetId }));
   };
@@ -680,10 +682,10 @@ const Book = () => {
                       </div>
                       <CardContent className="flex-1 p-4">
                         <div className="bg-[#450800]/10 text-[#450800] px-3 py-1 rounded-full text-sm inline-block mb-2">
-                          {selectedCar.tag}
+                          {selectedCar.category}
                         </div>
                         <h3 className="text-xl font-bold mb-2">{selectedCar.name}</h3>
-                        <div className="text-[#D4AF37] font-bold mb-3">{selectedCar.price}</div>
+                        <div className="text-[#D4AF37] font-bold mb-3">${selectedCar.price}/day</div>
                         <p className="text-gray-600 mb-3">{selectedCar.description}</p>
                         <div className="grid grid-cols-2 gap-2">
                           {selectedCar.features && selectedCar.features.map((feature, index) => (
@@ -724,10 +726,10 @@ const Book = () => {
                       </div>
                       <CardContent className="flex-1 p-4">
                         <div className="bg-blue-500/10 text-blue-600 px-3 py-1 rounded-full text-sm inline-block mb-2">
-                          {selectedJet.tag}
+                          {selectedJet.category}
                         </div>
                         <h3 className="text-xl font-bold mb-2">{selectedJet.name}</h3>
-                        <div className="text-blue-600 font-bold mb-3">{selectedJet.price}</div>
+                        <div className="text-blue-600 font-bold mb-3">${selectedJet.price}/hour</div>
                         <p className="text-gray-600 mb-3">{selectedJet.description}</p>
                         <div className="grid grid-cols-2 gap-2">
                           {selectedJet.features && selectedJet.features.map((feature, index) => (
@@ -1004,7 +1006,7 @@ const Book = () => {
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="none" className="text-gray-400 italic">None</SelectItem>
-                          {cars && cars.map(car => (
+                          {cars.map(car => (
                             <SelectItem key={car.id} value={car.id.toString()}>
                               {car.name} - ${car.price}/day
                             </SelectItem>
@@ -1126,7 +1128,7 @@ const Book = () => {
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="none" className="text-gray-400 italic">None</SelectItem>
-                          {jets && jets.map(jet => (
+                          {jets.map(jet => (
                             <SelectItem key={jet.id} value={jet.id.toString()}>
                               {jet.name} - ${jet.price}/hour
                             </SelectItem>
