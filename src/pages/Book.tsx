@@ -197,6 +197,9 @@ const Book = () => {
   const artisanTypeParam = searchParams.get('artisanType') || '';
   const artisanImageParam = searchParams.get('artisanImage') || '';
   
+  // New car parameters
+  const selectedCarParam = searchParams.get('selectedCar') || '';
+  
   const [formData, setFormData] = useState({
     service: initialService || location.state?.service || '',
     name: '',
@@ -212,7 +215,9 @@ const Book = () => {
   
   const [selectedTab, setSelectedTab] = useState(
     location.state?.service === 'airbnb' || finalPropertyId ? 'airbnb' : 
-    (artisanParam ? 'artisan' : 'general')
+    (artisanParam ? 'artisan' : 
+    (initialService === 'car-hire' ? 'car' :
+    (initialService === 'jet-hire' ? 'jet' : 'general')))
   );
   const [loading, setLoading] = useState(false);
   const [selectedProperty, setSelectedProperty] = useState<any>(null);
@@ -256,6 +261,24 @@ const Book = () => {
     }
   }, [artisanParam, artisanIdParam, artisanTypeParam, artisanImageParam]);
 
+  // New useEffect for car selection from URL parameters
+  useEffect(() => {
+    if (selectedCarParam) {
+      try {
+        const carData = JSON.parse(decodeURIComponent(selectedCarParam));
+        setSelectedCar(carData);
+        setFormData(prev => ({
+          ...prev,
+          car: carData.id.toString(),
+          service: 'car-hire'
+        }));
+        setSelectedTab('car');
+      } catch (error) {
+        console.error('Error parsing selected car data:', error);
+      }
+    }
+  }, [selectedCarParam]);
+
   // Handle property selection change
   const handlePropertyChange = (propertyId: string) => {
     if (propertyId === 'none') {
@@ -286,7 +309,7 @@ const Book = () => {
         id: artisanId,
         name: artisan.label.split(' - ')[0],
         type: artisan.label.split(' - ')[1] || 'Specialist',
-        image: '' // In a real app, you'd have the image URL in your artisan data
+        image: ''
       });
       
       setFormData(prev => ({
@@ -531,7 +554,18 @@ const Book = () => {
               {/* Selected Car Card */}
               {selectedCar && (
                 <div className="mb-8">
-                  <h2 className="text-2xl font-semibold mb-4">Selected Vehicle</h2>
+                  <div className="flex justify-between items-center mb-4">
+                    <h2 className="text-2xl font-semibold">Selected Vehicle</h2>
+                    <Button 
+                      variant="outline"
+                      size="sm"
+                      onClick={() => navigate('/car-fleet')}
+                      className="flex items-center gap-1"
+                    >
+                      <ArrowLeft size={16} />
+                      Change Vehicle
+                    </Button>
+                  </div>
                   <Card className="overflow-hidden">
                     <div className="flex flex-col md:flex-row">
                       <div className="md:w-1/3 h-48 md:h-auto">
@@ -542,14 +576,14 @@ const Book = () => {
                         />
                       </div>
                       <CardContent className="flex-1 p-4">
-                        <div className="bg-wine-500/10 text-wine-600 px-3 py-1 rounded-full text-sm inline-block mb-2">
-                          {selectedCar.category}
+                        <div className="bg-[#450800]/10 text-[#450800] px-3 py-1 rounded-full text-sm inline-block mb-2">
+                          {selectedCar.tag}
                         </div>
                         <h3 className="text-xl font-bold mb-2">{selectedCar.name}</h3>
-                        <div className="text-wine-600 font-bold mb-3">${selectedCar.price} / day</div>
+                        <div className="text-[#D4AF37] font-bold mb-3">{selectedCar.price}</div>
                         <p className="text-gray-600 mb-3">{selectedCar.description}</p>
                         <div className="grid grid-cols-2 gap-2">
-                          {selectedCar.features.map((feature, index) => (
+                          {selectedCar.features && selectedCar.features.map((feature, index) => (
                             <div key={index} className="flex items-center text-sm">
                               <Check size={16} className="text-green-500 mr-1" />
                               <span>{feature}</span>
@@ -654,9 +688,11 @@ const Book = () => {
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="none" className="text-gray-400 italic">None</SelectItem>
-                          {serviceOptions.map(option => <SelectItem key={option.value} value={option.value}>
+                          {serviceOptions.map(option => (
+                            <SelectItem key={option.value} value={option.value}>
                               {option.label}
-                            </SelectItem>)}
+                            </SelectItem>
+                          ))}
                         </SelectContent>
                       </Select>
                     </div>
@@ -767,9 +803,11 @@ const Book = () => {
                             <SelectValue placeholder="Select number of nights" />
                           </SelectTrigger>
                           <SelectContent>
-                            {[1, 2, 3, 4, 5, 6, 7, 14, 30].map(num => <SelectItem key={num} value={num.toString()}>
+                            {[1, 2, 3, 4, 5, 6, 7, 14, 30].map(num => (
+                              <SelectItem key={num} value={num.toString()}>
                                 {num} {num === 1 ? 'night' : 'nights'}
-                              </SelectItem>)}
+                              </SelectItem>
+                            ))}
                           </SelectContent>
                         </Select>
                       </div>
@@ -785,9 +823,11 @@ const Book = () => {
                             <SelectValue placeholder="Number of adults" />
                           </SelectTrigger>
                           <SelectContent>
-                            {[1, 2, 3, 4, 5, 6].map(num => <SelectItem key={num} value={num.toString()}>
+                            {[1, 2, 3, 4, 5, 6].map(num => (
+                              <SelectItem key={num} value={num.toString()}>
                                 {num}
-                              </SelectItem>)}
+                              </SelectItem>
+                            ))}
                           </SelectContent>
                         </Select>
                       </div>
@@ -801,9 +841,11 @@ const Book = () => {
                             <SelectValue placeholder="Number of children" />
                           </SelectTrigger>
                           <SelectContent>
-                            {[0, 1, 2, 3, 4].map(num => <SelectItem key={num} value={num.toString()}>
+                            {[0, 1, 2, 3, 4].map(num => (
+                              <SelectItem key={num} value={num.toString()}>
                                 {num}
-                              </SelectItem>)}
+                              </SelectItem>
+                            ))}
                           </SelectContent>
                         </Select>
                       </div>
@@ -853,13 +895,13 @@ const Book = () => {
                       <label htmlFor="car-model" className="block text-sm font-medium text-gray-700 mb-1">
                         Choose a Vehicle
                       </label>
-                      <Select value={formData.car} onValueChange={handleCarChange}>
+                      <Select value={formData.car} onValueChange={value => handleSelectChange('car', value)}>
                         <SelectTrigger>
                           <SelectValue placeholder="Select a vehicle" />
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="none" className="text-gray-400 italic">None</SelectItem>
-                          {cars.map(car => (
+                          {cars && cars.map(car => (
                             <SelectItem key={car.id} value={car.id.toString()}>
                               {car.name} - ${car.price}/day
                             </SelectItem>
@@ -894,9 +936,11 @@ const Book = () => {
                             <SelectValue placeholder="Select duration" />
                           </SelectTrigger>
                           <SelectContent>
-                            {[1, 2, 3, 4, 5, 6, 7, 14, 30].map(num => <SelectItem key={num} value={num.toString()}>
+                            {[1, 2, 3, 4, 5, 6, 7, 14, 30].map(num => (
+                              <SelectItem key={num} value={num.toString()}>
                                 {num} {num === 1 ? 'day' : 'days'}
-                              </SelectItem>)}
+                              </SelectItem>
+                            ))}
                           </SelectContent>
                         </Select>
                       </div>
@@ -973,13 +1017,13 @@ const Book = () => {
                       <label htmlFor="jet" className="block text-sm font-medium text-gray-700 mb-1">
                         Choose an Aircraft
                       </label>
-                      <Select value={formData.jet} onValueChange={handleJetChange}>
+                      <Select value={formData.jet} onValueChange={value => handleSelectChange('jet', value)}>
                         <SelectTrigger>
                           <SelectValue placeholder="Select an aircraft" />
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="none" className="text-gray-400 italic">None</SelectItem>
-                          {jets.map(jet => (
+                          {jets && jets.map(jet => (
                             <SelectItem key={jet.id} value={jet.id.toString()}>
                               {jet.name} - ${jet.price}/hour
                             </SelectItem>
@@ -1014,9 +1058,11 @@ const Book = () => {
                             <SelectValue placeholder="Select number of passengers" />
                           </SelectTrigger>
                           <SelectContent>
-                            {[1, 2, 3, 4, 5, 6, 8, 10, 12, 14, 16].map(num => <SelectItem key={num} value={num.toString()}>
+                            {[1, 2, 3, 4, 5, 6, 8, 10, 12, 14, 16].map(num => (
+                              <SelectItem key={num} value={num.toString()}>
                                 {num}
-                              </SelectItem>)}
+                              </SelectItem>
+                            ))}
                           </SelectContent>
                         </Select>
                       </div>
