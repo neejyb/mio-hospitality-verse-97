@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { MapPin, Check } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Slider } from '@/components/ui/slider';
+import { MapPin, Check, Search } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import PropertyModal from '@/components/PropertyModal';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 
 const properties = [{
@@ -134,336 +137,200 @@ const properties = [{
   }],
   images: ['https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=2080', 'https://images.unsplash.com/photo-1600585152220-90363fe7e115?q=80&w=2070', 'https://images.unsplash.com/photo-1560448075-32cc8b68e9c4?q=80&w=2070'],
   description: 'Indulge in the height of luxury in this stunning penthouse with breathtaking panoramic city views. Accessible via private elevator, this exclusive property features three elegant bedrooms, a state-of-the-art home theater, and premium finishes throughout. The epitome of sophisticated urban living.'
-}, {
-  id: 7,
-  name: 'Countryside Manor',
-  location: 'English Countryside',
-  price: 380,
-  image: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?q=80&w=2070',
-  features: [{
-    id: 'f7-1',
-    name: '4 Bedrooms'
-  }, {
-    id: 'f7-2',
-    name: 'Historic Property'
-  }, {
-    id: 'f7-3',
-    name: 'Large Gardens'
-  }, {
-    id: 'f7-4',
-    name: 'Tennis Court'
-  }],
-  images: ['https://images.unsplash.com/photo-1564013799919-ab600027ffc6?q=80&w=2070'],
-  description: 'Step into history with this magnificent countryside manor featuring four spacious bedrooms, expansive gardens, and a private tennis court.'
-}, {
-  id: 8,
-  name: 'Desert Oasis Resort',
-  location: 'Palm Springs',
-  price: 290,
-  image: 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?q=80&w=2080',
-  features: [{
-    id: 'f8-1',
-    name: 'Infinity Pool'
-  }, {
-    id: 'f8-2',
-    name: 'Desert Views'
-  }, {
-    id: 'f8-3',
-    name: 'Spa Services'
-  }, {
-    id: 'f8-4',
-    name: 'Golf Course'
-  }],
-  images: ['https://images.unsplash.com/photo-1571896349842-33c89424de2d?q=80&w=2080'],
-  description: 'Luxurious desert retreat with infinity pool, stunning desert views, spa services, and access to championship golf course.'
-}, {
-  id: 9,
-  name: 'Lake House Retreat',
-  location: 'Lake Tahoe',
-  price: 240,
-  image: 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?q=80&w=2070',
-  features: [{
-    id: 'f9-1',
-    name: 'Lakefront'
-  }, {
-    id: 'f9-2',
-    name: 'Private Dock'
-  }, {
-    id: 'f9-3',
-    name: 'Mountain Views'
-  }, {
-    id: 'f9-4',
-    name: 'Kayak Rental'
-  }],
-  images: ['https://images.unsplash.com/photo-1449824913935-59a10b8d2000?q=80&w=2070'],
-  description: 'Peaceful lakefront retreat with private dock, mountain views, and complimentary kayak rental for the ultimate lake experience.'
-}, {
-  id: 10,
-  name: 'Ski Chalet',
-  location: 'Alpine Resort',
-  price: 420,
-  image: 'https://images.unsplash.com/photo-1551524164-6cf4ac833fb6?q=80&w=2069',
-  features: [{
-    id: 'f10-1',
-    name: 'Ski-in/Ski-out'
-  }, {
-    id: 'f10-2',
-    name: 'Alpine Views'
-  }, {
-    id: 'f10-3',
-    name: 'Heated Floors'
-  }, {
-    id: 'f10-4',
-    name: 'Equipment Storage'
-  }],
-  images: ['https://images.unsplash.com/photo-1551524164-6cf4ac833fb6?q=80&w=2069'],
-  description: 'Premium ski chalet with direct slope access, breathtaking alpine views, heated floors, and dedicated equipment storage.'
-}, {
-  id: 11,
-  name: 'Tropical Paradise Villa',
-  location: 'Maui',
-  price: 520,
-  image: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=2070',
-  features: [{
-    id: 'f11-1',
-    name: 'Ocean Views'
-  }, {
-    id: 'f11-2',
-    name: 'Private Beach'
-  }, {
-    id: 'f11-3',
-    name: 'Infinity Pool'
-  }, {
-    id: 'f11-4',
-    name: 'Tropical Gardens'
-  }],
-  images: ['https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=2070'],
-  description: 'Ultimate tropical paradise with stunning ocean views, private beach access, infinity pool, and lush tropical gardens.'
-}, {
-  id: 12,
-  name: 'City Skyline Condo',
-  location: 'Manhattan',
-  price: 360,
-  image: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=2070',
-  features: [{
-    id: 'f12-1',
-    name: 'Skyline Views'
-  }, {
-    id: 'f12-2',
-    name: 'Modern Design'
-  }, {
-    id: 'f12-3',
-    name: 'Concierge Service'
-  }, {
-    id: 'f12-4',
-    name: 'Fitness Center'
-  }],
-  images: ['https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=2070'],
-  description: 'Sophisticated Manhattan condo with breathtaking skyline views, modern design, concierge service, and fitness center access.'
-}, {
-  id: 13,
-  name: 'Wine Country Estate',
-  location: 'Napa Valley',
-  price: 480,
-  image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2070',
-  features: [{
-    id: 'f13-1',
-    name: 'Vineyard Views'
-  }, {
-    id: 'f13-2',
-    name: 'Wine Cellar'
-  }, {
-    id: 'f13-3',
-    name: 'Gourmet Kitchen'
-  }, {
-    id: 'f13-4',
-    name: 'Tasting Room'
-  }],
-  images: ['https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2070'],
-  description: 'Elegant wine country estate with vineyard views, private wine cellar, gourmet kitchen, and exclusive tasting room.'
-}, {
-  id: 14,
-  name: 'Boutique Hotel Suite',
-  location: 'Paris',
-  price: 320,
-  image: 'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?q=80&w=2070',
-  features: [{
-    id: 'f14-1',
-    name: 'Historic Building'
-  }, {
-    id: 'f14-2',
-    name: 'Luxury Amenities'
-  }, {
-    id: 'f14-3',
-    name: 'City Center'
-  }, {
-    id: 'f14-4',
-    name: 'Room Service'
-  }],
-  images: ['https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?q=80&w=2070'],
-  description: 'Charming boutique hotel suite in historic Parisian building with luxury amenities, central location, and 24-hour room service.'
-}, {
-  id: 15,
-  name: 'Riverfront Lodge',
-  location: 'Colorado River',
-  price: 200,
-  image: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2070',
-  features: [{
-    id: 'f15-1',
-    name: 'River Access'
-  }, {
-    id: 'f15-2',
-    name: 'Fishing Spot'
-  }, {
-    id: 'f15-3',
-    name: 'Rustic Charm'
-  }, {
-    id: 'f15-4',
-    name: 'Outdoor Fire Pit'
-  }],
-  images: ['https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2070'],
-  description: 'Rustic riverfront lodge with direct river access, prime fishing spots, charming rustic design, and cozy outdoor fire pit.'
 }];
 
 const AllProperties = () => {
   const navigate = useNavigate();
   const [selectedProperty, setSelectedProperty] = useState(null);
+  const [priceRange, setPriceRange] = useState([0, 500]);
+  const [location, setLocation] = useState('');
+  const [bedrooms, setBedrooms] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const filteredProperties = properties.filter(property => {
+    if (property.price < priceRange[0] || property.price > priceRange[1]) {
+      return false;
+    }
+    if (location && !property.location.toLowerCase().includes(location.toLowerCase())) {
+      return false;
+    }
+    if (bedrooms) {
+      const bedroomFeature = property.features.find(feature => feature.name.toLowerCase().includes('bedroom'));
+      if (!bedroomFeature || !bedroomFeature.name.includes(bedrooms)) {
+        return false;
+      }
+    }
+    if (searchTerm && !property.name.toLowerCase().includes(searchTerm.toLowerCase()) && !property.location.toLowerCase().includes(searchTerm.toLowerCase())) {
+      return false;
+    }
+    return true;
+  });
 
   const handleBookNow = propertyId => {
-    const property = properties.find(p => p.id === propertyId);
-    if (property) {
-      const params = new URLSearchParams({
-        service: 'airbnb',
-        propertyId: property.id.toString(),
-        propertyName: property.name,
-        propertyPrice: property.price.toString(),
-        propertyLocation: property.location,
-        propertyImage: property.image,
-        propertyFeatures: JSON.stringify(property.features)
-      });
-      navigate(`/book?${params.toString()}`);
-    }
+    navigate(`/book?propertyId=${propertyId}`);
   };
 
-  return (
-    <div className="min-h-screen flex flex-col">
+  return <div className="min-h-screen flex flex-col">
       <Navbar />
       <main className="flex-grow">
-        {/* Hero Section */}
-        <div className="relative h-96 bg-gradient-to-r from-black/60 to-black/40">
-          <div 
-            className="absolute inset-0 bg-cover bg-center"
-            style={{
-              backgroundImage: 'url(https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2070)'
-            }}
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/40" />
-          <div className="relative container mx-auto px-4 h-full flex flex-col justify-center items-center text-center">
-            <motion.h1 
-              initial={{ opacity: 0, y: -20 }} 
-              animate={{ opacity: 1, y: 0 }} 
-              transition={{ duration: 0.5 }}
-              className="text-4xl md:text-6xl font-bold mb-6 text-white"
-            >
+        <div className="relative h-64 bg-gradient-to-r from-[#370202] to-[#D4AF37] text-white">
+          <div className="container mx-auto px-4 h-full flex flex-col justify-center">
+            <motion.h1 initial={{
+            opacity: 0,
+            y: -20
+          }} animate={{
+            opacity: 1,
+            y: 0
+          }} transition={{
+            duration: 0.5
+          }} className="text-3xl md:text-5xl font-bold mb-4">
               Available Listings
             </motion.h1>
-            <motion.p 
-              initial={{ opacity: 0, y: -10 }} 
-              animate={{ opacity: 1, y: 0 }} 
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="text-xl md:text-2xl max-w-3xl text-white/90"
-            >
+            <motion.p initial={{
+            opacity: 0,
+            y: -10
+          }} animate={{
+            opacity: 1,
+            y: 0
+          }} transition={{
+            duration: 0.5,
+            delay: 0.2
+          }} className="text-xl max-w-2xl">
               Discover your perfect stay from our selection of premium properties
             </motion.p>
           </div>
         </div>
 
-        {/* Properties Grid */}
-        <div className="container mx-auto px-4 py-16">
-          <motion.div 
-            initial={{ opacity: 0 }} 
-            animate={{ opacity: 1 }} 
-            transition={{ duration: 0.5 }}
-            className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4"
-          >
-            {properties.map(property => (
-              <motion.div 
-                key={property.id}
-                initial={{ opacity: 0, y: 20 }} 
-                whileInView={{ opacity: 1, y: 0 }} 
-                transition={{ duration: 0.3 }}
-                viewport={{ once: true }}
-              >
-                <Card className="h-full flex flex-col overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                  <div className="relative h-32 overflow-hidden">
-                    <img 
-                      src={property.image} 
-                      alt={property.name} 
-                      className="w-full h-full object-cover transition-transform duration-500 hover:scale-105" 
-                    />
-                  </div>
-                  
-                  <CardHeader className="pb-2 p-3">
-                    <h3 className="text-sm font-bold text-gray-800 line-clamp-2">{property.name}</h3>
-                    <div className="flex items-center text-gray-600 text-xs">
-                      <MapPin className="w-3 h-3 mr-1 flex-shrink-0" />
-                      <span className="truncate">{property.location}</span>
-                    </div>
-                  </CardHeader>
-                  
-                  <CardContent className="pb-0 flex-grow p-3 pt-0">
-                    <div className="text-[#ea384c] font-bold text-sm mb-2">
-                      ${property.price} <span className="text-gray-600 text-xs font-normal">/ night</span>
+        <div className="bg-white shadow-md py-6">
+          <div className="container mx-auto px-4">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                <Input placeholder="Search by name or location" className="pl-9" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
+              </div>
+              
+              <Select value={location} onValueChange={setLocation}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Location" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectItem value="all">All Locations</SelectItem>
+                    <SelectItem value="city">City Center</SelectItem>
+                    <SelectItem value="coastal">Coastal Areas</SelectItem>
+                    <SelectItem value="mountain">Mountain Range</SelectItem>
+                    <SelectItem value="arts">Arts District</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+              
+              <Select value={bedrooms} onValueChange={setBedrooms}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Bedrooms" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectItem value="any">Any</SelectItem>
+                    <SelectItem value="1">1 Bedroom</SelectItem>
+                    <SelectItem value="2">2 Bedrooms</SelectItem>
+                    <SelectItem value="3">3+ Bedrooms</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+              
+              <div className="space-y-2">
+                <div className="flex justify-between text-sm">
+                  <span>${priceRange[0]}</span>
+                  <span>${priceRange[1]}</span>
+                </div>
+                <Slider defaultValue={[0, 500]} max={500} step={25} value={priceRange} onValueChange={setPriceRange} className="py-2 text-red-950" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="container mx-auto px-4 py-12">
+          {filteredProperties.length === 0 ? <div className="text-center py-12">
+              <h3 className="text-xl font-medium mb-2">No properties match your filters</h3>
+              <p className="text-gray-500 mb-4">Try adjusting your search criteria</p>
+              <Button variant="outline" onClick={() => {
+            setSearchTerm('');
+            setLocation('');
+            setBedrooms('');
+            setPriceRange([0, 500]);
+          }}>
+                Reset Filters
+              </Button>
+            </div> : <motion.div initial={{
+          opacity: 0
+        }} animate={{
+          opacity: 1
+        }} transition={{
+          duration: 0.5
+        }} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {filteredProperties.map(property => <motion.div key={property.id} initial={{
+            opacity: 0,
+            y: 20
+          }} whileInView={{
+            opacity: 1,
+            y: 0
+          }} transition={{
+            duration: 0.3
+          }} viewport={{
+            once: true
+          }}>
+                  <Card className="h-full flex flex-col overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                    <div className="relative h-48 overflow-hidden">
+                      <img src={property.image} alt={property.name} className="w-full h-full object-cover transition-transform duration-500 hover:scale-105" />
                     </div>
                     
-                    <ul className="space-y-1 mb-3">
-                      {property.features.slice(0, 3).map(feature => (
-                        <li key={feature.id} className="flex items-center text-xs">
-                          <Check className="w-3 h-3 text-green-500 mr-1 flex-shrink-0" />
-                          <span className="text-gray-700 truncate">{feature.name}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </CardContent>
-                  
-                  <CardFooter className="pt-2 p-3">
-                    <div className="flex gap-2 w-full">
-                      <Button 
-                        variant="outline" 
-                        size="sm" 
-                        className="flex-1 text-xs border-[#D4AF37] text-[#D4AF37] bg-white hover:bg-[#D4AF37]/10" 
-                        onClick={() => setSelectedProperty(property)}
-                      >
-                        View
-                      </Button>
-                      <Button 
-                        variant="default" 
-                        size="sm" 
-                        onClick={() => handleBookNow(property.id)} 
-                        className="flex-1 text-xs bg-[#4f1002]"
-                      >
-                        Book
-                      </Button>
-                    </div>
-                  </CardFooter>
-                </Card>
-              </motion.div>
-            ))}
-          </motion.div>
+                    <CardHeader className="pb-2">
+                      <h3 className="text-xl font-bold text-gray-800">{property.name}</h3>
+                      <div className="flex items-center text-gray-600">
+                        <MapPin className="w-4 h-4 mr-1 flex-shrink-0" />
+                        <span>{property.location}</span>
+                      </div>
+                    </CardHeader>
+                    
+                    <CardContent className="pb-0 flex-grow">
+                      <div className="text-[#ea384c] font-bold text-lg mb-3">
+                        ${property.price} <span className="text-gray-600 text-sm font-normal">/ night</span>
+                      </div>
+                      
+                      <div>
+                        <ul className="grid grid-cols-2 gap-1 mb-4">
+                          {property.features.slice(0, 4).map(feature => <li key={feature.id} className="flex items-center text-sm">
+                              <Check className="w-3.5 h-3.5 text-green-500 mr-1 flex-shrink-0" />
+                              <span className="text-gray-700 truncate">{feature.name}</span>
+                            </li>)}
+                        </ul>
+                      </div>
+                    </CardContent>
+                    
+                    <CardFooter className="pt-4">
+                      <div className="flex gap-3 w-full">
+                        <Button variant="outline" size="sm" className="flex-1 border-[#D4AF37] text-[#D4AF37] bg-white hover:bg-[#D4AF37]/10" onClick={() => setSelectedProperty(property)}>
+                          View Details
+                        </Button>
+                        <Button 
+                          variant="default" 
+                          size="sm" 
+                          onClick={() => handleBookNow(property.id)} 
+                          className="flex-1 bg-[#4f1002]"
+                        >
+                          Book Now
+                        </Button>
+                      </div>
+                    </CardFooter>
+                  </Card>
+                </motion.div>)}
+            </motion.div>}
         </div>
       </main>
       <Footer />
 
-      {selectedProperty && (
-        <PropertyModal 
-          property={selectedProperty} 
-          isOpen={!!selectedProperty} 
-          onClose={() => setSelectedProperty(null)} 
-          onBookNow={handleBookNow} 
-        />
-      )}
-    </div>
-  );
+      {selectedProperty && <PropertyModal property={selectedProperty} isOpen={!!selectedProperty} onClose={() => setSelectedProperty(null)} onBookNow={handleBookNow} />}
+    </div>;
 };
 
 export default AllProperties;
