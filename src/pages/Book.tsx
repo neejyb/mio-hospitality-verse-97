@@ -1,704 +1,1194 @@
-
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Card, CardContent } from '@/components/ui/card';
+import { useSearchParams, useLocation, useNavigate } from 'react-router-dom';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import WhatsAppCTA from '@/components/WhatsAppCTA';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Calendar, MapPin, Users, Clock, Car, Plane, Wrench, Camera, Palette, Home, User, MessageSquare } from 'lucide-react';
-import { useSearchParams } from 'react-router-dom';
-import { useArtisanData } from '@/hooks/useArtisanData';
+import { Calendar } from '@/components/ui/calendar';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { format } from 'date-fns';
+import { toast } from 'sonner';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { Card, CardContent } from '@/components/ui/card';
+import { Check, ArrowLeft } from 'lucide-react';
 import { cars } from '@/data/cars';
 import { jets } from '@/data/jets';
 
+const serviceOptions = [{
+  value: 'interior-design',
+  label: 'Interior Design'
+}, {
+  value: 'airbnb',
+  label: 'Airbnb Services'
+}, {
+  value: 'videography',
+  label: 'Videography'
+}, {
+  value: 'car-hire',
+  label: 'Car Hire'
+}, {
+  value: 'jet-hire',
+  label: 'Private Jet Hire'
+}, {
+  value: 'facility-management',
+  label: 'Facility Management'
+}];
+
+// Import the properties array from the same file where it's defined in AllProperties.tsx
+// This is a simplified version for this example - in a real application, 
+// you'd likely fetch this from an API or context
+const properties = [{
+  id: 1,
+  name: 'Luxury Downtown Apartment',
+  location: 'City Center',
+  price: 250,
+  image: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=2070',
+  features: [{
+    id: 'f1-1',
+    name: '2 Bedrooms'
+  }, {
+    id: 'f1-2',
+    name: 'Fully Equipped Kitchen'
+  }, {
+    id: 'f1-3',
+    name: 'City View'
+  }, {
+    id: 'f1-4',
+    name: 'High-Speed WiFi'
+  }],
+  images: ['https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=2070', 'https://images.unsplash.com/photo-1554995207-c18c203602cb?q=80&w=2070', 'https://images.unsplash.com/photo-1630699144867-37acec97df5a?q=80&w=2070'],
+  description: 'Experience luxury living in the heart of the city with our stylish downtown apartment.'
+}, {
+  id: 2,
+  name: 'Modern Beachfront Villa',
+  location: 'Coastal Paradise',
+  price: 350,
+  image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2070',
+  features: [{
+    id: 'f2-1',
+    name: 'Private Pool'
+  }, {
+    id: 'f2-2',
+    name: 'Ocean View'
+  }, {
+    id: 'f2-3',
+    name: '3 Bedrooms'
+  }, {
+    id: 'f2-4',
+    name: 'Beach Access'
+  }],
+  images: ['https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2070', 'https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?q=80&w=2070', 'https://images.unsplash.com/photo-1520250497591-162f2f40a3f4?q=80&w=2060'],
+  description: 'Wake up to stunning ocean views in our modern beachfront villa.'
+}, {
+  id: 3,
+  name: 'Mountain Retreat Cabin',
+  location: 'Mountain Range',
+  price: 195,
+  image: 'https://images.unsplash.com/photo-1518732714860-b62714ce0c59?q=80&w=2070',
+  features: [{
+    id: 'f3-1',
+    name: 'Fireplace'
+  }, {
+    id: 'f3-2',
+    name: 'Mountain Views'
+  }, {
+    id: 'f3-3',
+    name: 'Hiking Trails'
+  }, {
+    id: 'f3-4',
+    name: 'Hot Tub'
+  }],
+  images: ['https://images.unsplash.com/photo-1518732714860-b62714ce0c59?q=80&w=2070', 'https://images.unsplash.com/photo-1542718610-a1d656d1884c?q=80&w=2070', 'https://images.unsplash.com/photo-1520984032042-162d526883e0?q=80&w=2065'],
+  description: 'Escape to the tranquility of nature in our cozy mountain retreat.'
+}, {
+  id: 4,
+  name: 'Urban Loft Apartment',
+  location: 'Arts District',
+  price: 220,
+  image: 'https://images.unsplash.com/photo-1536376072261-38c75010e6c9?q=80&w=2070',
+  features: [{
+    id: 'f4-1',
+    name: 'Open Floor Plan'
+  }, {
+    id: 'f4-2',
+    name: 'Industrial Design'
+  }, {
+    id: 'f4-3',
+    name: 'Smart Home System'
+  }, {
+    id: 'f4-4',
+    name: 'Rooftop Access'
+  }],
+  images: ['https://images.unsplash.com/photo-1536376072261-38c75010e6c9?q=80&w=2070', 'https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?q=80&w=2070', 'https://images.unsplash.com/photo-1560448075-32cc8b68e9c4?q=80&w=2070'],
+  description: 'Experience urban living at its finest in this stylish loft apartment.'
+}, {
+  id: 5,
+  name: 'Seaside Cottage',
+  location: 'Coastal Village',
+  price: 175,
+  image: 'https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?q=80&w=2070',
+  features: [{
+    id: 'f5-1',
+    name: 'Waterfront'
+  }, {
+    id: 'f5-2',
+    name: 'Private Garden'
+  }, {
+    id: 'f5-3',
+    name: '2 Bedrooms'
+  }, {
+    id: 'f5-4',
+    name: 'Outdoor BBQ'
+  }],
+  images: ['https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?q=80&w=2070', 'https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2070', 'https://images.unsplash.com/photo-1518780664697-55e3ad937233?q=80&w=2065'],
+  description: 'Relax in this charming seaside cottage with direct access to the waterfront.'
+}, {
+  id: 6,
+  name: 'Luxury Penthouse',
+  location: 'Financial District',
+  price: 450,
+  image: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=2080',
+  features: [{
+    id: 'f6-1',
+    name: 'Panoramic Views'
+  }, {
+    id: 'f6-2',
+    name: 'Private Elevator'
+  }, {
+    id: 'f6-3',
+    name: '3 Bedrooms'
+  }, {
+    id: 'f6-4',
+    name: 'Home Theater'
+  }],
+  images: ['https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=2080', 'https://images.unsplash.com/photo-1600585152220-90363fe7e115?q=80&w=2070', 'https://images.unsplash.com/photo-1560448075-32cc8b68e9c4?q=80&w=2070'],
+  description: 'Indulge in the height of luxury in this stunning penthouse with breathtaking panoramic city views.'
+}];
+
+// Sample artisans data for dropdown
+const artisanOptions = [
+  { value: '', label: 'None', style: 'text-gray-400 italic' },
+  { value: 'michael-chen', label: 'Michael Chen - Electrician' },
+  { value: 'sarah-johnson', label: 'Sarah Johnson - Plumber' },
+  { value: 'david-williams', label: 'David Williams - HVAC Specialist' },
+  { value: 'elena-rodriguez', label: 'Elena Rodriguez - Cleaning Supervisor' }
+];
+
 const Book = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [searchParams] = useSearchParams();
-  const { filteredArtisans: artisans } = useArtisanData('all');
+  const initialService = searchParams.get('service') || '';
+  const propertyIdParam = searchParams.get('propertyId');
+  const initialPropertyId = propertyIdParam ? parseInt(propertyIdParam) : null;
+  
+  // Check for property ID from navigation state (from Book Now button)
+  const statePropertyId = location.state?.property;
+  const finalPropertyId = statePropertyId || initialPropertyId;
+  
+  // New artisan parameters
+  const artisanParam = searchParams.get('artisan') || '';
+  const artisanIdParam = searchParams.get('artisanId') || '';
+  const artisanTypeParam = searchParams.get('artisanType') || '';
+  const artisanImageParam = searchParams.get('artisanImage') || '';
+  
+  const [formData, setFormData] = useState({
+    service: initialService || location.state?.service || '',
+    name: '',
+    email: '',
+    phone: '',
+    date: null as Date | null,
+    message: '',
+    property: finalPropertyId ? finalPropertyId.toString() : '',
+    artisan: artisanParam || '',
+    car: '',
+    jet: ''
+  });
+  
+  const [selectedTab, setSelectedTab] = useState(
+    location.state?.service === 'airbnb' || finalPropertyId ? 'airbnb' : 
+    (artisanParam ? 'artisan' : 'general')
+  );
+  const [loading, setLoading] = useState(false);
+  const [selectedProperty, setSelectedProperty] = useState<any>(null);
   const [selectedArtisan, setSelectedArtisan] = useState<any>(null);
   const [selectedCar, setSelectedCar] = useState<any>(null);
   const [selectedJet, setSelectedJet] = useState<any>(null);
+  const isMobile = useIsMobile();
 
-  // Ensure cars and jets are arrays with fallbacks
-  const carsData = cars || [];
-  const jetsData = jets || [];
-
-  // Check for URL parameters to pre-select service
+  // Find the selected property from the properties array based on URL param or state
   useEffect(() => {
-    const service = searchParams.get('service');
-    const selectedCarData = searchParams.get('selectedCar');
-    const selectedJetData = searchParams.get('selectedJet');
-
-    if (selectedCarData) {
-      try {
-        const carData = JSON.parse(decodeURIComponent(selectedCarData));
-        setSelectedCar(carData);
-      } catch (error) {
-        console.error('Error parsing car data:', error);
+    if (finalPropertyId) {
+      const property = properties.find(p => p.id === finalPropertyId);
+      if (property) {
+        setSelectedProperty(property);
+        setFormData(prev => ({
+          ...prev,
+          property: finalPropertyId.toString(),
+          service: 'airbnb'
+        }));
+        setSelectedTab('airbnb');
       }
     }
+  }, [finalPropertyId]);
 
-    if (selectedJetData) {
-      try {
-        const jetData = JSON.parse(decodeURIComponent(selectedJetData));
-        setSelectedJet(jetData);
-      } catch (error) {
-        console.error('Error parsing jet data:', error);
-      }
+  // Set up selected artisan from URL parameters
+  useEffect(() => {
+    if (artisanParam) {
+      const artisanData = {
+        id: artisanIdParam || '0',
+        name: decodeURIComponent(artisanParam).replace(/-/g, ' '),
+        type: artisanTypeParam || 'Specialist',
+        image: decodeURIComponent(artisanImageParam || '')
+      };
+      
+      setSelectedArtisan(artisanData);
+      setFormData(prev => ({
+        ...prev,
+        artisan: artisanParam,
+        service: 'facility-management'
+      }));
     }
-  }, [searchParams]);
+  }, [artisanParam, artisanIdParam, artisanTypeParam, artisanImageParam]);
 
-  const defaultTab = searchParams.get('service') === 'jet-hire' ? 'jet-charter' : 
-                    searchParams.get('service') === 'car-hire' ? 'car-hire' : 
-                    'property-management';
-
-  const handleArtisanSelect = (artisanId: string) => {
-    const artisan = artisans.find(a => a.id === artisanId);
-    setSelectedArtisan(artisan);
+  // Handle property selection change
+  const handlePropertyChange = (propertyId: string) => {
+    if (propertyId === 'none') {
+      setSelectedProperty(null);
+      setFormData(prev => ({ ...prev, property: '' }));
+      return;
+    }
+    
+    const property = properties.find(p => p.id === parseInt(propertyId));
+    setSelectedProperty(property);
+    setFormData(prev => ({
+      ...prev,
+      property: propertyId
+    }));
   };
 
-  const handleCarSelect = (carId: string) => {
-    const car = carsData.find(c => c.id === parseInt(carId));
+  // Handle artisan selection change
+  const handleArtisanChange = (artisanId: string) => {
+    if (artisanId === 'none') {
+      setSelectedArtisan(null);
+      setFormData(prev => ({ ...prev, artisan: '' }));
+      return;
+    }
+    
+    const artisan = artisanOptions.find(a => a.value === artisanId);
+    if (artisan) {
+      setSelectedArtisan({
+        id: artisanId,
+        name: artisan.label.split(' - ')[0],
+        type: artisan.label.split(' - ')[1] || 'Specialist',
+        image: '' // In a real app, you'd have the image URL in your artisan data
+      });
+      
+      setFormData(prev => ({
+        ...prev,
+        artisan: artisanId
+      }));
+    }
+  };
+
+  // Handle "Change Artisan" button click
+  const handleChangeArtisan = () => {
+    navigate('/artisans');
+  };
+
+  // Handle car selection change
+  const handleCarChange = (carId: string) => {
+    if (carId === 'none') {
+      setSelectedCar(null);
+      setFormData(prev => ({ ...prev, car: '' }));
+      return;
+    }
+    
+    const car = cars.find(c => c.id === parseInt(carId));
     setSelectedCar(car);
+    setFormData(prev => ({ ...prev, car: carId }));
   };
 
-  const handleJetSelect = (jetId: string) => {
-    const jet = jetsData.find(j => j.id === parseInt(jetId));
+  // Handle jet selection change
+  const handleJetChange = (jetId: string) => {
+    if (jetId === 'none') {
+      setSelectedJet(null);
+      setFormData(prev => ({ ...prev, jet: '' }));
+      return;
+    }
+    
+    const jet = jets.find(j => j.id === parseInt(jetId));
     setSelectedJet(jet);
+    setFormData(prev => ({ ...prev, jet: jetId }));
   };
 
-  return (
-    <div className="min-h-screen bg-gray-50 pt-20">
-      <div className="container mx-auto px-4 py-12">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12"
-        >
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Book a Service
-          </h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Choose from our premium services and let us create an exceptional experience for you
-          </p>
-        </motion.div>
+  // Clear selections when switching tabs
+  const handleTabChange = (value: string) => {
+    setSelectedTab(value);
+    
+    // Clear all dynamic selections and their form data when switching tabs
+    setSelectedCar(null);
+    setSelectedJet(null);
+    setFormData(prev => ({
+      ...prev,
+      car: '',
+      jet: ''
+    }));
+    
+    // Also clear property and artisan selections if switching away from their respective tabs
+    if (value !== 'airbnb') {
+      setSelectedProperty(null);
+      setFormData(prev => ({ ...prev, property: '' }));
+    }
+    
+    if (value !== 'artisan') {
+      setSelectedArtisan(null);
+      setFormData(prev => ({ ...prev, artisan: '' }));
+    }
+  };
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="max-w-4xl mx-auto"
-        >
-          <Tabs defaultValue={defaultTab} className="w-full">
-            <TabsList className="grid w-full grid-cols-6 mb-8">
-              <TabsTrigger value="property-management" className="flex items-center gap-2">
-                <Home className="w-4 h-4" />
-                <span className="hidden sm:inline">Property</span>
-              </TabsTrigger>
-              <TabsTrigger value="car-hire" className="flex items-center gap-2">
-                <Car className="w-4 h-4" />
-                <span className="hidden sm:inline">Car Hire</span>
-              </TabsTrigger>
-              <TabsTrigger value="jet-charter" className="flex items-center gap-2">
-                <Plane className="w-4 h-4" />
-                <span className="hidden sm:inline">Jet Charter</span>
-              </TabsTrigger>
-              <TabsTrigger value="maintenance" className="flex items-center gap-2">
-                <Wrench className="w-4 h-4" />
-                <span className="hidden sm:inline">Maintenance</span>
-              </TabsTrigger>
-              <TabsTrigger value="videography" className="flex items-center gap-2">
-                <Camera className="w-4 h-4" />
-                <span className="hidden sm:inline">Video</span>
-              </TabsTrigger>
-              <TabsTrigger value="book-artisans" className="flex items-center gap-2">
-                <User className="w-4 h-4" />
-                <span className="hidden sm:inline">Artisans</span>
-              </TabsTrigger>
-            </TabsList>
+  useEffect(() => {
+    if (initialService === 'airbnb' || initialPropertyId) {
+      setSelectedTab('airbnb');
+    } else if (initialService === 'car-hire') {
+      setSelectedTab('car');
+    } else if (initialService === 'jet-hire') {
+      setSelectedTab('jet');
+    } else if (initialService === 'facility-management' && artisanParam) {
+      setSelectedTab('artisan');
+    }
+  }, [initialService, initialPropertyId, artisanParam]);
 
-            {/* Property Management Tab */}
-            <TabsContent value="property-management">
-              <Card>
-                <CardContent className="p-6">
-                  <h2 className="text-2xl font-semibold mb-6 flex items-center gap-2">
-                    <Home className="w-6 h-6" />
-                    Property Management Service
-                  </h2>
-                  <form className="space-y-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div>
-                        <Label htmlFor="property-type">Property Type</Label>
-                        <Select>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select property type" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="residential">Residential</SelectItem>
-                            <SelectItem value="commercial">Commercial</SelectItem>
-                            <SelectItem value="vacation-rental">Vacation Rental</SelectItem>
-                            <SelectItem value="luxury-estate">Luxury Estate</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      <div>
-                        <Label htmlFor="property-location">Location</Label>
-                        <Input id="property-location" placeholder="Property address" />
-                      </div>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div>
-                        <Label htmlFor="service-date">Preferred Start Date</Label>
-                        <Input id="service-date" type="date" />
-                      </div>
-                      <div>
-                        <Label htmlFor="budget">Monthly Budget</Label>
-                        <Select>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select budget range" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="1000-2500">$1,000 - $2,500</SelectItem>
-                            <SelectItem value="2500-5000">$2,500 - $5,000</SelectItem>
-                            <SelectItem value="5000-10000">$5,000 - $10,000</SelectItem>
-                            <SelectItem value="10000+">$10,000+</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                    </div>
-                    <div>
-                      <Label htmlFor="services-needed">Services Needed</Label>
-                      <Textarea
-                        id="services-needed"
-                        placeholder="Describe the property management services you need..."
-                        rows={4}
-                      />
-                    </div>
-                    <Button className="w-full">Request Property Management Quote</Button>
-                  </form>
-                </CardContent>
-              </Card>
-            </TabsContent>
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const {
+      name,
+      value
+    } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
 
-            {/* Car Hire Tab */}
-            <TabsContent value="car-hire">
-              <Card>
-                <CardContent className="p-6">
-                  <h2 className="text-2xl font-semibold mb-6 flex items-center gap-2">
-                    <Car className="w-6 h-6" />
-                    Luxury Car Hire
-                  </h2>
-                  
-                  {/* Selected Car Preview */}
-                  {selectedCar && (
-                    <motion.div
-                      initial={{ opacity: 0, scale: 0.95 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      className="mb-6 p-4 border rounded-lg bg-gray-50"
-                    >
-                      <h3 className="font-semibold mb-3 text-gray-800">Selected Vehicle</h3>
-                      <div className="flex flex-col md:flex-row gap-4">
-                        <img
-                          src={selectedCar.image}
-                          alt={selectedCar.name}
-                          className="w-full md:w-32 h-24 object-cover rounded-lg"
+  const handleSelectChange = (name: string, value: string) => {
+    if (name === 'property') {
+      handlePropertyChange(value);
+    } else if (name === 'artisan') {
+      handleArtisanChange(value);
+    } else if (name === 'car') {
+      handleCarChange(value);
+    } else if (name === 'jet') {
+      handleJetChange(value);
+    }
+    
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleDateChange = (date: Date | null) => {
+    setFormData(prev => ({
+      ...prev,
+      date
+    }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    setTimeout(() => {
+      console.log('Form submitted:', formData);
+      toast.success('Your booking request has been received. We will contact you shortly!');
+      setFormData({
+        service: '',
+        name: '',
+        email: '',
+        phone: '',
+        date: null,
+        message: '',
+        property: '',
+        artisan: '',
+        car: '',
+        jet: ''
+      });
+      setSelectedProperty(null);
+      setSelectedArtisan(null);
+      setSelectedCar(null);
+      setSelectedJet(null);
+      setLoading(false);
+    }, 1500);
+  };
+
+  return <div className="min-h-screen flex flex-col">
+      <Navbar />
+      
+      <main className="flex-grow">
+        <div className="relative h-[40vh] bg-cover bg-center flex items-center" style={{
+        backgroundImage: "url('https://images.unsplash.com/photo-1506485338023-6ce5f36692df?q=80&w=2070')"
+      }}>
+          <div className="absolute inset-0 bg-black/50"></div>
+          <div className="container mx-auto px-4 relative z-10 text-white">
+            <h1 className="text-3xl md:text-5xl font-bold mb-4">Book a Service</h1>
+            <p className="text-lg md:text-xl max-w-2xl">
+              Fill out the form below to request our services and we'll get back to you promptly.
+            </p>
+          </div>
+        </div>
+        
+        <section className="py-8 md:py-16 bg-white">
+          <div className="container mx-auto px-4">
+            <motion.div initial={{
+            opacity: 0,
+            y: 20
+          }} animate={{
+            opacity: 1,
+            y: 0
+          }} transition={{
+            duration: 0.5
+          }} className="max-w-4xl mx-auto bg-white p-4 md:p-8 rounded-lg shadow-lg">
+              {selectedProperty && (
+                <div className="mb-8">
+                  <h2 className="text-2xl font-semibold mb-4">Selected Property</h2>
+                  <Card className="overflow-hidden">
+                    <div className="flex flex-col md:flex-row">
+                      <div className="md:w-1/3 h-48 md:h-auto">
+                        <img 
+                          src={selectedProperty.image} 
+                          alt={selectedProperty.name}
+                          className="w-full h-full object-cover"
                         />
-                        <div className="flex-1">
-                          <div className="flex justify-between items-start mb-2">
-                            <h4 className="font-semibold text-lg">{selectedCar.name}</h4>
-                            <span className="bg-gray-100 px-2 py-1 rounded text-sm font-medium">{selectedCar.category}</span>
+                      </div>
+                      <CardContent className="flex-1 p-4">
+                        <h3 className="text-xl font-bold mb-2">{selectedProperty.name}</h3>
+                        <p className="text-gray-600 mb-2">{selectedProperty.location}</p>
+                        <div className="text-red-600 font-bold mb-3">${selectedProperty.price} / night</div>
+                        <div className="grid grid-cols-2 gap-2">
+                          {selectedProperty.features.map((feature) => (
+                            <div key={feature.id} className="flex items-center text-sm">
+                              <Check size={16} className="text-green-500 mr-1" />
+                              <span>{feature.name}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </CardContent>
+                    </div>
+                  </Card>
+                </div>
+              )}
+              
+              {/* Selected Artisan Card */}
+              {selectedArtisan && (
+                <div className="mb-8">
+                  <div className="flex justify-between items-center mb-4">
+                    <h2 className="text-2xl font-semibold">Selected Artisan</h2>
+                    <Button 
+                      variant="outline"
+                      size="sm"
+                      onClick={handleChangeArtisan}
+                      className="flex items-center gap-1"
+                    >
+                      <ArrowLeft size={16} />
+                      Change Artisan
+                    </Button>
+                  </div>
+                  <Card className="overflow-hidden">
+                    <div className="flex flex-col md:flex-row">
+                      <div className="md:w-1/4 h-48 md:h-auto">
+                        {selectedArtisan.image ? (
+                          <img 
+                            src={selectedArtisan.image}
+                            alt={selectedArtisan.name}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                            <span className="text-gray-500">No image</span>
                           </div>
-                          <p className="text-[#D4AF37] font-semibold mb-2">${selectedCar.price}/day</p>
-                          <p className="text-gray-600 text-sm mb-2">{selectedCar.description}</p>
-                          <div className="flex flex-wrap gap-2">
-                            {selectedCar.features?.slice(0, 3).map((feature, idx) => (
-                              <span key={idx} className="text-xs bg-white px-2 py-1 rounded border">
-                                {feature}
-                              </span>
-                            ))}
+                        )}
+                      </div>
+                      <CardContent className="flex-1 p-4">
+                        <div className="bg-[#D4AF37]/10 text-[#D4AF37] px-3 py-1 rounded-full text-sm inline-block mb-2">
+                          You're currently booking
+                        </div>
+                        <h3 className="text-xl font-bold mb-2">{selectedArtisan.name}</h3>
+                        <p className="text-[#D4AF37] font-medium mb-3">{selectedArtisan.type}</p>
+                        <div className="text-gray-600">
+                          Professional {selectedArtisan.type.toLowerCase()} specializing in facility management.
+                        </div>
+                      </CardContent>
+                    </div>
+                  </Card>
+                </div>
+              )}
+              
+              {/* Selected Car Card */}
+              {selectedCar && (
+                <div className="mb-8">
+                  <h2 className="text-2xl font-semibold mb-4">Selected Vehicle</h2>
+                  <Card className="overflow-hidden">
+                    <div className="flex flex-col md:flex-row">
+                      <div className="md:w-1/3 h-48 md:h-auto">
+                        <img 
+                          src={selectedCar.image} 
+                          alt={selectedCar.name}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <CardContent className="flex-1 p-4">
+                        <div className="bg-wine-500/10 text-wine-600 px-3 py-1 rounded-full text-sm inline-block mb-2">
+                          {selectedCar.category}
+                        </div>
+                        <h3 className="text-xl font-bold mb-2">{selectedCar.name}</h3>
+                        <div className="text-wine-600 font-bold mb-3">${selectedCar.price} / day</div>
+                        <p className="text-gray-600 mb-3">{selectedCar.description}</p>
+                        <div className="grid grid-cols-2 gap-2">
+                          {selectedCar.features.map((feature, index) => (
+                            <div key={index} className="flex items-center text-sm">
+                              <Check size={16} className="text-green-500 mr-1" />
+                              <span>{feature}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </CardContent>
+                    </div>
+                  </Card>
+                </div>
+              )}
+              
+              {/* Selected Jet Card */}
+              {selectedJet && (
+                <div className="mb-8">
+                  <h2 className="text-2xl font-semibold mb-4">Selected Aircraft</h2>
+                  <Card className="overflow-hidden">
+                    <div className="flex flex-col md:flex-row">
+                      <div className="md:w-1/3 h-48 md:h-auto">
+                        <img 
+                          src={selectedJet.image} 
+                          alt={selectedJet.name}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <CardContent className="flex-1 p-4">
+                        <div className="bg-blue-500/10 text-blue-600 px-3 py-1 rounded-full text-sm inline-block mb-2">
+                          {selectedJet.category}
+                        </div>
+                        <h3 className="text-xl font-bold mb-2">{selectedJet.name}</h3>
+                        <div className="text-blue-600 font-bold mb-3">${selectedJet.price} / hour</div>
+                        <p className="text-gray-600 mb-3">{selectedJet.description}</p>
+                        <div className="grid grid-cols-2 gap-2 mb-3">
+                          <div className="flex items-center text-sm">
+                            <Check size={16} className="text-green-500 mr-1" />
+                            <span>Capacity: {selectedJet.capacity} passengers</span>
+                          </div>
+                          <div className="flex items-center text-sm">
+                            <Check size={16} className="text-green-500 mr-1" />
+                            <span>Range: {selectedJet.range}</span>
                           </div>
                         </div>
-                      </div>
-                    </motion.div>
-                  )}
-
-                  <form className="space-y-6">
+                        <div className="grid grid-cols-2 gap-2">
+                          {selectedJet.features.map((feature, index) => (
+                            <div key={index} className="flex items-center text-sm">
+                              <Check size={16} className="text-green-500 mr-1" />
+                              <span>{feature}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </CardContent>
+                    </div>
+                  </Card>
+                </div>
+              )}
+              
+              <Tabs defaultValue={selectedTab} value={selectedTab} onValueChange={handleTabChange} className="w-full">
+                <div className="mb-6 overflow-x-auto pb-2">
+                  <TabsList className={`${isMobile ? 'flex w-full' : 'grid grid-cols-5 w-full'}`}>
+                    <TabsTrigger 
+                      value="general" 
+                      className="text-wine-950 py-3 px-4 text-base"
+                    >
+                      General Booking
+                    </TabsTrigger>
+                    <TabsTrigger 
+                      value="airbnb" 
+                      className="text-wine-950 py-3 px-4 text-base"
+                    >
+                      Airbnb Booking
+                    </TabsTrigger>
+                    <TabsTrigger 
+                      value="car" 
+                      className="text-wine-950 py-3 px-4 text-base"
+                    >
+                      Car Hire
+                    </TabsTrigger>
+                    <TabsTrigger 
+                      value="jet" 
+                      className="text-wine-950 py-3 px-4 text-base"
+                    >
+                      Jet Charter
+                    </TabsTrigger>
+                    <TabsTrigger 
+                      value="artisan" 
+                      className="text-wine-950 py-3 px-4 text-base"
+                    >
+                      Book Artisan
+                    </TabsTrigger>
+                  </TabsList>
+                </div>
+                
+                <TabsContent value="general">
+                  <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
-                      <Label htmlFor="car-selection">Select a Vehicle</Label>
-                      <Select onValueChange={handleCarSelect} value={selectedCar?.id?.toString() || ""}>
+                      <label htmlFor="service" className="block text-sm font-medium text-gray-700 mb-1">
+                        Service Type
+                      </label>
+                      <Select value={formData.service} onValueChange={value => handleSelectChange('service', value)}>
                         <SelectTrigger>
-                          <SelectValue placeholder="Choose a vehicle" />
+                          <SelectValue placeholder="Select a service" />
                         </SelectTrigger>
                         <SelectContent>
-                          {carsData.map((car) => (
-                            <SelectItem key={car.id} value={car.id.toString()}>
-                              {car.name} – ${car.price}/day
+                          <SelectItem value="none" className="text-gray-400 italic">None</SelectItem>
+                          {serviceOptions.map(option => <SelectItem key={option.value} value={option.value}>
+                              {option.label}
+                            </SelectItem>)}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+                          Full Name
+                        </label>
+                        <Input id="name" name="name" value={formData.name} onChange={handleChange} placeholder="John Doe" required />
+                      </div>
+                      
+                      <div>
+                        <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                          Email
+                        </label>
+                        <Input id="email" name="email" type="email" value={formData.email} onChange={handleChange} placeholder="john@example.com" required />
+                      </div>
+                    </div>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+                          Phone Number
+                        </label>
+                        <Input id="phone" name="phone" value={formData.phone} onChange={handleChange} placeholder="+1 (555) 123-4567" required />
+                      </div>
+                      
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          Preferred Date
+                        </label>
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <Button variant="outline" className="w-full justify-start text-left font-normal">
+                              {formData.date ? format(formData.date, 'PPP') : <span>Pick a date</span>}
+                            </Button>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-auto p-0 bg-white pointer-events-auto">
+                            <Calendar mode="single" selected={formData.date || undefined} onSelect={handleDateChange} initialFocus className="p-3" />
+                          </PopoverContent>
+                        </Popover>
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
+                        Additional Details
+                      </label>
+                      <Textarea id="message" name="message" value={formData.message} onChange={handleChange} placeholder="Please provide any specific requirements or questions about our services..." rows={4} />
+                    </div>
+                    
+                    <Button type="submit" disabled={loading} className="w-full text-white transition-colors bg-wine-500 hover:bg-wine-600">
+                      {loading ? 'Submitting...' : 'Submit Booking Request'}
+                    </Button>
+                  </form>
+                </TabsContent>
+                
+                <TabsContent value="airbnb" className="px-1 md:px-4">
+                  <form onSubmit={handleSubmit} className="space-y-6">
+                    <input type="hidden" name="service" value="airbnb" />
+                    
+                    <div>
+                      <label htmlFor="property" className="block text-sm font-medium text-gray-700 mb-1">
+                        Select Property
+                      </label>
+                      <Select 
+                        value={formData.property} 
+                        onValueChange={value => handleSelectChange('property', value)}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a property" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="none" className="text-gray-400 italic">None</SelectItem>
+                          {properties.map(property => (
+                            <SelectItem key={property.id} value={property.id.toString()}>
+                              {property.name} - ${property.price}/night
                             </SelectItem>
                           ))}
                         </SelectContent>
                       </Select>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <Label htmlFor="pickup-date">Pickup Date</Label>
-                        <Input id="pickup-date" type="date" />
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          Check-in Date
+                        </label>
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <Button variant="outline" className="w-full justify-start text-left font-normal">
+                              {formData.date ? format(formData.date, 'PPP') : <span>Select check-in date</span>}
+                            </Button>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-auto p-0 bg-white pointer-events-auto">
+                            <Calendar mode="single" selected={formData.date || undefined} onSelect={handleDateChange} initialFocus className="p-3" disabled={date => date < new Date()} />
+                          </PopoverContent>
+                        </Popover>
                       </div>
+                      
                       <div>
-                        <Label htmlFor="return-date">Return Date</Label>
-                        <Input id="return-date" type="date" />
+                        <label htmlFor="nights" className="block text-sm font-medium text-gray-700 mb-1">
+                          Number of Nights
+                        </label>
+                        <Select defaultValue="3">
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select number of nights" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {[1, 2, 3, 4, 5, 6, 7, 14, 30].map(num => <SelectItem key={num} value={num.toString()}>
+                                {num} {num === 1 ? 'night' : 'nights'}
+                              </SelectItem>)}
+                          </SelectContent>
+                        </Select>
                       </div>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <Label htmlFor="pickup-location">Pickup Location</Label>
-                        <Input id="pickup-location" placeholder="Enter pickup address" />
+                        <label htmlFor="adults" className="block text-sm font-medium text-gray-700 mb-1">
+                          Adults
+                        </label>
+                        <Select defaultValue="2">
+                          <SelectTrigger>
+                            <SelectValue placeholder="Number of adults" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {[1, 2, 3, 4, 5, 6].map(num => <SelectItem key={num} value={num.toString()}>
+                                {num}
+                              </SelectItem>)}
+                          </SelectContent>
+                        </Select>
                       </div>
+                      
                       <div>
-                        <Label htmlFor="driver-option">Driver Option</Label>
-                        <Select>
+                        <label htmlFor="children" className="block text-sm font-medium text-gray-700 mb-1">
+                          Children
+                        </label>
+                        <Select defaultValue="0">
+                          <SelectTrigger>
+                            <SelectValue placeholder="Number of children" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {[0, 1, 2, 3, 4].map(num => <SelectItem key={num} value={num.toString()}>
+                                {num}
+                              </SelectItem>)}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+                          Full Name
+                        </label>
+                        <Input id="name" name="name" value={formData.name} onChange={handleChange} placeholder="John Doe" required />
+                      </div>
+                      
+                      <div>
+                        <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                          Email
+                        </label>
+                        <Input id="email" name="email" type="email" value={formData.email} onChange={handleChange} placeholder="john@example.com" required />
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+                        Phone Number
+                      </label>
+                      <Input id="phone" name="phone" value={formData.phone} onChange={handleChange} placeholder="+1 (555) 123-4567" required />
+                    </div>
+                    
+                    <div>
+                      <label htmlFor="airbnb-message" className="block text-sm font-medium text-gray-700 mb-1">
+                        Special Requests
+                      </label>
+                      <Textarea id="airbnb-message" name="message" value={formData.message} onChange={handleChange} placeholder="Any special requirements for your stay..." rows={4} />
+                    </div>
+                    
+                    <Button type="submit" disabled={loading} className="w-full text-white transition-colors bg-wine-500 hover:bg-wine-600">
+                      {loading ? 'Processing...' : 'Reserve Property'}
+                    </Button>
+                  </form>
+                </TabsContent>
+                
+                <TabsContent value="car" className="px-1 md:px-4">
+                  <form onSubmit={handleSubmit} className="space-y-6">
+                    <input type="hidden" name="service" value="car-hire" />
+                    
+                    <div>
+                      <label htmlFor="car-model" className="block text-sm font-medium text-gray-700 mb-1">
+                        Choose a Vehicle
+                      </label>
+                      <Select value={formData.car} onValueChange={handleCarChange}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a vehicle" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="none" className="text-gray-400 italic">None</SelectItem>
+                          {cars.map(car => (
+                            <SelectItem key={car.id} value={car.id.toString()}>
+                              {car.name} - ${car.price}/day
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          Pickup Date
+                        </label>
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <Button variant="outline" className="w-full justify-start text-left font-normal text-stone-950 bg-slate-50">
+                              {formData.date ? format(formData.date, 'PPP') : <span>Select pickup date</span>}
+                            </Button>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-auto p-0 bg-white pointer-events-auto">
+                            <Calendar mode="single" selected={formData.date || undefined} onSelect={handleDateChange} initialFocus className="p-3" disabled={date => date < new Date()} />
+                          </PopoverContent>
+                        </Popover>
+                      </div>
+                      
+                      <div>
+                        <label htmlFor="rental-duration" className="block text-sm font-medium text-gray-700 mb-1">
+                          Rental Duration
+                        </label>
+                        <Select defaultValue="1">
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select duration" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {[1, 2, 3, 4, 5, 6, 7, 14, 30].map(num => <SelectItem key={num} value={num.toString()}>
+                                {num} {num === 1 ? 'day' : 'days'}
+                              </SelectItem>)}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label htmlFor="pickup-location" className="block text-sm font-medium text-gray-700 mb-1">
+                          Pickup Location
+                        </label>
+                        <Select defaultValue="office">
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select pickup location" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="office">Our Office</SelectItem>
+                            <SelectItem value="airport">Airport</SelectItem>
+                            <SelectItem value="hotel">Your Hotel</SelectItem>
+                            <SelectItem value="custom">Custom Address</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      
+                      <div>
+                        <label htmlFor="driver" className="block text-sm font-medium text-gray-700 mb-1">
+                          Driver Service
+                        </label>
+                        <Select defaultValue="self">
                           <SelectTrigger>
                             <SelectValue placeholder="Select driver option" />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="self-drive">Self Drive</SelectItem>
+                            <SelectItem value="self">Self-Drive</SelectItem>
                             <SelectItem value="chauffeur">With Chauffeur</SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
                     </div>
-                    <div>
-                      <Label htmlFor="car-notes">Special Requirements</Label>
-                      <Textarea
-                        id="car-notes"
-                        placeholder="Any special requests or requirements..."
-                        rows={3}
-                      />
-                    </div>
-                    <Button className="w-full">Book Car Hire</Button>
-                  </form>
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            {/* Jet Charter Tab */}
-            <TabsContent value="jet-charter">
-              <Card>
-                <CardContent className="p-6">
-                  <h2 className="text-2xl font-semibold mb-6 flex items-center gap-2">
-                    <Plane className="w-6 h-6" />
-                    Private Jet Charter
-                  </h2>
-                  
-                  {/* Selected Jet Preview */}
-                  {selectedJet && (
-                    <motion.div
-                      initial={{ opacity: 0, scale: 0.95 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      className="mb-6 p-4 border rounded-lg bg-gray-50"
-                    >
-                      <h3 className="font-semibold mb-3 text-gray-800">Selected Aircraft</h3>
-                      <div className="flex flex-col md:flex-row gap-4">
-                        <img
-                          src={selectedJet.image}
-                          alt={selectedJet.name}
-                          className="w-full md:w-32 h-24 object-cover rounded-lg"
-                        />
-                        <div className="flex-1">
-                          <div className="flex justify-between items-start mb-2">
-                            <h4 className="font-semibold text-lg">{selectedJet.name}</h4>
-                            <span className="bg-gray-100 px-2 py-1 rounded text-sm font-medium">{selectedJet.category}</span>
-                          </div>
-                          <p className="text-[#D4AF37] font-semibold mb-2">${selectedJet.price}/hour</p>
-                          <p className="text-gray-600 text-sm mb-2">{selectedJet.description}</p>
-                          <div className="flex flex-wrap gap-2">
-                            {selectedJet.features?.slice(0, 3).map((feature, idx) => (
-                              <span key={idx} className="text-xs bg-white px-2 py-1 rounded border">
-                                {feature}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+                          Full Name
+                        </label>
+                        <Input id="name" name="name" value={formData.name} onChange={handleChange} placeholder="John Doe" required />
                       </div>
-                    </motion.div>
-                  )}
-
-                  <form className="space-y-6">
+                      
+                      <div>
+                        <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                          Email
+                        </label>
+                        <Input id="email" name="email" type="email" value={formData.email} onChange={handleChange} placeholder="john@example.com" required />
+                      </div>
+                    </div>
+                    
                     <div>
-                      <Label htmlFor="jet-selection">Select an Aircraft</Label>
-                      <Select onValueChange={handleJetSelect} value={selectedJet?.id?.toString() || ""}>
+                      <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+                        Phone Number
+                      </label>
+                      <Input id="phone" name="phone" value={formData.phone} onChange={handleChange} placeholder="+1 (555) 123-4567" required />
+                    </div>
+                    
+                    <Button type="submit" disabled={loading} className="w-full transition-colors bg-wine-500 hover:bg-wine-600 text-amber-50">
+                      {loading ? 'Processing...' : 'Reserve Vehicle'}
+                    </Button>
+                  </form>
+                </TabsContent>
+                
+                <TabsContent value="jet" className="px-1 md:px-4">
+                  <form onSubmit={handleSubmit} className="space-y-6">
+                    <input type="hidden" name="service" value="jet-hire" />
+                    
+                    <div>
+                      <label htmlFor="jet" className="block text-sm font-medium text-gray-700 mb-1">
+                        Choose an Aircraft
+                      </label>
+                      <Select value={formData.jet} onValueChange={handleJetChange}>
                         <SelectTrigger>
-                          <SelectValue placeholder="Choose an aircraft" />
+                          <SelectValue placeholder="Select an aircraft" />
                         </SelectTrigger>
                         <SelectContent>
-                          {jetsData.map((jet) => (
+                          <SelectItem value="none" className="text-gray-400 italic">None</SelectItem>
+                          {jets.map(jet => (
                             <SelectItem key={jet.id} value={jet.id.toString()}>
-                              {jet.name} – ${jet.price}/hour
+                              {jet.name} - ${jet.price}/hour
                             </SelectItem>
                           ))}
                         </SelectContent>
                       </Select>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <Label htmlFor="departure-airport">Departure Airport</Label>
-                        <Input id="departure-airport" placeholder="Enter departure airport" />
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          Departure Date
+                        </label>
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <Button variant="outline" className="w-full justify-start text-left font-normal">
+                              {formData.date ? format(formData.date, 'PPP') : <span>Select departure date</span>}
+                            </Button>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-auto p-0 bg-white pointer-events-auto">
+                            <Calendar mode="single" selected={formData.date || undefined} onSelect={handleDateChange} initialFocus className="p-3" disabled={date => date < new Date()} />
+                          </PopoverContent>
+                        </Popover>
                       </div>
+                      
                       <div>
-                        <Label htmlFor="arrival-airport">Arrival Airport</Label>
-                        <Input id="arrival-airport" placeholder="Enter destination airport" />
-                      </div>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div>
-                        <Label htmlFor="departure-date">Departure Date</Label>
-                        <Input id="departure-date" type="date" />
-                      </div>
-                      <div>
-                        <Label htmlFor="departure-time">Departure Time</Label>
-                        <Input id="departure-time" type="time" />
-                      </div>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div>
-                        <Label htmlFor="passengers">Number of Passengers</Label>
-                        <Select>
+                        <label htmlFor="passengers" className="block text-sm font-medium text-gray-700 mb-1">
+                          Number of Passengers
+                        </label>
+                        <Select defaultValue="4">
                           <SelectTrigger>
-                            <SelectValue placeholder="Select passengers" />
+                            <SelectValue placeholder="Select number of passengers" />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="1-2">1-2 passengers</SelectItem>
-                            <SelectItem value="3-4">3-4 passengers</SelectItem>
-                            <SelectItem value="5-8">5-8 passengers</SelectItem>
-                            <SelectItem value="9-12">9-12 passengers</SelectItem>
-                            <SelectItem value="13+">13+ passengers</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      <div>
-                        <Label htmlFor="trip-type">Trip Type</Label>
-                        <Select>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select trip type" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="one-way">One Way</SelectItem>
-                            <SelectItem value="round-trip">Round Trip</SelectItem>
-                            <SelectItem value="multi-leg">Multi-leg</SelectItem>
+                            {[1, 2, 3, 4, 5, 6, 8, 10, 12, 14, 16].map(num => <SelectItem key={num} value={num.toString()}>
+                                {num}
+                              </SelectItem>)}
                           </SelectContent>
                         </Select>
                       </div>
                     </div>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label htmlFor="departure" className="block text-sm font-medium text-gray-700 mb-1">
+                          Departure Location
+                        </label>
+                        <Input id="departure" placeholder="City or Airport" required />
+                      </div>
+                      
+                      <div>
+                        <label htmlFor="destination" className="block text-sm font-medium text-gray-700 mb-1">
+                          Destination
+                        </label>
+                        <Input id="destination" placeholder="City or Airport" required />
+                      </div>
+                    </div>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+                          Full Name
+                        </label>
+                        <Input id="name" name="name" value={formData.name} onChange={handleChange} placeholder="John Doe" required />
+                      </div>
+                      
+                      <div>
+                        <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                          Email
+                        </label>
+                        <Input id="email" name="email" type="email" value={formData.email} onChange={handleChange} placeholder="john@example.com" required />
+                      </div>
+                    </div>
+                    
                     <div>
-                      <Label htmlFor="jet-notes">Special Requirements</Label>
-                      <Textarea
-                        id="jet-notes"
-                        placeholder="Catering preferences, ground transportation, special requests..."
-                        rows={3}
-                      />
+                      <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+                        Phone Number
+                      </label>
+                      <Input id="phone" name="phone" value={formData.phone} onChange={handleChange} placeholder="+1 (555) 123-4567" required />
                     </div>
-                    <Button className="w-full">Book Jet Charter</Button>
+                    
+                    <div>
+                      <label htmlFor="jet-message" className="block text-sm font-medium text-gray-700 mb-1">
+                        Special Requirements
+                      </label>
+                      <Textarea id="jet-message" name="message" value={formData.message} onChange={handleChange} placeholder="Catering preferences, ground transportation needs, etc." rows={4} />
+                    </div>
+                    
+                    <Button type="submit" disabled={loading} className="w-full text-white transition-colors bg-wine-500 hover:bg-wine-600">
+                      {loading ? 'Processing...' : 'Request Jet Charter'}
+                    </Button>
                   </form>
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            {/* Maintenance Tab */}
-            <TabsContent value="maintenance">
-              <Card>
-                <CardContent className="p-6">
-                  <h2 className="text-2xl font-semibold mb-6 flex items-center gap-2">
-                    <Wrench className="w-6 h-6" />
-                    Maintenance Services
-                  </h2>
-                  <form className="space-y-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div>
-                        <Label htmlFor="maintenance-type">Service Type</Label>
-                        <Select>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select maintenance type" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="plumbing">Plumbing</SelectItem>
-                            <SelectItem value="electrical">Electrical</SelectItem>
-                            <SelectItem value="hvac">HVAC</SelectItem>
-                            <SelectItem value="general">General Maintenance</SelectItem>
-                            <SelectItem value="emergency">Emergency Repair</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      <div>
-                        <Label htmlFor="urgency">Urgency Level</Label>
-                        <Select>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select urgency" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="emergency">Emergency (Same Day)</SelectItem>
-                            <SelectItem value="urgent">Urgent (Within 24 hours)</SelectItem>
-                            <SelectItem value="normal">Normal (Within Week)</SelectItem>
-                            <SelectItem value="scheduled">Scheduled</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                    </div>
+                </TabsContent>
+                
+                <TabsContent value="artisan" className="px-1 md:px-4">
+                  <form onSubmit={handleSubmit} className="space-y-6">
+                    <input type="hidden" name="service" value="facility-management" />
+                    
                     <div>
-                      <Label htmlFor="maintenance-location">Property Address</Label>
-                      <Input id="maintenance-location" placeholder="Enter property address" />
+                      <label htmlFor="artisan" className="block text-sm font-medium text-gray-700 mb-1">
+                        Select Artisan
+                      </label>
+                      <Select 
+                        value={formData.artisan} 
+                        onValueChange={value => handleSelectChange('artisan', value)}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select an artisan" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="none" className="text-gray-400 italic">None</SelectItem>
+                          {artisanOptions.filter(artisan => artisan.value !== '').map(artisan => (
+                            <SelectItem 
+                              key={artisan.value} 
+                              value={artisan.value}
+                              className={artisan.style || ''}
+                            >
+                              {artisan.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                     </div>
-                    <div>
-                      <Label htmlFor="maintenance-description">Issue Description</Label>
-                      <Textarea
-                        id="maintenance-description"
-                        placeholder="Describe the maintenance issue in detail..."
-                        rows={4}
-                      />
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <Label htmlFor="preferred-date">Preferred Date</Label>
-                        <Input id="preferred-date" type="date" />
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          Service Date
+                        </label>
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <Button variant="outline" className="w-full justify-start text-left font-normal">
+                              {formData.date ? format(formData.date, 'PPP') : <span>Select service date</span>}
+                            </Button>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-auto p-0 bg-white pointer-events-auto">
+                            <Calendar mode="single" selected={formData.date || undefined} onSelect={handleDateChange} initialFocus className="p-3" disabled={date => date < new Date()} />
+                          </PopoverContent>
+                        </Popover>
                       </div>
+                      
                       <div>
-                        <Label htmlFor="preferred-time">Preferred Time</Label>
-                        <Select>
+                        <label htmlFor="service-time" className="block text-sm font-medium text-gray-700 mb-1">
+                          Preferred Time
+                        </label>
+                        <Select defaultValue="morning">
                           <SelectTrigger>
                             <SelectValue placeholder="Select time" />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="morning">Morning (8AM - 12PM)</SelectItem>
-                            <SelectItem value="afternoon">Afternoon (12PM - 5PM)</SelectItem>
-                            <SelectItem value="evening">Evening (5PM - 8PM)</SelectItem>
-                            <SelectItem value="flexible">Flexible</SelectItem>
+                            <SelectItem value="morning">Morning (8:00 AM - 12:00 PM)</SelectItem>
+                            <SelectItem value="afternoon">Afternoon (12:00 PM - 4:00 PM)</SelectItem>
+                            <SelectItem value="evening">Evening (4:00 PM - 8:00 PM)</SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
                     </div>
-                    <Button className="w-full">Book Maintenance Service</Button>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+                          Full Name
+                        </label>
+                        <Input id="name" name="name" value={formData.name} onChange={handleChange} placeholder="John Doe" required />
+                      </div>
+                      
+                      <div>
+                        <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                          Email
+                        </label>
+                        <Input id="email" name="email" type="email" value={formData.email} onChange={handleChange} placeholder="john@example.com" required />
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+                        Phone Number
+                      </label>
+                      <Input id="phone" name="phone" value={formData.phone} onChange={handleChange} placeholder="+1 (555) 123-4567" required />
+                    </div>
+                    
+                    <div>
+                      <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-1">
+                        Service Address
+                      </label>
+                      <Input id="address" name="address" placeholder="123 Main St, City" required />
+                    </div>
+                    
+                    <div>
+                      <label htmlFor="artisan-message" className="block text-sm font-medium text-gray-700 mb-1">
+                        Service Details
+                      </label>
+                      <Textarea id="artisan-message" name="message" value={formData.message} onChange={handleChange} placeholder="Please describe the issue or service needed in detail..." rows={4} />
+                    </div>
+                    
+                    <Button type="submit" disabled={loading} className="w-full text-white transition-colors bg-[#D4AF37] hover:bg-[#B4941F]">
+                      {loading ? 'Processing...' : selectedArtisan ? `Request Service from ${selectedArtisan.name}` : 'Request Service'}
+                    </Button>
                   </form>
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            {/* Videography Tab */}
-            <TabsContent value="videography">
-              <Card>
-                <CardContent className="p-6">
-                  <h2 className="text-2xl font-semibold mb-6 flex items-center gap-2">
-                    <Camera className="w-6 h-6" />
-                    Professional Videography
-                  </h2>
-                  <form className="space-y-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div>
-                        <Label htmlFor="video-type">Video Type</Label>
-                        <Select>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select video type" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="property-showcase">Property Showcase</SelectItem>
-                            <SelectItem value="commercial">Commercial</SelectItem>
-                            <SelectItem value="event">Event Coverage</SelectItem>
-                            <SelectItem value="drone">Drone/Aerial</SelectItem>
-                            <SelectItem value="lifestyle">Lifestyle</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      <div>
-                        <Label htmlFor="video-duration">Expected Duration</Label>
-                        <Select>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select duration" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="30-60s">30-60 seconds</SelectItem>
-                            <SelectItem value="1-2min">1-2 minutes</SelectItem>
-                            <SelectItem value="2-5min">2-5 minutes</SelectItem>
-                            <SelectItem value="5min+">5+ minutes</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                    </div>
-                    <div>
-                      <Label htmlFor="shoot-location">Shoot Location</Label>
-                      <Input id="shoot-location" placeholder="Enter shoot location address" />
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div>
-                        <Label htmlFor="shoot-date">Preferred Shoot Date</Label>
-                        <Input id="shoot-date" type="date" />
-                      </div>
-                      <div>
-                        <Label htmlFor="delivery-date">Required Delivery Date</Label>
-                        <Input id="delivery-date" type="date" />
-                      </div>
-                    </div>
-                    <div>
-                      <Label htmlFor="video-brief">Project Brief</Label>
-                      <Textarea
-                        id="video-brief"
-                        placeholder="Describe your vision, style preferences, key shots needed..."
-                        rows={4}
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="video-budget">Budget Range</Label>
-                      <Select>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select budget range" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="1000-2500">$1,000 - $2,500</SelectItem>
-                          <SelectItem value="2500-5000">$2,500 - $5,000</SelectItem>
-                          <SelectItem value="5000-10000">$5,000 - $10,000</SelectItem>
-                          <SelectItem value="10000+">$10,000+</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    <Button className="w-full">Book Videography Service</Button>
-                  </form>
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            {/* Book Artisans Tab */}
-            <TabsContent value="book-artisans">
-              <Card>
-                <CardContent className="p-6">
-                  <h2 className="text-2xl font-semibold mb-6 flex items-center gap-2">
-                    <User className="w-6 h-6" />
-                    Book Professional Artisans
-                  </h2>
-                  
-                  {/* Selected Artisan Preview */}
-                  {selectedArtisan && (
-                    <motion.div
-                      initial={{ opacity: 0, scale: 0.95 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      className="mb-6 p-4 border rounded-lg bg-gray-50"
-                    >
-                      <h3 className="font-semibold mb-3 text-gray-800">Selected Artisan</h3>
-                      <div className="flex flex-col md:flex-row gap-4">
-                        <img
-                          src={selectedArtisan.image}
-                          alt={selectedArtisan.name}
-                          className="w-full md:w-16 h-16 object-cover rounded-full"
-                        />
-                        <div className="flex-1">
-                          <div className="flex justify-between items-start mb-2">
-                            <h4 className="font-semibold text-lg">{selectedArtisan.name}</h4>
-                            <span className="bg-gray-100 px-2 py-1 rounded text-sm font-medium">{selectedArtisan.specialty}</span>
-                          </div>
-                          <p className="text-[#D4AF37] font-semibold mb-2">${selectedArtisan.rate}/hour</p>
-                          <p className="text-gray-600 text-sm mb-2">{selectedArtisan.experience} years experience</p>
-                          <div className="flex flex-wrap gap-2">
-                            {selectedArtisan.skills?.slice(0, 3).map((skill, idx) => (
-                              <span key={idx} className="text-xs bg-white px-2 py-1 rounded border">
-                                {skill}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                    </motion.div>
-                  )}
-
-                  <form className="space-y-6">
-                    <div>
-                      <Label htmlFor="artisan-selection">Select an Artisan</Label>
-                      <Select onValueChange={handleArtisanSelect} value={selectedArtisan?.id || ""}>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Choose an artisan" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {artisans.map((artisan) => (
-                            <SelectItem key={artisan.id} value={artisan.id}>
-                              {artisan.name} - {artisan.specialty} (${artisan.rate}/hour)
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div>
-                        <Label htmlFor="project-start">Project Start Date</Label>
-                        <Input id="project-start" type="date" />
-                      </div>
-                      <div>
-                        <Label htmlFor="project-duration">Estimated Duration</Label>
-                        <Select>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select duration" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="half-day">Half Day (4 hours)</SelectItem>
-                            <SelectItem value="full-day">Full Day (8 hours)</SelectItem>
-                            <SelectItem value="2-3-days">2-3 Days</SelectItem>
-                            <SelectItem value="1-week">1 Week</SelectItem>
-                            <SelectItem value="2-weeks">2 Weeks</SelectItem>
-                            <SelectItem value="1-month">1 Month</SelectItem>
-                            <SelectItem value="custom">Custom Duration</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                    </div>
-                    <div>
-                      <Label htmlFor="project-location">Project Location</Label>
-                      <Input id="project-location" placeholder="Enter project address" />
-                    </div>
-                    <div>
-                      <Label htmlFor="project-description">Project Description</Label>
-                      <Textarea
-                        id="project-description"
-                        placeholder="Describe your project requirements, style preferences, and any specific details..."
-                        rows={4}
-                      />
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div>
-                        <Label htmlFor="project-budget">Budget Range</Label>
-                        <Select>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select budget range" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="500-1000">$500 - $1,000</SelectItem>
-                            <SelectItem value="1000-2500">$1,000 - $2,500</SelectItem>
-                            <SelectItem value="2500-5000">$2,500 - $5,000</SelectItem>
-                            <SelectItem value="5000-10000">$5,000 - $10,000</SelectItem>
-                            <SelectItem value="10000+">$10,000+</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      <div>
-                        <Label htmlFor="materials-provided">Materials Provided By</Label>
-                        <Select>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select option" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="client">Client Provides</SelectItem>
-                            <SelectItem value="artisan">Artisan Provides</SelectItem>
-                            <SelectItem value="shared">Shared Responsibility</SelectItem>
-                            <SelectItem value="discuss">To Be Discussed</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                    </div>
-                    <Button className="w-full">Book Artisan</Button>
-                  </form>
-                </CardContent>
-              </Card>
-            </TabsContent>
-          </Tabs>
-        </motion.div>
-      </div>
-    </div>
-  );
+                </TabsContent>
+              </Tabs>
+            </motion.div>
+          </div>
+        </section>
+      </main>
+      
+      <Footer />
+      <WhatsAppCTA />
+    </div>;
 };
 
 export default Book;
