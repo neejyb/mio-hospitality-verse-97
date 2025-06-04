@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
@@ -6,8 +7,10 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { useNavigate } from 'react-router-dom';
 import ServiceLayout from '@/components/ServiceLayout';
 import WhatsAppCTA from '@/components/WhatsAppCTA';
+
 const JetOptions = () => {
   const navigate = useNavigate();
+  
   const jets = [{
     id: 1,
     name: 'Gulfstream G650',
@@ -45,6 +48,7 @@ const JetOptions = () => {
     price: '$3,200/hour',
     tag: 'Light Jet'
   }];
+
   const handleBookNow = (jet: typeof jets[0]) => {
     const jetData = {
       id: jet.id,
@@ -57,37 +61,32 @@ const JetOptions = () => {
     };
     navigate(`/book?service=jet-hire&selectedJet=${encodeURIComponent(JSON.stringify(jetData))}`);
   };
-  return <ServiceLayout>
+
+  return (
+    <ServiceLayout>
       <div className="min-h-screen bg-white">
         {/* Hero Section */}
         <section className="relative h-96 bg-gradient-to-r from-blue-900/80 to-blue-700/80">
           <div className="absolute inset-0 bg-cover bg-center" style={{
-          backgroundImage: 'url(https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=2074)'
-        }} />
+            backgroundImage: 'url(https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=2074)'
+          }} />
           <div className="absolute inset-0 bg-black/40" />
           <div className="relative container mx-auto px-4 h-full flex items-center justify-center text-center">
             <div className="text-white">
-              <motion.h1 className="text-4xl md:text-6xl font-bold mb-4" initial={{
-              opacity: 0,
-              y: 20
-            }} animate={{
-              opacity: 1,
-              y: 0
-            }} transition={{
-              duration: 0.6
-            }}>
+              <motion.h1 
+                className="text-4xl md:text-6xl font-bold mb-4"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+              >
                 Elevate Your Journey
               </motion.h1>
-              <motion.p className="text-xl md:text-2xl text-blue-200" initial={{
-              opacity: 0,
-              y: 20
-            }} animate={{
-              opacity: 1,
-              y: 0
-            }} transition={{
-              duration: 0.6,
-              delay: 0.2
-            }}>
+              <motion.p 
+                className="text-xl md:text-2xl text-blue-200"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+              >
                 Discover our premium private jet experiences
               </motion.p>
             </div>
@@ -98,23 +97,24 @@ const JetOptions = () => {
         <section className="py-16">
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
-              {jets.map((jet, index) => <motion.div key={jet.id} initial={{
-              opacity: 0,
-              y: 20
-            }} whileInView={{
-              opacity: 1,
-              y: 0
-            }} transition={{
-              duration: 0.5,
-              delay: index * 0.1
-            }} viewport={{
-              once: true
-            }}>
+              {jets.map((jet, index) => (
+                <motion.div 
+                  key={jet.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                >
                   <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 group h-full flex flex-col">
                     <div className="relative h-48 overflow-hidden">
-                      <img src={jet.image} alt={jet.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onError={e => {
-                    e.currentTarget.src = 'https://images.unsplash.com/photo-1540962351504-03099e0a754b?q=80&w=2070';
-                  }} />
+                      <img 
+                        src={jet.image} 
+                        alt={jet.name} 
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        onError={(e) => {
+                          e.currentTarget.src = 'https://images.unsplash.com/photo-1540962351504-03099e0a754b?q=80&w=2070';
+                        }}
+                      />
                       <div className="absolute top-2 right-2 text-white px-2 py-1 rounded text-xs font-medium bg-red-950">
                         {jet.tag}
                       </div>
@@ -136,9 +136,14 @@ const JetOptions = () => {
                           </DialogHeader>
                           <div className="flex-1 overflow-y-auto p-6 pt-0">
                             <div className="space-y-4">
-                              <img src={jet.image} alt={jet.name} className="w-full h-64 object-cover rounded-lg" onError={e => {
-                            e.currentTarget.src = 'https://images.unsplash.com/photo-1540962351504-03099e0a754b?q=80&w=2070';
-                          }} />
+                              <img 
+                                src={jet.image} 
+                                alt={jet.name} 
+                                className="w-full h-64 object-cover rounded-lg"
+                                onError={(e) => {
+                                  e.currentTarget.src = 'https://images.unsplash.com/photo-1540962351504-03099e0a754b?q=80&w=2070';
+                                }}
+                              />
                               <div className="flex justify-between items-center">
                                 <span className="text-2xl font-bold text-[#D4AF37]">{jet.price}</span>
                                 <span className="bg-gray-100 px-3 py-1 rounded-full text-sm font-medium">{jet.tag}</span>
@@ -147,13 +152,18 @@ const JetOptions = () => {
                               <div>
                                 <h4 className="font-semibold mb-2">Specifications:</h4>
                                 <ul className="grid grid-cols-1 gap-2">
-                                  {jet.specs.map((spec, idx) => <li key={idx} className="text-sm text-gray-600">• {spec}</li>)}
+                                  {jet.specs.map((spec, idx) => (
+                                    <li key={idx} className="text-sm text-gray-600">• {spec}</li>
+                                  ))}
                                 </ul>
                               </div>
                             </div>
                           </div>
                           <div className="p-6 pt-0 flex-shrink-0">
-                            <Button onClick={() => handleBookNow(jet)} className="w-full h-12 bg-[#D4AF37] hover:bg-[#B4941F] text-white font-medium rounded-md shadow-md transition-all duration-300 hover:shadow-lg hover:scale-105">
+                            <Button 
+                              onClick={() => handleBookNow(jet)}
+                              className="w-full h-12 bg-[#D4AF37] hover:bg-[#B4941F] text-white font-medium rounded-md shadow-md transition-all duration-300 hover:shadow-lg hover:scale-105"
+                            >
                               Book Now
                             </Button>
                           </div>
@@ -161,13 +171,16 @@ const JetOptions = () => {
                       </Dialog>
                     </CardContent>
                   </Card>
-                </motion.div>)}
+                </motion.div>
+              ))}
             </div>
           </div>
         </section>
         
         <WhatsAppCTA />
       </div>
-    </ServiceLayout>;
+    </ServiceLayout>
+  );
 };
+
 export default JetOptions;

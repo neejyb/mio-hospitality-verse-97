@@ -200,6 +200,9 @@ const Book = () => {
   // New car parameters
   const selectedCarParam = searchParams.get('selectedCar') || '';
   
+  // New jet parameters
+  const selectedJetParam = searchParams.get('selectedJet') || '';
+  
   const [formData, setFormData] = useState({
     service: initialService || location.state?.service || '',
     name: '',
@@ -279,6 +282,24 @@ const Book = () => {
     }
   }, [selectedCarParam]);
 
+  // New useEffect for jet selection from URL parameters
+  useEffect(() => {
+    if (selectedJetParam) {
+      try {
+        const jetData = JSON.parse(decodeURIComponent(selectedJetParam));
+        setSelectedJet(jetData);
+        setFormData(prev => ({
+          ...prev,
+          jet: jetData.id.toString(),
+          service: 'jet-hire'
+        }));
+        setSelectedTab('jet');
+      } catch (error) {
+        console.error('Error parsing selected jet data:', error);
+      }
+    }
+  }, [selectedJetParam]);
+
   // Handle property selection change
   const handlePropertyChange = (propertyId: string) => {
     if (propertyId === 'none') {
@@ -332,7 +353,7 @@ const Book = () => {
       return;
     }
     
-    const car = cars.find(c => c.id === parseInt(carId));
+    const car = cars?.find(c => c.id === parseInt(carId));
     setSelectedCar(car);
     setFormData(prev => ({ ...prev, car: carId }));
   };
@@ -345,7 +366,7 @@ const Book = () => {
       return;
     }
     
-    const jet = jets.find(j => j.id === parseInt(jetId));
+    const jet = jets?.find(j => j.id === parseInt(jetId));
     setSelectedJet(jet);
     setFormData(prev => ({ ...prev, jet: jetId }));
   };
@@ -388,10 +409,7 @@ const Book = () => {
   }, [initialService, initialPropertyId, artisanParam]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const {
-      name,
-      value
-    } = e.target;
+    const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
       [name]: value
@@ -449,13 +467,14 @@ const Book = () => {
     }, 1500);
   };
 
-  return <div className="min-h-screen flex flex-col">
+  return (
+    <div className="min-h-screen flex flex-col">
       <Navbar />
       
       <main className="flex-grow">
         <div className="relative h-[40vh] bg-cover bg-center flex items-center" style={{
-        backgroundImage: "url('https://images.unsplash.com/photo-1506485338023-6ce5f36692df?q=80&w=2070')"
-      }}>
+          backgroundImage: "url('https://images.unsplash.com/photo-1506485338023-6ce5f36692df?q=80&w=2070')"
+        }}>
           <div className="absolute inset-0 bg-black/50"></div>
           <div className="container mx-auto px-4 relative z-10 text-white">
             <h1 className="text-3xl md:text-5xl font-bold mb-4">Book a Service</h1>
@@ -467,15 +486,12 @@ const Book = () => {
         
         <section className="py-8 md:py-16 bg-white">
           <div className="container mx-auto px-4">
-            <motion.div initial={{
-            opacity: 0,
-            y: 20
-          }} animate={{
-            opacity: 1,
-            y: 0
-          }} transition={{
-            duration: 0.5
-          }} className="max-w-4xl mx-auto bg-white p-4 md:p-8 rounded-lg shadow-lg">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="max-w-4xl mx-auto bg-white p-4 md:p-8 rounded-lg shadow-lg"
+            >
               {selectedProperty && (
                 <div className="mb-8">
                   <h2 className="text-2xl font-semibold mb-4">Selected Property</h2>
@@ -506,7 +522,6 @@ const Book = () => {
                 </div>
               )}
               
-              {/* Selected Artisan Card */}
               {selectedArtisan && (
                 <div className="mb-8">
                   <div className="flex justify-between items-center mb-4">
@@ -551,7 +566,6 @@ const Book = () => {
                 </div>
               )}
               
-              {/* Selected Car Card */}
               {selectedCar && (
                 <div className="mb-8">
                   <div className="flex justify-between items-center mb-4">
@@ -596,10 +610,20 @@ const Book = () => {
                 </div>
               )}
               
-              {/* Selected Jet Card */}
               {selectedJet && (
                 <div className="mb-8">
-                  <h2 className="text-2xl font-semibold mb-4">Selected Aircraft</h2>
+                  <div className="flex justify-between items-center mb-4">
+                    <h2 className="text-2xl font-semibold">Selected Aircraft</h2>
+                    <Button 
+                      variant="outline"
+                      size="sm"
+                      onClick={() => navigate('/jet-options')}
+                      className="flex items-center gap-1"
+                    >
+                      <ArrowLeft size={16} />
+                      Change Aircraft
+                    </Button>
+                  </div>
                   <Card className="overflow-hidden">
                     <div className="flex flex-col md:flex-row">
                       <div className="md:w-1/3 h-48 md:h-auto">
@@ -611,23 +635,13 @@ const Book = () => {
                       </div>
                       <CardContent className="flex-1 p-4">
                         <div className="bg-blue-500/10 text-blue-600 px-3 py-1 rounded-full text-sm inline-block mb-2">
-                          {selectedJet.category}
+                          {selectedJet.tag}
                         </div>
                         <h3 className="text-xl font-bold mb-2">{selectedJet.name}</h3>
-                        <div className="text-blue-600 font-bold mb-3">${selectedJet.price} / hour</div>
+                        <div className="text-blue-600 font-bold mb-3">{selectedJet.price}</div>
                         <p className="text-gray-600 mb-3">{selectedJet.description}</p>
-                        <div className="grid grid-cols-2 gap-2 mb-3">
-                          <div className="flex items-center text-sm">
-                            <Check size={16} className="text-green-500 mr-1" />
-                            <span>Capacity: {selectedJet.capacity} passengers</span>
-                          </div>
-                          <div className="flex items-center text-sm">
-                            <Check size={16} className="text-green-500 mr-1" />
-                            <span>Range: {selectedJet.range}</span>
-                          </div>
-                        </div>
                         <div className="grid grid-cols-2 gap-2">
-                          {selectedJet.features.map((feature, index) => (
+                          {selectedJet.features && selectedJet.features.map((feature, index) => (
                             <div key={index} className="flex items-center text-sm">
                               <Check size={16} className="text-green-500 mr-1" />
                               <span>{feature}</span>
@@ -1234,7 +1248,8 @@ const Book = () => {
       
       <Footer />
       <WhatsAppCTA />
-    </div>;
+    </div>
+  );
 };
 
 export default Book;
