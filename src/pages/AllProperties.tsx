@@ -140,9 +140,27 @@ const properties = [{
 const AllProperties = () => {
   const navigate = useNavigate();
   const [selectedProperty, setSelectedProperty] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const propertiesPerPage = 6;
+
+  // Calculate pagination
+  const totalPages = Math.ceil(properties.length / propertiesPerPage);
+  const startIndex = (currentPage - 1) * propertiesPerPage;
+  const endIndex = startIndex + propertiesPerPage;
+  const currentProperties = properties.slice(startIndex, endIndex);
 
   const handleBookNow = propertyId => {
     navigate(`/book?propertyId=${propertyId}`);
+  };
+
+  const handleLoadMore = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handleShowLess = () => {
+    setCurrentPage(1);
   };
 
   return (
@@ -179,9 +197,9 @@ const AllProperties = () => {
             initial={{ opacity: 0 }} 
             animate={{ opacity: 1 }} 
             transition={{ duration: 0.5 }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6"
+            className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-6"
           >
-            {properties.map(property => (
+            {currentProperties.map(property => (
               <motion.div 
                 key={property.id}
                 initial={{ opacity: 0, y: 20 }} 
@@ -190,7 +208,7 @@ const AllProperties = () => {
                 viewport={{ once: true }}
               >
                 <Card className="h-full flex flex-col overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                  <div className="relative h-40 overflow-hidden">
+                  <div className="relative h-32 sm:h-40 md:h-48 lg:h-56 overflow-hidden">
                     <img 
                       src={property.image} 
                       alt={property.name} 
@@ -198,24 +216,24 @@ const AllProperties = () => {
                     />
                   </div>
                   
-                  <CardHeader className="pb-2 p-4">
-                    <h3 className="text-lg font-bold text-gray-800 line-clamp-2">{property.name}</h3>
-                    <div className="flex items-center text-gray-600 text-sm">
-                      <MapPin className="w-3 h-3 mr-1 flex-shrink-0" />
+                  <CardHeader className="pb-2 p-2 sm:p-3 md:p-4">
+                    <h3 className="text-sm sm:text-base md:text-lg font-bold text-gray-800 line-clamp-2">{property.name}</h3>
+                    <div className="flex items-center text-gray-600 text-xs sm:text-sm">
+                      <MapPin className="w-2 h-2 sm:w-3 sm:h-3 mr-1 flex-shrink-0" />
                       <span className="truncate">{property.location}</span>
                     </div>
                   </CardHeader>
                   
-                  <CardContent className="pb-0 flex-grow p-4 pt-0">
-                    <div className="text-[#ea384c] font-bold text-lg mb-3">
-                      ${property.price} <span className="text-gray-600 text-sm font-normal">/ night</span>
+                  <CardContent className="pb-0 flex-grow p-2 sm:p-3 md:p-4 pt-0">
+                    <div className="text-[#ea384c] font-bold text-sm sm:text-base md:text-lg mb-2 sm:mb-3">
+                      ${property.price} <span className="text-gray-600 text-xs sm:text-sm font-normal">/ night</span>
                     </div>
                     
                     <div>
-                      <ul className="grid grid-cols-1 gap-1 mb-4">
+                      <ul className="grid grid-cols-1 gap-1 mb-2 sm:mb-4">
                         {property.features.slice(0, 3).map(feature => (
                           <li key={feature.id} className="flex items-center text-xs">
-                            <Check className="w-3 h-3 text-green-500 mr-1 flex-shrink-0" />
+                            <Check className="w-2 h-2 sm:w-3 sm:h-3 text-green-500 mr-1 flex-shrink-0" />
                             <span className="text-gray-700 truncate">{feature.name}</span>
                           </li>
                         ))}
@@ -223,7 +241,7 @@ const AllProperties = () => {
                     </div>
                   </CardContent>
                   
-                  <CardFooter className="pt-2 p-4 flex flex-col gap-2">
+                  <CardFooter className="pt-1 sm:pt-2 p-2 sm:p-3 md:p-4 flex flex-col gap-1 sm:gap-2">
                     <Button 
                       variant="outline" 
                       size="sm" 
@@ -245,6 +263,34 @@ const AllProperties = () => {
               </motion.div>
             ))}
           </motion.div>
+
+          {/* Pagination Controls */}
+          {properties.length > propertiesPerPage && (
+            <div className="flex justify-center items-center mt-8 gap-4">
+              {currentPage > 1 && (
+                <Button 
+                  variant="outline" 
+                  onClick={handleShowLess}
+                  className="border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37]/10"
+                >
+                  Show Less
+                </Button>
+              )}
+              
+              <span className="text-gray-600">
+                Page {currentPage} of {totalPages}
+              </span>
+              
+              {currentPage < totalPages && (
+                <Button 
+                  onClick={handleLoadMore}
+                  className="bg-[#4f1002] hover:bg-[#4f1002]/90"
+                >
+                  Load More
+                </Button>
+              )}
+            </div>
+          )}
         </div>
       </main>
       <Footer />
