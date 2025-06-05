@@ -31,8 +31,8 @@ const FacilityManagement = () => {
         }
         image="https://images.unsplash.com/photo-1560520653-9e0e4c89eb11?q=80&w=2073"
         imageAlt="Professional facility management"
-        primaryButtonText="Explore Services"
-        primaryButtonLink="#portfolio-section"
+        primaryButtonText="Explore Our Services"
+        primaryButtonLink="/explore-services"
         secondaryButtonText="Request Facility Support"
         secondaryButtonLink="/book?service=facility-management"
       />
