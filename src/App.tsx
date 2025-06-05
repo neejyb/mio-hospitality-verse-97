@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -14,6 +13,7 @@ import AllProperties from "./pages/AllProperties";
 import Artisans from "./pages/Artisans";
 import CarFleet from "./pages/CarFleet";
 import JetOptions from "./pages/JetOptions";
+import ExploreServices from "./pages/ExploreServices";
 
 // Import service pages
 import InteriorDesign from "./pages/Services/InteriorDesign";
@@ -43,6 +43,7 @@ const AnimatedRoutes = () => {
         <Route path="/artisans" element={<Artisans />} />
         <Route path="/car-fleet" element={<CarFleet />} />
         <Route path="/jet-options" element={<JetOptions />} />
+        <Route path="/explore-services" element={<ExploreServices />} />
         
         {/* Service Routes */}
         <Route path="/services/interior-design" element={<InteriorDesign />} />
