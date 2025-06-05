@@ -93,22 +93,41 @@
     @apply w-full h-screen bg-cover bg-center relative;
   }
 
-  /* Mobile-first responsive utilities */
+  /* Enhanced Mobile-first responsive utilities */
   .mobile-card-grid {
     @apply grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 sm:gap-3 md:gap-4;
   }
 
   .mobile-service-grid {
-    @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6;
+    @apply grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4 md:gap-6;
   }
 
   .mobile-property-grid {
     @apply grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 md:gap-6;
   }
 
+  /* Portfolio & Gallery grids - 3x3 on mobile/tablet */
+  .mobile-portfolio-grid {
+    @apply grid grid-cols-3 gap-2 sm:gap-3 md:gap-4;
+  }
+
+  /* Artisan grid - 2 columns on mobile */
+  .mobile-artisan-grid {
+    @apply grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-6;
+  }
+
   /* Touch-friendly buttons for mobile */
   .mobile-btn {
-    @apply min-h-[44px] min-w-[44px] text-sm sm:text-base;
+    @apply min-h-[44px] min-w-[44px] text-sm sm:text-base px-3 sm:px-4 py-2;
+  }
+
+  /* Side-by-side button layouts */
+  .mobile-btn-group {
+    @apply flex flex-row gap-3 sm:gap-4 w-full;
+  }
+
+  .mobile-btn-group > * {
+    @apply flex-1 min-h-[44px];
   }
 
   /* Responsive text utilities */
@@ -126,7 +145,15 @@
 
   /* Mobile modal optimizations */
   .mobile-modal {
-    @apply w-[95vw] sm:w-[90vw] md:w-[85vw] max-h-[90vh] sm:max-h-[85vh];
+    @apply w-[95vw] sm:w-[90vw] md:w-[85vw] max-h-[85vh] sm:max-h-[80vh] overflow-y-auto;
+  }
+
+  .mobile-modal-content {
+    @apply p-4 sm:p-6;
+  }
+
+  .mobile-modal-image {
+    @apply h-48 sm:h-64 md:h-80 w-full object-cover;
   }
 
   /* Responsive spacing utilities */
@@ -136,6 +163,51 @@
 
   .mobile-container-padding {
     @apply px-3 sm:px-4 md:px-6;
+  }
+
+  /* Form optimizations */
+  .mobile-form-container {
+    @apply w-full max-w-none sm:max-w-lg md:max-w-2xl mx-auto px-4 sm:px-6;
+  }
+
+  .mobile-form-field {
+    @apply w-full text-base;
+  }
+
+  /* Service page specific optimizations */
+  .service-features-grid {
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6;
+  }
+
+  .service-gallery-grid {
+    @apply grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 sm:gap-3 md:gap-4;
+  }
+
+  /* Hero section mobile optimization */
+  .hero-mobile-content {
+    @apply px-4 sm:px-6 text-center;
+  }
+
+  .hero-mobile-title {
+    @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4;
+  }
+
+  .hero-mobile-subtitle {
+    @apply text-base sm:text-lg md:text-xl mb-6 sm:mb-8;
+  }
+
+  /* About & Contact page optimizations */
+  .page-content-mobile {
+    @apply max-w-full sm:max-w-2xl md:max-w-4xl mx-auto px-4 sm:px-6;
+  }
+
+  /* Booking page optimizations */
+  .booking-mobile-container {
+    @apply w-full max-w-none sm:max-w-3xl md:max-w-5xl mx-auto px-3 sm:px-4;
+  }
+
+  .booking-preview-card {
+    @apply w-full sm:w-80 md:w-96 h-auto;
   }
 }
 
@@ -160,5 +232,40 @@
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
+  }
+
+  /* Mobile-specific utilities */
+  .mobile-text-scale {
+    @apply text-sm sm:text-base md:text-lg;
+  }
+
+  .mobile-card-scale {
+    @apply w-full h-auto min-h-[200px] sm:min-h-[240px] md:min-h-[280px];
+  }
+
+  /* Touch-friendly interactive elements */
+  .touch-target {
+    @apply min-h-[44px] min-w-[44px];
+  }
+}
+
+/* Media queries for specific mobile optimizations */
+@media (max-width: 640px) {
+  .mobile-stack-vertical {
+    @apply flex-col !important;
+  }
+  
+  .mobile-full-width {
+    @apply w-full !important;
+  }
+  
+  .mobile-reduce-padding {
+    @apply p-2 !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .tablet-optimize {
+    @apply text-sm !important;
   }
 }
