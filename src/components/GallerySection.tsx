@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 
@@ -90,20 +89,20 @@ const GallerySection = () => {
     : galleryItems.filter(item => item.category === filter);
 
   return (
-    <section className="py-16 bg-gray-50">
+    <section className="py-12 sm:py-16 bg-gray-50">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">Our Gallery</h2>
-        <p className="text-lg text-gray-600 text-center mb-8 max-w-2xl mx-auto">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-3 sm:mb-4">Our Gallery</h2>
+        <p className="text-base sm:text-lg text-gray-600 text-center mb-6 sm:mb-8 max-w-2xl mx-auto px-4">
           Explore our previous projects and experiences through our curated gallery.
         </p>
         
         {/* Category filters */}
-        <div className="flex flex-wrap justify-center gap-2 mb-10">
+        <div className="flex flex-wrap justify-center gap-2 mb-8 sm:mb-10 px-4">
           {categories.map(category => (
             <button
               key={category}
               onClick={() => setFilter(category)}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+              className={`px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-colors min-h-[36px] ${
                 filter === category 
                   ? 'bg-mio-orange text-white' 
                   : 'bg-white text-gray-700 hover:bg-gray-100'
@@ -114,9 +113,9 @@ const GallerySection = () => {
           ))}
         </div>
         
-        {/* Gallery grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {filteredItems.map((item) => (
+        {/* Gallery grid - 3x3 on mobile/tablet, 4 columns on desktop */}
+        <div className="grid grid-cols-3 md:grid-cols-4 gap-2 sm:gap-3 md:gap-4">
+          {filteredItems.slice(0, 9).map((item) => (
             <div 
               key={item.id} 
               className="relative group overflow-hidden rounded-lg cursor-pointer"
@@ -129,12 +128,12 @@ const GallerySection = () => {
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
               </div>
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                <p className="text-white font-medium text-sm">{item.category}</p>
-                <h3 className="text-white font-semibold">{item.caption}</h3>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-2 sm:p-3 md:p-4">
+                <p className="text-white font-medium text-xs sm:text-sm">{item.category}</p>
+                <h3 className="text-white font-semibold text-sm sm:text-base line-clamp-2">{item.caption}</h3>
                 {item.type === 'video' && (
                   <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                    <svg className="w-12 h-12 text-white" viewBox="0 0 24 24" fill="currentColor">
+                    <svg className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 text-white" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M8 5v14l11-7z" />
                     </svg>
                   </div>
@@ -147,13 +146,13 @@ const GallerySection = () => {
       
       {/* Lightbox modal */}
       <Dialog open={!!selectedItem} onOpenChange={(open) => !open && setSelectedItem(null)}>
-        <DialogContent className="max-w-5xl p-0 bg-black overflow-hidden">
+        <DialogContent className="max-w-[95vw] sm:max-w-4xl md:max-w-5xl p-0 bg-black overflow-hidden max-h-[90vh]">
           <div className="w-full h-full">
             {selectedItem?.type === 'image' ? (
               <img
                 src={selectedItem.fullSize || selectedItem.thumbnail}
                 alt={selectedItem.caption}
-                className="w-full h-auto max-h-[80vh] object-contain"
+                className="w-full h-auto max-h-[70vh] sm:max-h-[75vh] object-contain"
               />
             ) : selectedItem?.type === 'video' && selectedItem.videoUrl ? (
               <div className="relative pt-[56.25%]">
@@ -167,9 +166,9 @@ const GallerySection = () => {
               </div>
             ) : null}
             
-            <div className="p-4 bg-black text-white">
-              <h3 className="text-xl font-bold">{selectedItem?.caption}</h3>
-              <p className="text-gray-300">{selectedItem?.category}</p>
+            <div className="p-3 sm:p-4 bg-black text-white">
+              <h3 className="text-lg sm:text-xl font-bold">{selectedItem?.caption}</h3>
+              <p className="text-gray-300 text-sm sm:text-base">{selectedItem?.category}</p>
             </div>
           </div>
         </DialogContent>
