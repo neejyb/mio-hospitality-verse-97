@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Button } from '@/components/ui/button';
+import MobileButtonGroup from '@/components/MobileButtonGroup';
 
 interface ServiceIntroductionProps {
   description: string | React.ReactNode;
@@ -39,9 +39,9 @@ const ServiceIntroduction = ({
   };
 
   return (
-    <section className="py-16 bg-white">
-      <div className="container mx-auto px-4">
-        <div className={`grid grid-cols-1 md:grid-cols-2 gap-12 items-center ${reversed ? 'md:flex-row-reverse' : ''}`}>
+    <section className="mobile-section-padding bg-white">
+      <div className="container mx-auto mobile-container-padding">
+        <div className={`grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 md:gap-12 items-center ${reversed ? 'md:flex-row-reverse' : ''}`}>
           <motion.div
             initial={{ opacity: 0, x: reversed ? 20 : -20 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -50,31 +50,24 @@ const ServiceIntroduction = ({
             className="prose max-w-none"
           >
             {typeof description === 'string' ? (
-              <p className="text-gray-600">{description}</p>
+              <p className="text-gray-600 responsive-body">{description}</p>
             ) : (
               description
             )}
             
             {(primaryButtonText || secondaryButtonText) && (
-              <div className="mt-5 flex flex-col sm:flex-row gap-3">
-                {primaryButtonText && primaryButtonLink && (
-                  <Button 
-                    onClick={() => handleSmoothScroll(primaryButtonLink)}
-                    className="bg-[#D6AC2E] hover:bg-[#B8941F] text-white font-bold px-6 py-3 rounded-md transition-all duration-300"
-                  >
-                    {primaryButtonText}
-                  </Button>
-                )}
-                
-                {secondaryButtonText && secondaryButtonLink && (
-                  <Button 
-                    onClick={() => handleSmoothScroll(secondaryButtonLink)}
-                    variant="outline"
-                    className="border-2 border-[#D6AC2E] bg-transparent text-[#D6AC2E] hover:bg-[#D6AC2E] hover:text-white font-bold px-6 py-3 rounded-md transition-all duration-300"
-                  >
-                    {secondaryButtonText}
-                  </Button>
-                )}
+              <div className="mt-4 sm:mt-5">
+                <MobileButtonGroup
+                  primaryButton={primaryButtonText && primaryButtonLink ? {
+                    text: primaryButtonText,
+                    onClick: () => handleSmoothScroll(primaryButtonLink)
+                  } : undefined}
+                  secondaryButton={secondaryButtonText && secondaryButtonLink ? {
+                    text: secondaryButtonText,
+                    onClick: () => handleSmoothScroll(secondaryButtonLink),
+                    variant: 'outline'
+                  } : undefined}
+                />
               </div>
             )}
           </motion.div>
