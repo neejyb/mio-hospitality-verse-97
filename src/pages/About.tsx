@@ -3,7 +3,9 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import TeamMember from '@/components/TeamMember';
 import CertificateCarousel from '@/components/CertificateCarousel';
+import WhatsAppCTA from '@/components/WhatsAppCTA';
 import { Shield, Award, Check } from 'lucide-react';
+
 const About = () => {
   // Team Members Data
   const teamMembers = [{
@@ -66,7 +68,8 @@ const About = () => {
     name: "Luxury Service Provider Accreditation",
     image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?q=80&w=2532&auto=format&fit=crop"
   }];
-  return <div className="min-h-screen flex flex-col">
+  return (
+    <div className="min-h-screen flex flex-col">
       <Navbar />
       
       <main className="flex-grow">
@@ -362,6 +365,9 @@ const About = () => {
       </main>
       
       <Footer />
-    </div>;
+      <WhatsAppCTA />
+    </div>
+  );
 };
+
 export default About;

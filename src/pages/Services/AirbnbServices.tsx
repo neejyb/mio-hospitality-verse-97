@@ -6,6 +6,7 @@ import ServiceFeatures from '@/components/ServiceFeatures';
 import ServiceGallery from '@/components/ServiceGallery';
 import ServiceTestimonials from '@/components/ServiceTestimonials';
 import ServiceCta from '@/components/ServiceCta';
+import WhatsAppCTA from '@/components/WhatsAppCTA';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
@@ -297,6 +298,7 @@ const AirbnbServices = () => {
         secondaryButtonLink="/contact"
         backgroundImage="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?q=80&w=2070"
       />
+      <WhatsAppCTA />
     </ServiceLayout>
   );
 };
