@@ -139,11 +139,11 @@ const AirbnbBooking = () => {
       }
     });
   };
-  return <section className="py-16 bg-red-950">
+  return <section className="mobile-featured-property-section bg-red-950">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-slate-50">Featured Properties</h2>
-          <p className="text-lg max-w-2xl mx-auto text-slate-50">
+        <div className="text-center mb-8 sm:mb-10 md:mb-12">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 text-slate-50">Featured Properties</h2>
+          <p className="text-sm sm:text-base md:text-lg max-w-2xl mx-auto text-slate-50">
             Discover our handpicked selection of premium properties, 
             offering exceptional comfort and style for your stay.
           </p>
@@ -164,39 +164,39 @@ const AirbnbBooking = () => {
               }} viewport={{
                 once: true
               }} className="p-1">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-white rounded-xl shadow-lg overflow-hidden">
-                      <div className="relative h-64 md:h-full min-h-[300px] overflow-hidden">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 md:gap-8 bg-white rounded-xl shadow-lg overflow-hidden mobile-featured-property-card">
+                      <div className="relative mobile-featured-property-image overflow-hidden">
                         <img src={property.image} alt={property.name} className="w-full h-full object-cover transition-transform duration-500 hover:scale-105" />
                       </div>
                       
-                      <div className="p-6 md:p-8 flex flex-col justify-between">
+                      <div className="mobile-featured-property-content flex flex-col justify-between">
                         <div>
-                          <h3 className="text-2xl font-bold text-gray-800 mb-2">{property.name}</h3>
-                          <div className="flex items-center mb-4 text-gray-600">
-                            <MapPin className="w-4 h-4 mr-1" />
-                            <span>{property.location}</span>
+                          <h3 className="mobile-featured-property-title font-bold text-gray-800 mb-2">{property.name}</h3>
+                          <div className="flex items-center mb-3 sm:mb-4 text-gray-600">
+                            <MapPin className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
+                            <span className="text-xs sm:text-sm md:text-base">{property.location}</span>
                           </div>
                           
-                          <div className="text-[#ea384c] font-bold text-xl mb-6">
-                            ${property.price} <span className="text-gray-600 text-base font-normal">/ night</span>
+                          <div className="text-[#ea384c] font-bold mobile-featured-property-price mb-4 sm:mb-5 md:mb-6">
+                            ${property.price} <span className="text-gray-600 text-xs sm:text-sm md:text-base font-normal">/ night</span>
                           </div>
                           
-                          <div className="mb-8">
-                            <h4 className="text-lg font-semibold mb-3">Property Features</h4>
-                            <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                          <div className="mobile-featured-property-features">
+                            <h4 className="text-sm sm:text-base md:text-lg font-semibold mb-2 sm:mb-3">Property Features</h4>
+                            <ul className="grid grid-cols-1 md:grid-cols-2 gap-1 sm:gap-2">
                               {property.features.map(feature => <li key={feature.id} className="flex items-center">
-                                  <Check className="w-4 h-4 text-green-500 mr-2" />
-                                  <span className="text-gray-700">{feature.name}</span>
+                                  <Check className="w-3 h-3 sm:w-4 sm:h-4 text-green-500 mr-2" />
+                                  <span className="text-gray-700 text-xs sm:text-sm md:text-base">{feature.name}</span>
                                 </li>)}
                             </ul>
                           </div>
                         </div>
                         
-                        <div className="flex flex-col md:flex-row gap-4">
-                          <Button variant="outline-gold" onClick={() => setSelectedProperty(property)}>
+                        <div className="mobile-featured-property-buttons">
+                          <Button variant="outline-gold" onClick={() => setSelectedProperty(property)} className="mobile-featured-property-button">
                             View Details
                           </Button>
-                          <Button onClick={() => handleBookNow(property.id)} className="text-white bg-[#4a1403]">
+                          <Button onClick={() => handleBookNow(property.id)} className="text-white bg-[#4a1403] mobile-featured-property-button">
                             Book Now
                           </Button>
                         </div>
@@ -208,8 +208,8 @@ const AirbnbBooking = () => {
           </div>
           
           {/* Pagination dots */}
-          <div className="mt-8 flex justify-center gap-2">
-            {properties.map((_, index) => <button key={index} onClick={() => scrollTo(index)} className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${index === activeIndex ? 'bg-[#F97316] w-6' : 'bg-gray-300 hover:bg-gray-400'}`} aria-label={`Go to property ${index + 1}`} />)}
+          <div className="mt-6 sm:mt-8 flex justify-center gap-2">
+            {properties.map((_, index) => <button key={index} onClick={() => scrollTo(index)} className={`w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full transition-all duration-300 ${index === activeIndex ? 'bg-[#F97316] w-4 sm:w-6' : 'bg-gray-300 hover:bg-gray-400'}`} aria-label={`Go to property ${index + 1}`} />)}
           </div>
           
           {/* Properly wrap carousel navigation buttons in Carousel context */}
@@ -217,17 +217,17 @@ const AirbnbBooking = () => {
             <CarouselContent>
               <CarouselItem className="p-0 basis-auto">
                 <div className="relative w-full">
-                  <CarouselPrevious onClick={() => emblaApi?.scrollPrev()} className="absolute -left-12 top-1/2 -translate-y-1/2 bg-white text-[#F97316] hover:bg-[#F97316] hover:text-white border border-[#F97316]" />
-                  <CarouselNext onClick={() => emblaApi?.scrollNext()} className="absolute -right-12 top-1/2 -translate-y-1/2 bg-white text-[#F97316] hover:bg-[#F97316] hover:text-white border border-[#F97316]" />
+                  <CarouselPrevious onClick={() => emblaApi?.scrollPrev()} className="absolute -left-8 sm:-left-12 top-1/2 -translate-y-1/2 bg-white text-[#F97316] hover:bg-[#F97316] hover:text-white border border-[#F97316]" />
+                  <CarouselNext onClick={() => emblaApi?.scrollNext()} className="absolute -right-8 sm:-right-12 top-1/2 -translate-y-1/2 bg-white text-[#F97316] hover:bg-[#F97316] hover:text-white border border-[#F97316]" />
                 </div>
               </CarouselItem>
             </CarouselContent>
           </Carousel>
         </div>
 
-        <div className="mt-12 text-center">
-          <Button variant="outline" onClick={() => navigate('/properties')} className="border-[#D4AF37] bg-white text-zinc-950">
-            View All Properties <ArrowRight size={16} className="ml-1" />
+        <div className="mt-8 sm:mt-10 md:mt-12 text-center">
+          <Button variant="outline" onClick={() => navigate('/properties')} className="border-[#D4AF37] bg-white text-zinc-950 mobile-featured-property-button">
+            View All Properties <ArrowRight size={14} className="sm:w-4 sm:h-4 ml-1" />
           </Button>
         </div>
       </div>

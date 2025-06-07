@@ -222,6 +222,64 @@
   .mobile-team-modal {
     @apply w-[95vw] sm:w-[90vw] md:w-[85vw] lg:w-auto max-h-[90vh] sm:max-h-[85vh] p-3 sm:p-4 md:p-6;
   }
+
+  /* Featured Properties mobile optimization */
+  .mobile-featured-property-section {
+    @apply py-8 sm:py-10 md:py-12 lg:py-16;
+  }
+
+  .mobile-featured-property-card {
+    @apply h-auto min-h-0;
+  }
+
+  .mobile-featured-property-image {
+    @apply h-32 sm:h-40 md:h-48 lg:h-64;
+  }
+
+  .mobile-featured-property-content {
+    @apply p-3 sm:p-4 md:p-6 lg:p-8;
+  }
+
+  .mobile-featured-property-title {
+    @apply text-base sm:text-lg md:text-xl lg:text-2xl;
+  }
+
+  .mobile-featured-property-price {
+    @apply text-sm sm:text-base md:text-lg lg:text-xl;
+  }
+
+  .mobile-featured-property-features {
+    @apply mb-4 sm:mb-5 md:mb-6 lg:mb-8;
+  }
+
+  .mobile-featured-property-buttons {
+    @apply flex flex-col sm:flex-row gap-2 sm:gap-3 md:gap-4;
+  }
+
+  .mobile-featured-property-button {
+    @apply text-xs sm:text-sm md:text-base px-3 py-2 sm:px-4 sm:py-2 md:px-6 md:py-3;
+  }
+
+  /* Design Services mobile grid - 3x2 layout */
+  .mobile-design-services-grid {
+    @apply grid grid-cols-3 gap-2 sm:gap-3 md:grid-cols-3 lg:grid-cols-4 md:gap-4 lg:gap-6;
+  }
+
+  .mobile-design-services-card {
+    @apply p-2 sm:p-3 md:p-4 lg:p-6 text-xs sm:text-sm md:text-base;
+  }
+
+  .mobile-design-services-icon {
+    @apply w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6;
+  }
+
+  .mobile-design-services-title {
+    @apply text-xs sm:text-sm md:text-base lg:text-lg;
+  }
+
+  .mobile-design-services-description {
+    @apply text-xs sm:text-sm md:text-sm;
+  }
 }
 
 /* Line clamp utility for text truncation */
