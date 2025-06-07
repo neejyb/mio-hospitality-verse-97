@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -175,6 +174,53 @@
 
   .mobile-form-field {
     @apply w-full text-sm sm:text-base p-2 sm:p-3;
+  }
+
+  /* Mobile testimonials optimization */
+  .mobile-testimonial-section {
+    @apply py-4 sm:py-6 md:py-8 lg:py-12;
+  }
+
+  .mobile-testimonial-card {
+    @apply p-3 sm:p-4 md:p-6 text-xs sm:text-sm md:text-base;
+  }
+
+  /* Executive team mobile grid */
+  .mobile-executive-grid {
+    @apply grid grid-cols-2 gap-2 sm:gap-3 md:grid-cols-2 lg:grid-cols-4 lg:gap-6;
+  }
+
+  /* Certificate grid for mobile */
+  .mobile-certificate-grid {
+    @apply grid grid-cols-2 gap-2 sm:gap-3 md:grid-cols-3 lg:grid-cols-5;
+  }
+
+  /* Footer mobile optimization */
+  .mobile-footer {
+    @apply text-xs sm:text-sm md:text-base;
+  }
+
+  .mobile-footer-section {
+    @apply py-6 sm:py-8 md:py-12;
+  }
+
+  /* Mission/Vision mobile layout */
+  .mobile-mission-grid {
+    @apply grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8;
+  }
+
+  /* Text size utilities for mobile */
+  .mobile-text-sm {
+    @apply text-xs sm:text-sm md:text-base;
+  }
+
+  .mobile-heading-sm {
+    @apply text-lg sm:text-xl md:text-2xl lg:text-3xl;
+  }
+
+  /* Responsive modal for mobile */
+  .mobile-team-modal {
+    @apply w-[95vw] sm:w-[90vw] md:w-[85vw] lg:w-auto max-h-[90vh] sm:max-h-[85vh] p-3 sm:p-4 md:p-6;
   }
 }
 

@@ -71,22 +71,22 @@ const About = () => {
       
       <main className="flex-grow">
         {/* Hero section */}
-        <div className="relative h-[50vh] bg-cover bg-center flex items-center" style={{
+        <div className="relative h-[40vh] sm:h-[45vh] md:h-[50vh] bg-cover bg-center flex items-center" style={{
         backgroundImage: "url('https://images.unsplash.com/photo-1616137422495-1e9e46e2aa77?q=80&w=2532')"
       }}>
           <div className="absolute inset-0 bg-black/50"></div>
-          <div className="container mx-auto px-4 relative z-10 text-white">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">About Us</h1>
-            <p className="text-xl max-w-2xl">
+          <div className="container mx-auto mobile-container-padding relative z-10 text-white">
+            <h1 className="responsive-heading font-bold mb-2 sm:mb-4">About Us</h1>
+            <p className="responsive-body max-w-2xl">
               Discover the story behind Mio's Hospitality & Co and our commitment to excellence in hospitality services.
             </p>
           </div>
         </div>
         
         {/* Our Story */}
-        <section className="py-16 bg-white">
-          <div className="container mx-auto px-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <section className="mobile-section-padding bg-white">
+          <div className="container mx-auto mobile-container-padding">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 md:gap-12 items-center">
               <motion.div initial={{
               opacity: 0,
               x: -20
@@ -98,14 +98,14 @@ const About = () => {
             }} viewport={{
               once: true
             }}>
-                <h2 className="text-3xl font-bold mb-6 text-gray-900">Our Story</h2>
-                <p className="text-gray-600 mb-4">
+                <h2 className="responsive-subheading font-bold mb-3 sm:mb-4 md:mb-6 text-gray-900">Our Story</h2>
+                <p className="text-gray-600 mb-2 sm:mb-3 md:mb-4 responsive-body">
                   Founded in 2015, Mio's Hospitality & Co began with a vision to revolutionize the hospitality industry by offering comprehensive services that go beyond the standard offerings. 
                 </p>
-                <p className="text-gray-600 mb-4">
+                <p className="text-gray-600 mb-2 sm:mb-3 md:mb-4 responsive-body">
                   What started as a small interior design firm quickly expanded into a full-service hospitality company as we recognized the growing demand for integrated solutions that address all aspects of property management and guest experiences.
                 </p>
-                <p className="text-gray-600">
+                <p className="text-gray-600 responsive-body">
                   Today, we're proud to offer a diverse range of services including interior design, Airbnb management, videography, luxury transportation, and property maintenance, all delivered with our signature attention to detail and commitment to excellence.
                 </p>
               </motion.div>
@@ -128,16 +128,16 @@ const About = () => {
         </section>
         
         {/* Mission & Values */}
-        <section className="py-16 bg-red-950">
-          <div className="container mx-auto px-4">
-            <div className="max-w-3xl mx-auto text-center mb-12">
-              <h2 className="text-3xl font-bold mb-6 text-slate-50">Our Mission & Values</h2>
-              <p className="text-slate-50">
+        <section className="mobile-section-padding bg-red-950">
+          <div className="container mx-auto mobile-container-padding">
+            <div className="max-w-3xl mx-auto text-center mb-6 sm:mb-8 md:mb-12">
+              <h2 className="responsive-subheading font-bold mb-3 sm:mb-4 md:mb-6 text-slate-50">Our Mission & Values</h2>
+              <p className="text-slate-50 responsive-body">
                 At Mio's Hospitality & Co, we're driven by a set of core values that guide everything we do. Our mission is to redefine luxury hospitality by creating exceptional experiences that exceed expectations.
               </p>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="mobile-mission-grid">
               <motion.div initial={{
               opacity: 0,
               y: 20
@@ -149,10 +149,10 @@ const About = () => {
               delay: 0
             }} viewport={{
               once: true
-            }} className="bg-white p-8 rounded-lg shadow-md">
-                <div className="text-4xl text-mio-orange mb-4">✨</div>
-                <h3 className="text-xl font-bold mb-3 text-gray-900">Excellence</h3>
-                <p className="text-gray-600">
+            }} className="bg-white p-4 sm:p-6 md:p-8 rounded-lg shadow-md">
+                <div className="text-2xl sm:text-3xl md:text-4xl text-mio-orange mb-2 sm:mb-3 md:mb-4">✨</div>
+                <h3 className="responsive-body font-bold mb-2 sm:mb-3 text-gray-900">Excellence</h3>
+                <p className="text-gray-600 mobile-text-sm">
                   We are committed to delivering excellence in every service we provide, from the smallest detail to the grand vision.
                 </p>
               </motion.div>
@@ -168,10 +168,10 @@ const About = () => {
               delay: 0.1
             }} viewport={{
               once: true
-            }} className="bg-white p-8 rounded-lg shadow-md">
-                <div className="text-4xl text-mio-orange mb-4">🤝</div>
-                <h3 className="text-xl font-bold mb-3 text-gray-900">Integrity</h3>
-                <p className="text-gray-600">
+            }} className="bg-white p-4 sm:p-6 md:p-8 rounded-lg shadow-md">
+                <div className="text-2xl sm:text-3xl md:text-4xl text-mio-orange mb-2 sm:mb-3 md:mb-4">🤝</div>
+                <h3 className="responsive-body font-bold mb-2 sm:mb-3 text-gray-900">Integrity</h3>
+                <p className="text-gray-600 mobile-text-sm">
                   We operate with honesty, transparency, and ethical practices in all our business dealings and client relationships.
                 </p>
               </motion.div>
@@ -187,10 +187,10 @@ const About = () => {
               delay: 0.2
             }} viewport={{
               once: true
-            }} className="bg-white p-8 rounded-lg shadow-md">
-                <div className="text-4xl text-mio-orange mb-4">🔄</div>
-                <h3 className="text-xl font-bold mb-3 text-gray-900">Innovation</h3>
-                <p className="text-gray-600">
+            }} className="bg-white p-4 sm:p-6 md:p-8 rounded-lg shadow-md">
+                <div className="text-2xl sm:text-3xl md:text-4xl text-mio-orange mb-2 sm:mb-3 md:mb-4">🔄</div>
+                <h3 className="responsive-body font-bold mb-2 sm:mb-3 text-gray-900">Innovation</h3>
+                <p className="text-gray-600 mobile-text-sm">
                   We constantly seek new and better ways to serve our clients, embracing technology and creative solutions.
                 </p>
               </motion.div>
@@ -199,8 +199,8 @@ const About = () => {
         </section>
 
         {/* Meet the Executives */}
-        <section className="py-16 bg-white">
-          <div className="container mx-auto px-4">
+        <section className="mobile-section-padding bg-white">
+          <div className="container mx-auto mobile-container-padding">
             <motion.div initial={{
             opacity: 0,
             y: 20
@@ -211,14 +211,14 @@ const About = () => {
             duration: 0.5
           }} viewport={{
             once: true
-          }} className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">Meet the Executives</h2>
-              <p className="text-gray-600 max-w-3xl mx-auto">
+          }} className="text-center mb-6 sm:mb-8 md:mb-12">
+              <h2 className="responsive-subheading font-bold text-gray-900 mb-2 sm:mb-3 md:mb-4">Meet the Executives</h2>
+              <p className="text-gray-600 max-w-3xl mx-auto responsive-body">
                 Our leadership team brings together decades of experience in hospitality, design, and property management to deliver exceptional service to our clients.
               </p>
             </motion.div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+            <div className="mobile-executive-grid max-w-6xl mx-auto">
               {teamMembers.map((member, index) => <motion.div key={member.name} initial={{
               opacity: 0,
               y: 20
@@ -238,8 +238,8 @@ const About = () => {
         </section>
 
         {/* What Sets Us Apart */}
-        <section className="py-16 bg-red-950">
-          <div className="container mx-auto px-4">
+        <section className="mobile-section-padding bg-red-950">
+          <div className="container mx-auto mobile-container-padding">
             <motion.div initial={{
             opacity: 0,
             y: 20
@@ -250,14 +250,14 @@ const About = () => {
             duration: 0.5
           }} viewport={{
             once: true
-          }} className="text-center mb-12">
-              <h2 className="text-3xl font-bold mb-4 text-slate-50">What Sets Us Apart</h2>
-              <p className="max-w-3xl mx-auto text-slate-50">
+          }} className="text-center mb-6 sm:mb-8 md:mb-12">
+              <h2 className="responsive-subheading font-bold mb-2 sm:mb-3 md:mb-4 text-slate-50">What Sets Us Apart</h2>
+              <p className="max-w-3xl mx-auto text-slate-50 responsive-body">
                 We pride ourselves on delivering a level of service that goes beyond the ordinary. Here's what makes Mio's Hospitality & Co different.
               </p>
             </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <div className="mobile-mission-grid max-w-6xl mx-auto">
               <motion.div initial={{
               opacity: 0,
               x: -20
@@ -269,12 +269,12 @@ const About = () => {
               delay: 0
             }} viewport={{
               once: true
-            }} className="bg-white p-8 rounded-lg shadow-md flex flex-col">
-                <div className="flex items-center mb-4">
-                  <Shield className="text-mio-orange h-8 w-8 mr-3" />
-                  <h3 className="text-xl font-bold text-gray-900">Certified Professionals</h3>
+            }} className="bg-white p-4 sm:p-6 md:p-8 rounded-lg shadow-md flex flex-col">
+                <div className="flex items-center mb-2 sm:mb-3 md:mb-4">
+                  <Shield className="text-mio-orange h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 mr-2 sm:mr-3" />
+                  <h3 className="responsive-body font-bold text-gray-900">Certified Professionals</h3>
                 </div>
-                <p className="text-gray-600 flex-grow">
+                <p className="text-gray-600 flex-grow mobile-text-sm">
                   Our team comprises certified hospitality professionals with extensive training and experience in their respective fields, ensuring the highest standards of service delivery.
                 </p>
               </motion.div>
@@ -290,12 +290,12 @@ const About = () => {
               delay: 0.1
             }} viewport={{
               once: true
-            }} className="bg-white p-8 rounded-lg shadow-md flex flex-col">
-                <div className="flex items-center mb-4">
-                  <Award className="text-mio-orange h-8 w-8 mr-3" />
-                  <h3 className="text-xl font-bold text-gray-900">End-to-End Solutions</h3>
+            }} className="bg-white p-4 sm:p-6 md:p-8 rounded-lg shadow-md flex flex-col">
+                <div className="flex items-center mb-2 sm:mb-3 md:mb-4">
+                  <Award className="text-mio-orange h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 mr-2 sm:mr-3" />
+                  <h3 className="responsive-body font-bold text-gray-900">End-to-End Solutions</h3>
                 </div>
-                <p className="text-gray-600 flex-grow">
+                <p className="text-gray-600 flex-grow mobile-text-sm">
                   From initial concept to ongoing management, we provide comprehensive hospitality solutions under one roof, eliminating the need for multiple service providers.
                 </p>
               </motion.div>
@@ -311,12 +311,12 @@ const About = () => {
               delay: 0.2
             }} viewport={{
               once: true
-            }} className="bg-white p-8 rounded-lg shadow-md flex flex-col">
-                <div className="flex items-center mb-4">
-                  <Check className="text-mio-orange h-8 w-8 mr-3" />
-                  <h3 className="text-xl font-bold text-gray-900">Personalized Approach</h3>
+            }} className="bg-white p-4 sm:p-6 md:p-8 rounded-lg shadow-md flex flex-col">
+                <div className="flex items-center mb-2 sm:mb-3 md:mb-4">
+                  <Check className="text-mio-orange h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 mr-2 sm:mr-3" />
+                  <h3 className="responsive-body font-bold text-gray-900">Personalized Approach</h3>
                 </div>
-                <p className="text-gray-600 flex-grow">
+                <p className="text-gray-600 flex-grow mobile-text-sm">
                   We recognize that each client and property is unique. Our tailored approach ensures that our services align perfectly with your specific needs and objectives.
                 </p>
               </motion.div>
@@ -325,8 +325,8 @@ const About = () => {
         </section>
 
         {/* Legal Documents & Certifications */}
-        <section className="py-16 bg-white">
-          <div className="container mx-auto px-4">
+        <section className="mobile-section-padding bg-white">
+          <div className="container mx-auto mobile-container-padding">
             <motion.div initial={{
             opacity: 0,
             y: 20
@@ -337,9 +337,9 @@ const About = () => {
             duration: 0.5
           }} viewport={{
             once: true
-          }} className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">Our Certifications & Legal Documents</h2>
-              <p className="text-gray-600 max-w-3xl mx-auto">
+          }} className="text-center mb-6 sm:mb-8 md:mb-12">
+              <h2 className="responsive-subheading font-bold text-gray-900 mb-2 sm:mb-3 md:mb-4">Our Certifications & Legal Documents</h2>
+              <p className="text-gray-600 max-w-3xl mx-auto responsive-body">
                 We maintain all necessary certifications and legal documentation to ensure our services meet industry standards and regulatory requirements.
               </p>
             </motion.div>
