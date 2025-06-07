@@ -30,7 +30,7 @@ const ServiceFeatures = ({ title, subtitle, features, darkMode = false }: Servic
           {subtitle && <p className={`responsive-body max-w-2xl mx-auto ${descriptionColor}`}>{subtitle}</p>}
         </div>
         
-        <div className="mobile-design-services-grid">
+        <div className="mobile-design-services-grid xl:grid-cols-3 xl:grid-rows-2">
           {features.map((feature, index) => (
             <motion.div
               key={feature.id}
