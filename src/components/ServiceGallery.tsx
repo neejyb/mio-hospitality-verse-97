@@ -1,8 +1,8 @@
 
-import React, { useState } from 'react';
-import { X } from 'lucide-react';
+import React from 'react';
+import { motion } from 'framer-motion';
 
-interface GalleryImage {
+interface ServiceGalleryImage {
   id: string;
   src: string;
   alt: string;
@@ -11,87 +11,61 @@ interface GalleryImage {
 
 interface ServiceGalleryProps {
   title: string;
-  subtitle?: string;
-  images: GalleryImage[];
+  subtitle: string;
+  images: ServiceGalleryImage[];
 }
 
-const ServiceGallery: React.FC<ServiceGalleryProps> = ({
-  title,
-  subtitle,
-  images
-}) => {
-  const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
-  
-  // Show first 9 images for 3x3 grid on mobile
-  const displayImages = images.slice(0, 9);
-
+const ServiceGallery = ({ title, subtitle, images }: ServiceGalleryProps) => {
   return (
-    <section className="mobile-section-padding bg-white">
-      <div className="container mx-auto mobile-container-padding">
-        {/* Header */}
-        <div className="text-center mb-8 sm:mb-12">
-          <h2 className="responsive-heading font-bold mb-4">{title}</h2>
-          {subtitle && (
-            <p className="responsive-body text-gray-600 max-w-3xl mx-auto">
-              {subtitle}
-            </p>
-          )}
+    <section id="portfolio-section" className="py-16 bg-white">
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-12">
+          <motion.h2 
+            initial={{ opacity: 0, y: -20 }} 
+            whileInView={{ opacity: 1, y: 0 }} 
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+            className="text-3xl md:text-4xl font-bold text-gray-900 mb-4"
+          >
+            {title}
+          </motion.h2>
+          <motion.p 
+            initial={{ opacity: 0, y: -10 }} 
+            whileInView={{ opacity: 1, y: 0 }} 
+            transition={{ duration: 0.5, delay: 0.1 }}
+            viewport={{ once: true }}
+            className="text-lg text-gray-600 max-w-2xl mx-auto"
+          >
+            {subtitle}
+          </motion.p>
         </div>
         
-        {/* Gallery Grid - 3x3 on mobile/tablet */}
-        <div className="mobile-portfolio-grid">
-          {displayImages.map((image) => (
-            <div
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {images.map((image, index) => (
+            <motion.div
               key={image.id}
-              className="group cursor-pointer overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300"
-              onClick={() => setSelectedImage(image)}
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              viewport={{ once: true }}
+              className="group relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300"
             >
-              <div className="aspect-square relative">
-                <img
-                  src={image.src}
+              <div className="aspect-[4/3] overflow-hidden">
+                <img 
+                  src={image.src} 
                   alt={image.alt}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
-                <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-opacity duration-300" />
               </div>
-            </div>
+              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-300 flex items-end">
+                <div className="w-full p-4 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                  <p className="text-sm font-medium">{image.caption}</p>
+                </div>
+              </div>
+            </motion.div>
           ))}
         </div>
-        
-        {/* Show more indicator if there are more than 9 images */}
-        {images.length > 9 && (
-          <div className="text-center mt-6">
-            <p className="text-sm text-gray-500">
-              +{images.length - 9} more images
-            </p>
-          </div>
-        )}
       </div>
-      
-      {/* Modal */}
-      {selectedImage && (
-        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
-          <div className="mobile-modal bg-white rounded-lg overflow-hidden">
-            <div className="relative">
-              <button
-                onClick={() => setSelectedImage(null)}
-                className="absolute top-4 right-4 z-10 bg-black bg-opacity-50 text-white rounded-full p-2 hover:bg-opacity-75 transition-opacity touch-target"
-              >
-                <X size={20} />
-              </button>
-              <img
-                src={selectedImage.src}
-                alt={selectedImage.alt}
-                className="mobile-modal-image"
-              />
-            </div>
-            <div className="mobile-modal-content">
-              <h3 className="font-semibold text-lg mb-2">{selectedImage.alt}</h3>
-              <p className="text-gray-600 responsive-body">{selectedImage.caption}</p>
-            </div>
-          </div>
-        </div>
-      )}
     </section>
   );
 };

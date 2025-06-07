@@ -1,54 +1,53 @@
 
 import React from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { motion } from 'framer-motion';
+import { Check } from 'lucide-react';
 
-interface Feature {
+interface ServiceFeature {
   id: string;
   title: string;
   description: string;
+  icon?: React.ReactNode;
 }
 
 interface ServiceFeaturesProps {
   title: string;
   subtitle?: string;
-  features: Feature[];
+  features: ServiceFeature[];
   darkMode?: boolean;
 }
 
-const ServiceFeatures: React.FC<ServiceFeaturesProps> = ({
-  title,
-  subtitle,
-  features,
-  darkMode = false
-}) => {
+const ServiceFeatures = ({ title, subtitle, features, darkMode = false }: ServiceFeaturesProps) => {
+  const bgColor = darkMode ? 'bg-[#370202]' : 'bg-gray-50';
+  const textColor = darkMode ? 'text-white' : 'text-gray-900';
+  const descriptionColor = darkMode ? 'text-gray-300' : 'text-gray-600';
+
   return (
-    <section className={`mobile-section-padding ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-50'}`}>
-      <div className="container mx-auto mobile-container-padding">
-        {/* Header */}
-        <div className="text-center mb-8 sm:mb-12">
-          <h2 className="responsive-heading font-bold mb-4">{title}</h2>
-          {subtitle && (
-            <p className={`responsive-body max-w-3xl mx-auto ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-              {subtitle}
-            </p>
-          )}
+    <section className={`py-16 ${bgColor}`}>
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-12">
+          <h2 className={`text-3xl md:text-4xl font-bold mb-4 ${textColor}`}>{title}</h2>
+          {subtitle && <p className={`text-lg max-w-2xl mx-auto ${descriptionColor}`}>{subtitle}</p>}
         </div>
         
-        {/* Features Grid */}
-        <div className="service-features-grid">
-          {features.map((feature) => (
-            <Card key={feature.id} className={`h-full ${darkMode ? 'bg-gray-800 border-gray-700' : ''}`}>
-              <CardHeader className="pb-4">
-                <CardTitle className={`text-lg sm:text-xl ${darkMode ? 'text-white' : ''}`}>
-                  {feature.title}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className={`responsive-body ${darkMode ? 'text-gray-300' : ''}`}>
-                  {feature.description}
-                </CardDescription>
-              </CardContent>
-            </Card>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {features.map((feature, index) => (
+            <motion.div
+              key={feature.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              viewport={{ once: true }}
+              className={`p-6 rounded-lg shadow-lg ${darkMode ? 'bg-[#4a1403]/80' : 'bg-white'}`}
+            >
+              <div className="flex items-start mb-4">
+                <div className="mr-4 text-[#D4AF37]">
+                  {feature.icon || <Check size={20} />}
+                </div>
+                <h3 className={`text-xl font-bold ${textColor}`}>{feature.title}</h3>
+              </div>
+              <p className={descriptionColor}>{feature.description}</p>
+            </motion.div>
           ))}
         </div>
       </div>
