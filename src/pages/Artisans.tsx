@@ -151,9 +151,7 @@ const Artisans = () => {
         
         <ArtisanGrid 
           filteredArtisans={filteredArtisans} 
-          onBookNow={(artisanId, artisanName, serviceType, image) => 
-            handleBookNow(artisanId, artisanName, serviceType, image)
-          } 
+          onBookNow={handleBookNow} 
           onResetFilters={handleResetFilters} 
         />
         
