@@ -1,80 +1,43 @@
-
 import React, { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import { useArtisanData } from '@/hooks/useArtisanData';
 import ArtisanFilters from '@/components/Artisans/ArtisanFilters';
 import ArtisanGrid from '@/components/Artisans/ArtisanGrid';
 import ArtisanCTA from '@/components/Artisans/ArtisanCTA';
 import WhatsAppCTA from '@/components/WhatsAppCTA';
-import { useAllArtisans, type Artisan } from '@/hooks/useArtisans';
-import { useState, useMemo } from 'react';
-
 const Artisans = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const initialFilter = queryParams.get('filter') || 'all';
-  
-  const { data: allArtisans = [], isLoading } = useAllArtisans();
-  
-  const [searchTerm, setSearchTerm] = useState('');
-  const [experienceFilter, setExperienceFilter] = useState('any');
-  const [ratingFilter, setRatingFilter] = useState('any');
-  const [serviceFilter, setServiceFilter] = useState(initialFilter);
-
-  // Filter artisans based on current filters
-  const filteredArtisans = useMemo(() => {
-    return allArtisans.filter((artisan: Artisan) => {
-      // Search term filter
-      if (searchTerm && !artisan.name.toLowerCase().includes(searchTerm.toLowerCase())) {
-        return false;
-      }
-      
-      // Service filter
-      if (serviceFilter !== 'all' && artisan.specialty !== serviceFilter) {
-        return false;
-      }
-      
-      // Experience filter
-      if (experienceFilter !== 'any') {
-        const experience = artisan.experience_years;
-        switch (experienceFilter) {
-          case '1-3': return experience >= 1 && experience <= 3;
-          case '4-7': return experience >= 4 && experience <= 7;
-          case '8+': return experience >= 8;
-          default: return true;
-        }
-      }
-      
-      // Rating filter
-      if (ratingFilter !== 'any') {
-        const rating = Number(artisan.rating);
-        const filterValue = parseFloat(ratingFilter);
-        return rating >= filterValue;
-      }
-      
-      return true;
-    });
-  }, [allArtisans, searchTerm, experienceFilter, ratingFilter, serviceFilter]);
+  const {
+    searchTerm,
+    setSearchTerm,
+    experienceFilter,
+    setExperienceFilter,
+    ratingFilter,
+    setRatingFilter,
+    serviceFilter,
+    setServiceFilter,
+    filteredArtisans
+  } = useArtisanData(initialFilter);
 
   // Update service filter when URL parameter changes
   useEffect(() => {
     const filter = queryParams.get('filter') || 'all';
     setServiceFilter(filter);
   }, [location.search]);
-
-  const handleBookNow = (artisanId: string, artisanName: string, serviceType: string, image: string) => {
+  const handleBookNow = (artisanId: number, artisanName: string, serviceType: string, image: string) => {
     const artisanSlug = artisanName.toLowerCase().replace(/\s+/g, '-');
     navigate(`/book?service=facility-management&artisan=${artisanSlug}&artisanId=${artisanId}&artisanType=${serviceType}&artisanImage=${encodeURIComponent(image)}`);
   };
-
   const handleTabChange = (value: string) => {
     setServiceFilter(value);
     navigate(value === 'all' ? '/artisans' : `/artisans?filter=${value}`);
   };
-
   const handleResetFilters = () => {
     setSearchTerm('');
     setServiceFilter('all');
@@ -82,86 +45,53 @@ const Artisans = () => {
     setRatingFilter('any');
     navigate('/artisans');
   };
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex flex-col">
-        <Navbar />
-        <main className="flex-grow">
-          <section className="relative h-96 bg-gradient-to-r from-orange-900/80 to-orange-700/80">
-            <div className="absolute inset-0 bg-cover bg-center" style={{
-              backgroundImage: 'url(https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=2076)'
-            }} />
-            <div className="absolute inset-0 bg-black/40" />
-            <div className="relative container mx-auto px-4 h-full flex items-center justify-center text-center">
-              <div className="text-white">
-                <h1 className="text-4xl md:text-6xl font-bold mb-4">Trusted Hands</h1>
-                <p className="text-xl md:text-2xl text-slate-50">Loading our service professionals...</p>
-              </div>
-            </div>
-          </section>
-        </main>
-        <Footer />
-      </div>
-    );
-  }
-
-  return (
-    <div className="min-h-screen flex flex-col">
+  return <div className="min-h-screen flex flex-col">
       <Navbar />
       <main className="flex-grow">
         {/* Hero Section */}
         <section className="relative h-96 bg-gradient-to-r from-orange-900/80 to-orange-700/80">
           <div className="absolute inset-0 bg-cover bg-center" style={{
-            backgroundImage: 'url(https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=2076)'
-          }} />
+          backgroundImage: 'url(https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=2076)'
+        }} />
           <div className="absolute inset-0 bg-black/40" />
           <div className="relative container mx-auto px-4 h-full flex items-center justify-center text-center">
             <div className="text-white">
-              <motion.h1 
-                className="text-4xl md:text-6xl font-bold mb-4" 
-                initial={{ opacity: 0, y: 20 }} 
-                animate={{ opacity: 1, y: 0 }} 
-                transition={{ duration: 0.6 }}
-              >
+              <motion.h1 className="text-4xl md:text-6xl font-bold mb-4" initial={{
+              opacity: 0,
+              y: 20
+            }} animate={{
+              opacity: 1,
+              y: 0
+            }} transition={{
+              duration: 0.6
+            }}>
                 Trusted Hands
               </motion.h1>
-              <motion.p 
-                initial={{ opacity: 0, y: 20 }} 
-                animate={{ opacity: 1, y: 0 }} 
-                transition={{ duration: 0.6, delay: 0.2 }} 
-                className="text-xl md:text-2xl text-slate-50"
-              >
+              <motion.p initial={{
+              opacity: 0,
+              y: 20
+            }} animate={{
+              opacity: 1,
+              y: 0
+            }} transition={{
+              duration: 0.6,
+              delay: 0.2
+            }} className="text-xl md:text-2xl text-slate-50">
                 Connect with top-rated service professionals near you
               </motion.p>
             </div>
           </div>
         </section>
         
-        <ArtisanFilters 
-          searchTerm={searchTerm} 
-          setSearchTerm={setSearchTerm} 
-          experienceFilter={experienceFilter} 
-          setExperienceFilter={setExperienceFilter} 
-          ratingFilter={ratingFilter} 
-          setRatingFilter={setRatingFilter} 
-          serviceFilter={serviceFilter} 
-          handleTabChange={handleTabChange} 
-        />
+        <ArtisanFilters searchTerm={searchTerm} setSearchTerm={setSearchTerm} experienceFilter={experienceFilter} setExperienceFilter={setExperienceFilter} ratingFilter={ratingFilter} setRatingFilter={setRatingFilter} serviceFilter={serviceFilter} handleTabChange={handleTabChange} />
         
-        <ArtisanGrid 
-          filteredArtisans={filteredArtisans} 
-          onBookNow={handleBookNow} 
-          onResetFilters={handleResetFilters} 
-        />
+        <ArtisanGrid filteredArtisans={filteredArtisans} onBookNow={handleBookNow} onResetFilters={handleResetFilters} />
         
         <ArtisanCTA onNavigate={navigate} />
         
         <WhatsAppCTA />
       </main>
       <Footer />
-    </div>
-  );
+    </div>;
 };
-
 export default Artisans;

@@ -3,11 +3,22 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Search } from 'lucide-react';
 import ArtisanCard from './ArtisanCard';
-import type { Artisan } from '@/hooks/useArtisans';
 
 interface ArtisanGridProps {
-  filteredArtisans: Artisan[];
-  onBookNow: (artisanId: string, artisanName: string, serviceType: string, image: string) => void;
+  filteredArtisans: Array<{
+    id: number;
+    name: string;
+    image: string;
+    serviceType: string;
+    serviceCategory: string;
+    experience: number;
+    rating: number;
+    tagline: string;
+    bio: string;
+    verified: boolean;
+    availability: string;
+  }>;
+  onBookNow: (artisanId: number, artisanName: string, serviceType: string, image: string) => void;
   onResetFilters: () => void;
 }
 
