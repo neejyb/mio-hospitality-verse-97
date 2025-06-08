@@ -9,7 +9,210 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      artisans: {
+        Row: {
+          availability: string | null
+          bio: string | null
+          created_at: string
+          experience_years: number
+          id: string
+          images: string[] | null
+          is_active: boolean | null
+          is_featured: boolean | null
+          main_image: string
+          name: string
+          rating: number
+          specialty: Database["public"]["Enums"]["artisan_specialty"]
+          tagline: string | null
+          updated_at: string
+          verified: boolean | null
+        }
+        Insert: {
+          availability?: string | null
+          bio?: string | null
+          created_at?: string
+          experience_years?: number
+          id?: string
+          images?: string[] | null
+          is_active?: boolean | null
+          is_featured?: boolean | null
+          main_image: string
+          name: string
+          rating?: number
+          specialty: Database["public"]["Enums"]["artisan_specialty"]
+          tagline?: string | null
+          updated_at?: string
+          verified?: boolean | null
+        }
+        Update: {
+          availability?: string | null
+          bio?: string | null
+          created_at?: string
+          experience_years?: number
+          id?: string
+          images?: string[] | null
+          is_active?: boolean | null
+          is_featured?: boolean | null
+          main_image?: string
+          name?: string
+          rating?: number
+          specialty?: Database["public"]["Enums"]["artisan_specialty"]
+          tagline?: string | null
+          updated_at?: string
+          verified?: boolean | null
+        }
+        Relationships: []
+      }
+      cars: {
+        Row: {
+          category: Database["public"]["Enums"]["car_category"]
+          created_at: string
+          description: string | null
+          features: string[] | null
+          id: string
+          images: string[] | null
+          is_active: boolean | null
+          is_featured: boolean | null
+          main_image: string
+          name: string
+          price_per_day: number
+          specifications: string[] | null
+          updated_at: string
+        }
+        Insert: {
+          category: Database["public"]["Enums"]["car_category"]
+          created_at?: string
+          description?: string | null
+          features?: string[] | null
+          id?: string
+          images?: string[] | null
+          is_active?: boolean | null
+          is_featured?: boolean | null
+          main_image: string
+          name: string
+          price_per_day: number
+          specifications?: string[] | null
+          updated_at?: string
+        }
+        Update: {
+          category?: Database["public"]["Enums"]["car_category"]
+          created_at?: string
+          description?: string | null
+          features?: string[] | null
+          id?: string
+          images?: string[] | null
+          is_active?: boolean | null
+          is_featured?: boolean | null
+          main_image?: string
+          name?: string
+          price_per_day?: number
+          specifications?: string[] | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      jets: {
+        Row: {
+          category: Database["public"]["Enums"]["jet_category"]
+          created_at: string
+          description: string | null
+          features: string[] | null
+          id: string
+          images: string[] | null
+          is_active: boolean | null
+          is_featured: boolean | null
+          main_image: string
+          name: string
+          price_per_hour: number
+          short_description: string | null
+          specifications: string[] | null
+          updated_at: string
+        }
+        Insert: {
+          category: Database["public"]["Enums"]["jet_category"]
+          created_at?: string
+          description?: string | null
+          features?: string[] | null
+          id?: string
+          images?: string[] | null
+          is_active?: boolean | null
+          is_featured?: boolean | null
+          main_image: string
+          name: string
+          price_per_hour: number
+          short_description?: string | null
+          specifications?: string[] | null
+          updated_at?: string
+        }
+        Update: {
+          category?: Database["public"]["Enums"]["jet_category"]
+          created_at?: string
+          description?: string | null
+          features?: string[] | null
+          id?: string
+          images?: string[] | null
+          is_active?: boolean | null
+          is_featured?: boolean | null
+          main_image?: string
+          name?: string
+          price_per_hour?: number
+          short_description?: string | null
+          specifications?: string[] | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      properties: {
+        Row: {
+          amenities: string[] | null
+          category: Database["public"]["Enums"]["property_category"]
+          created_at: string
+          description: string | null
+          features: string[] | null
+          id: string
+          images: string[] | null
+          is_active: boolean | null
+          is_featured: boolean | null
+          location: string
+          main_image: string
+          name: string
+          price_per_night: number
+          updated_at: string
+        }
+        Insert: {
+          amenities?: string[] | null
+          category: Database["public"]["Enums"]["property_category"]
+          created_at?: string
+          description?: string | null
+          features?: string[] | null
+          id?: string
+          images?: string[] | null
+          is_active?: boolean | null
+          is_featured?: boolean | null
+          location: string
+          main_image: string
+          name: string
+          price_per_night: number
+          updated_at?: string
+        }
+        Update: {
+          amenities?: string[] | null
+          category?: Database["public"]["Enums"]["property_category"]
+          created_at?: string
+          description?: string | null
+          features?: string[] | null
+          id?: string
+          images?: string[] | null
+          is_active?: boolean | null
+          is_featured?: boolean | null
+          location?: string
+          main_image?: string
+          name?: string
+          price_per_night?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -18,7 +221,38 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      artisan_specialty:
+        | "electrician"
+        | "plumber"
+        | "painter"
+        | "carpenter"
+        | "hvac"
+        | "cleaning"
+        | "landscaping"
+        | "security"
+        | "handyman"
+        | "appliance_repair"
+      car_category:
+        | "luxury_sedan"
+        | "sports_car"
+        | "luxury_suv"
+        | "executive_sedan"
+        | "supercar"
+        | "grand_tourer"
+        | "ultra_luxury"
+        | "electric_luxury"
+      jet_category:
+        | "light_jet"
+        | "super_mid_size"
+        | "ultra_long_range"
+        | "super_long_range"
+      property_category:
+        | "apartment"
+        | "villa"
+        | "cabin"
+        | "loft"
+        | "cottage"
+        | "penthouse"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -133,6 +367,43 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      artisan_specialty: [
+        "electrician",
+        "plumber",
+        "painter",
+        "carpenter",
+        "hvac",
+        "cleaning",
+        "landscaping",
+        "security",
+        "handyman",
+        "appliance_repair",
+      ],
+      car_category: [
+        "luxury_sedan",
+        "sports_car",
+        "luxury_suv",
+        "executive_sedan",
+        "supercar",
+        "grand_tourer",
+        "ultra_luxury",
+        "electric_luxury",
+      ],
+      jet_category: [
+        "light_jet",
+        "super_mid_size",
+        "ultra_long_range",
+        "super_long_range",
+      ],
+      property_category: [
+        "apartment",
+        "villa",
+        "cabin",
+        "loft",
+        "cottage",
+        "penthouse",
+      ],
+    },
   },
 } as const
